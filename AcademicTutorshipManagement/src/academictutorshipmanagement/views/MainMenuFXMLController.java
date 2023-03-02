@@ -155,10 +155,10 @@ public class MainMenuFXMLController implements Initializable {
 
     @FXML
     private void logOutButtonClick(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("LogInFXML.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginFXML.fxml"));
         try {
             Parent root = loader.load();
-            LogInFXMLController loginFXMLController = loader.getController();
+            LoginFXMLController loginFXMLController = loader.getController();
             Scene logInView = new Scene(root);
             Stage stage = (Stage) academicPersonnelLabel.getScene().getWindow();
             stage.setScene(logInView);
