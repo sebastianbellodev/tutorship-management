@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class RoleDAO {
 
-    public static ArrayList<Role> getRolesByEducationalProgram(int idEducationalProgram, String username) {
+    public static ArrayList<Role> getRolesByEducationalProgram(int idEducationalProgram, String username)  {
         ArrayList<Role> roles = new ArrayList<>();
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String query = "SELECT role.*\n"

@@ -16,7 +16,7 @@ public class AcademicTutorshipManagement extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("views/LoginFXML.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("views/LogInFXML.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setResizable(false);

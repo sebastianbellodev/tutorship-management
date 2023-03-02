@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 01, 2023.
- * Date of update: March 01, 2023.
+ * Date of update: March 02, 2023.
  */
 package academictutorshipmanagement.views;
 
@@ -68,18 +68,12 @@ public class SelectEducationalProgramRoleFXMLController implements Initializable
         educationalProgramComboBox.valueProperty().addListener(new ChangeListener<EducationalProgram>() {
             @Override
             public void changed(ObservableValue<? extends EducationalProgram> observable, EducationalProgram oldEducationalProgram, EducationalProgram newEducationalProgram) {
-                try {
-                    loadRolesByEducationalProgram(newEducationalProgram, username);
-                } catch (SQLException ex) {
-                    Utilities.showAlert("No hay conexión con la base de datos.\n\n"
-                            + "Por favor, inténtelo más tarde.\n",
-                            Alert.AlertType.ERROR);
-                }
+                loadRolesByEducationalProgram(newEducationalProgram, username);
             }
         });
     }
 
-    private void loadRolesByEducationalProgram(EducationalProgram educationalProgram, String username) throws SQLException {
+    private void loadRolesByEducationalProgram(EducationalProgram educationalProgram, String username) {
         int idEducationalProgram = educationalProgram.getIdEducationalProgram();
         ArrayList<Role> rolesQuery = RoleDAO.getRolesByEducationalProgram(idEducationalProgram, username);
         roles.clear();

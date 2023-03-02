@@ -10,9 +10,11 @@ import java.util.List;
 
 public class SchoolPeriod {
     
+    private int idSchoolPeriod;
     private Date startDate;
     private Date endDate;
     private List<AcademicTutorshipSession> academicTutorshipSessions;
+    private int responseCode;
 
     public SchoolPeriod() {
     }
@@ -20,6 +22,14 @@ public class SchoolPeriod {
     public SchoolPeriod(Date startDate, Date endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    public int getIdSchoolPeriod() {
+        return idSchoolPeriod;
+    }
+
+    public void setIdSchoolPeriod(int idSchoolPeriod) {
+        this.idSchoolPeriod = idSchoolPeriod;
     }
 
     public Date getStartDate() {
@@ -44,6 +54,14 @@ public class SchoolPeriod {
 
     public void setAcademicTutorshipSessions(List<AcademicTutorshipSession> academicTutorshipSessions) {
         this.academicTutorshipSessions = academicTutorshipSessions;
+    }
+
+    public int getResponseCode() {
+        return responseCode;
+    }
+
+    public void setResponseCode(int responseCode) {
+        this.responseCode = responseCode;
     }
     
 }
