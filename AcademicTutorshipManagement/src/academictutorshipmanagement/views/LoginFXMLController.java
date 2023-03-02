@@ -30,7 +30,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class LogInFXMLController implements Initializable, IEducationalProgram, IRole {
+public class LoginFXMLController implements Initializable, IEducationalProgram, IRole {
 
     @FXML
     private TextField usernameTextField;
