@@ -124,7 +124,6 @@ DROP TABLE IF EXISTS `academicproblemfollowup`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `academicproblemfollowup` (
   `idAcademicProblemFollowUp` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(150) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `description` text NOT NULL,
   `date` date NOT NULL,
   PRIMARY KEY (`idAcademicProblemFollowUp`)
@@ -241,6 +240,7 @@ CREATE TABLE `academictutorshipsession` (
   `startDate` date NOT NULL,
   `endDate` date NOT NULL,
   `closingDateReportSubmission` date NOT NULL,
+  `sessionNumber` int NOT NULL,
   `idSchoolPeriod` int NOT NULL,
   PRIMARY KEY (`idAcademicTutorshipSession`),
   KEY `FK_AcademicTutorshipSession_SchoolPeriod_idx` (`idSchoolPeriod`),
@@ -502,4 +502,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-02-18 16:04:03
+-- Dump completed on 2023-03-01 13:56:39
