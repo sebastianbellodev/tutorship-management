@@ -39,8 +39,6 @@ public class LoginFXMLController implements Initializable, IEducationalProgram, 
     private PasswordField passwordField;
 
     private User user;
-    private EducationalProgram educationalProgram;
-    private Role role;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -115,12 +113,12 @@ public class LoginFXMLController implements Initializable, IEducationalProgram, 
 
     @Override
     public void configureEducationalProgram(EducationalProgram educationalProgram) {
-        this.educationalProgram = educationalProgram;
+        user.setEducationalProgram(educationalProgram);
     }
 
     @Override
     public void configureRole(Role role) {
-        this.role = role;
+        user.setRole(role);
         goToMainMenu();
     }
 
@@ -129,7 +127,7 @@ public class LoginFXMLController implements Initializable, IEducationalProgram, 
         try {
             Parent root = loader.load();
             MainMenuFXMLController mainMenuFXMLController = loader.getController();
-            mainMenuFXMLController.configureView(educationalProgram, role, user);
+            mainMenuFXMLController.configureView(user);
             Stage stage = (Stage) usernameTextField.getScene().getWindow();
             Scene mainMenuView = new Scene(root);
             stage.setScene(mainMenuView);
