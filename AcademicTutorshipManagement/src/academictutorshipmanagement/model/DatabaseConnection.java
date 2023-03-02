@@ -18,7 +18,7 @@ public class DatabaseConnection {
 
     private Connection databaseConnection;
 
-    public Connection open() throws SQLException {
+    public Connection open() throws SQLException  {
         try {
             connectToDatabase();
         } catch (IOException ex) {
@@ -27,7 +27,7 @@ public class DatabaseConnection {
         return databaseConnection;
     }
 
-    private void connectToDatabase() throws IOException {
+    private void connectToDatabase() throws SQLException, IOException {
         try {
             Properties attributes = new Properties();
             try (FileInputStream databaseConfigurationFile = new FileInputStream(

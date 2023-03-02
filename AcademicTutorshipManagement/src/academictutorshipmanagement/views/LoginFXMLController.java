@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 01, 2023.
- * Date of update: March 01, 2023.
+ * Date of update: March 02, 2023.
  */
 package academictutorshipmanagement.views;
 
@@ -16,7 +16,6 @@ import academictutorshipmanagement.utilities.Utilities;
 import java.io.IOException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,7 +30,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class LoginFXMLController implements Initializable, IEducationalProgram, IRole {
+public class LogInFXMLController implements Initializable, IEducationalProgram, IRole {
 
     @FXML
     private TextField usernameTextField;
@@ -44,13 +43,12 @@ public class LoginFXMLController implements Initializable, IEducationalProgram, 
     public void initialize(URL url, ResourceBundle rb) {
     }
 
-    @FXML
-    private void loginButtonClick(ActionEvent event) throws NoSuchAlgorithmException {
+    public void logInButtonClick(ActionEvent event) throws NoSuchAlgorithmException {
         if (!validateEmptyFields()) {
             String username = usernameTextField.getText();
             String password = passwordField.getText();
             password = Utilities.computeSHA256Hash(password);
-            login(username, password);
+            logIn(username, password);
         } else {
             Utilities.showAlert("No se puede dejar ningún campo vacío.\n\n"
                     + "Por favor, compruebe la información ingresada e inténtelo nuevamente.\n",
@@ -63,29 +61,24 @@ public class LoginFXMLController implements Initializable, IEducationalProgram, 
                 || passwordField.getText().isEmpty();
     }
 
-    private void login(String username, String password) {
-        try {
-            user = UserDAO.login(username, password);
-            switch (user.getResponseCode()) {
-                case Constants.CORRECT_OPERATION_CODE:
-                    goToSelectEducationalProgramRole();
-                    break;
-                case Constants.INVALID_DATA_ENTERED_CODE:
-                    Utilities.showAlert("Los datos ingresados son inválidos.\n\n"
-                            + "Por favor, compruebe la información ingresada e inténtelo nuevamente.\n",
-                            Alert.AlertType.WARNING);
-                    passwordField.clear();
-                    break;
-                default:
-                    Utilities.showAlert("No hay conexión con la base de datos.\n\n"
-                            + "Por favor, inténtelo más tarde.\n",
-                            Alert.AlertType.ERROR);
-                    break;
-            }
-        } catch (SQLException ex) {
-            Utilities.showAlert("No hay conexión con la base de datos.\n\n"
-                    + "Por favor, inténtelo más tarde.\n",
-                    Alert.AlertType.ERROR);
+    private void logIn(String username, String password) {
+        user = UserDAO.logIn(username, password);
+        int responseCode = user.getResponseCode();
+        switch (responseCode) {
+            case Constants.CORRECT_OPERATION_CODE:
+                goToSelectEducationalProgramRole();
+                break;
+            case Constants.INVALID_DATA_ENTERED_CODE:
+                Utilities.showAlert("Los datos ingresados son inválidos.\n\n"
+                        + "Por favor, compruebe la información ingresada e inténtelo nuevamente.\n",
+                        Alert.AlertType.WARNING);
+                passwordField.clear();
+                break;
+            default:
+                Utilities.showAlert("No hay conexión con la base de datos.\n\n"
+                        + "Por favor, inténtelo más tarde.\n",
+                        Alert.AlertType.ERROR);
+                break;
         }
     }
 
@@ -95,8 +88,8 @@ public class LoginFXMLController implements Initializable, IEducationalProgram, 
             Parent root = loader.load();
             SelectEducationalProgramRoleFXMLController selectEducationalProgramRoleFXMLController = loader.getController();
             selectEducationalProgramRoleFXMLController.configureView(this, this, user);
-            Stage stage = new Stage();
             Scene selectEducationalProgramRoleView = new Scene(root);
+            Stage stage = new Stage();
             stage.setScene(selectEducationalProgramRoleView);
             stage.setResizable(false);
             stage.setTitle("Seleccionar programa educativo y rol.");
@@ -128,8 +121,8 @@ public class LoginFXMLController implements Initializable, IEducationalProgram, 
             Parent root = loader.load();
             MainMenuFXMLController mainMenuFXMLController = loader.getController();
             mainMenuFXMLController.configureView(user);
-            Stage stage = (Stage) usernameTextField.getScene().getWindow();
             Scene mainMenuView = new Scene(root);
+            Stage stage = (Stage) usernameTextField.getScene().getWindow();
             stage.setScene(mainMenuView);
             stage.setTitle("Menú principal.");
             stage.show();

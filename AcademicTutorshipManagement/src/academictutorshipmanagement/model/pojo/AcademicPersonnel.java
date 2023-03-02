@@ -1,19 +1,20 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 01, 2023.
- * Date of update: March 01, 2023.
+ * Date of update: March 02, 2023.
  */
 package academictutorshipmanagement.model.pojo;
 
 public class AcademicPersonnel {
     
+    private int idAcademicPersonnel;
     private String name;
     private String paternalSurname;
     private String maternalSurname;
     private String emailAddress;
     private User user;
     private ContractType contractType;
-
+    
     public AcademicPersonnel() {
     }
 
@@ -22,6 +23,14 @@ public class AcademicPersonnel {
         this.paternalSurname = paternalSurname;
         this.maternalSurname = maternalSurname;
         this.emailAddress = emailAddress;
+    }
+
+    public int getIdAcademicPersonnel() {
+        return idAcademicPersonnel;
+    }
+
+    public void setIdAcademicPersonnel(int idAcademicPersonnel) {
+        this.idAcademicPersonnel = idAcademicPersonnel;
     }
 
     public String getName() {
@@ -71,5 +80,10 @@ public class AcademicPersonnel {
     public void setContractType(ContractType contractType) {
         this.contractType = contractType;
     }
-    
+
+    @Override
+    public String toString() {
+        return getName() + " " + getPaternalSurname() + " " + getMaternalSurname();
+    }
+
 }

@@ -6,33 +6,33 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="325.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="academictutorshipmanagement.views.SelectEducationalProgramRoleFXMLController">
+<AnchorPane id="AnchorPane" prefHeight="300.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="academictutorshipmanagement.views.SelectEducationalProgramRoleFXMLController">
    <children>
-      <Label layoutX="50.0" layoutY="39.0" prefHeight="50.0" prefWidth="500.0" text="Seleccione un programa educativo y el rol con el que desea ingresar al sistema, y dé clic en el botón de &quot;Aceptar&quot;." wrapText="true">
+      <Label layoutX="25.0" layoutY="30.0" prefHeight="40.0" prefWidth="430.0" text="Seleccione un programa educativo y el rol con el que desea ingresar al sistema, y dé clic en el botón de &quot;Aceptar&quot;." wrapText="true">
          <font>
-            <Font name="Arial" size="16.0" />
+            <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="50.0" layoutY="117.0" prefHeight="30.0" prefWidth="200.0" text="Programa educativo:" wrapText="true">
+      <Label layoutX="25.0" layoutY="105.0" prefHeight="20.0" prefWidth="150.0" text="Programa educativo:" wrapText="true">
          <font>
-            <Font name="Arial" size="16.0" />
+            <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <ComboBox fx:id="educationalProgramComboBox" layoutX="220.0" layoutY="117.0" prefHeight="25.0" prefWidth="330.0" style="-fx-font: 16px &quot;Arial&quot;;" />
-      <Label layoutX="50.0" layoutY="178.0" prefHeight="30.0" prefWidth="200.0" text="Rol:" wrapText="true">
+      <ComboBox fx:id="educationalProgramComboBox" layoutX="180.0" layoutY="102.0" prefHeight="26.0" prefWidth="275.0" style="-fx-font: 14px &quot;Arial&quot;;" />
+      <Label layoutX="25.0" layoutY="175.0" prefHeight="20.0" prefWidth="150.0" text="Rol:" wrapText="true">
          <font>
-            <Font name="Arial" size="16.0" />
+            <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <ComboBox fx:id="roleComboBox" layoutX="100.0" layoutY="178.0" prefHeight="25.0" prefWidth="450.0" style="-fx-font: 16px &quot;Arial&quot;;" />
-      <Button layoutX="50.0" layoutY="255.0" mnemonicParsing="false" onAction="#acceptButtonClick" prefHeight="30.0" prefWidth="150.0" text="Aceptar">
+      <ComboBox fx:id="roleComboBox" layoutX="75.0" layoutY="172.0" prefHeight="26.0" prefWidth="380.0" style="-fx-font: 14px &quot;Arial&quot;;" />
+      <Button layoutX="25.0" layoutY="245.0" mnemonicParsing="false" onAction="#acceptButtonClick" prefHeight="26.0" prefWidth="125.0" text="Aceptar">
          <font>
-            <Font name="Arial" size="16.0" />
+            <Font name="Arial" size="14.0" />
          </font>
       </Button>
-      <Button layoutX="400.0" layoutY="255.0" mnemonicParsing="false" onAction="#cancelButtonClick" prefHeight="30.0" prefWidth="150.0" text="Cancelar">
+      <Button layoutX="330.0" layoutY="245.0" mnemonicParsing="false" onAction="#cancelButtonClick" prefHeight="20.0" prefWidth="125.0" text="Cancelar">
          <font>
-            <Font name="Arial" size="16.0" />
+            <Font name="Arial" size="14.0" />
          </font>
       </Button>
    </children>

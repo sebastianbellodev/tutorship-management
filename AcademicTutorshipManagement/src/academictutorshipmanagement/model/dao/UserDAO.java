@@ -16,7 +16,7 @@ import java.sql.SQLException;
 
 public class UserDAO {
 
-    public static User login(String username, String password) throws SQLException {
+    public static User logIn(String username, String password) {
         User user = new User();
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String query = "SELECT user.username\n"
