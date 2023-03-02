@@ -19,7 +19,7 @@ public class RoleDAO {
     public static ArrayList<Role> getRolesByEducationalProgram(int idEducationalProgram, String username) {
         ArrayList<Role> roles = new ArrayList<>();
         DatabaseConnection databaseConnection = new DatabaseConnection();
-        String query = "SELECT DISTINCT role.*\n"
+        String query = "SELECT role.*\n"
                 + "FROM role\n"
                 + "INNER JOIN educationalProgramRole\n"
                 + "ON role.idRole = educationalProgramRole.idRole\n"

@@ -5,14 +5,12 @@
  */
 package academictutorshipmanagement.model.pojo;
 
-import java.util.List;
-
 public class User {
     
     private String username;
     private String password;
     private EducationalProgram educationalProgram;
-    private List<Role> roles;
+    private Role role;
     private int responseCode;
 
     public User() {
@@ -47,12 +45,12 @@ public class User {
         this.educationalProgram = educationalProgram;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public int getResponseCode() {
