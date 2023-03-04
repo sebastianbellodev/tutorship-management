@@ -20,19 +20,19 @@ public class AcademicPersonnelDAO {
         String query = "SELECT academicPersonnel.*\n"
                 + "FROM academicPersonnel\n"
                 + "WHERE username = ?";
-        try (Connection database = databaseConnection.open()) {
-            PreparedStatement configuredQuery = database.prepareStatement(query);
-            configuredQuery.setString(1, username);
-            ResultSet queryResult = configuredQuery.executeQuery();
-            if (queryResult.next()) {
-                academicPersonnel.setIdAcademicPersonnel(queryResult.getInt("idAcademicPersonnel"));
-                academicPersonnel.setName(queryResult.getString("name"));
-                academicPersonnel.setPaternalSurname(queryResult.getString("paternalSurname"));
-                academicPersonnel.setMaternalSurname(queryResult.getString("maternalSurname"));
-                academicPersonnel.setEmailAddress(queryResult.getString("emailAddress"));
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                academicPersonnel.setIdAcademicPersonnel(resultSet.getInt("idAcademicPersonnel"));
+                academicPersonnel.setName(resultSet.getString("name"));
+                academicPersonnel.setPaternalSurname(resultSet.getString("paternalSurname"));
+                academicPersonnel.setMaternalSurname(resultSet.getString("maternalSurname"));
+                academicPersonnel.setEmailAddress(resultSet.getString("emailAddress"));
             }
         } catch (SQLException exception) {
-            System.err.println("There is no connection to the database. Please try again later.");
+            System.err.println("There is no connection to the connection. Please try again later.");
         } finally {
             databaseConnection.close();
         }

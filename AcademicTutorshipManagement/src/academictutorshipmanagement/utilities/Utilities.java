@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 01, 2023.
- * Date of update: March 01, 2023.
+ * Date of update: March 03, 2023.
  *
  */
 package academictutorshipmanagement.utilities;
@@ -9,10 +9,16 @@ package academictutorshipmanagement.utilities;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
+import java.util.Date;
 import javafx.scene.control.Alert;
 
 public class Utilities {
+
+    public static String changeDateFormat(Date date) {
+        return new SimpleDateFormat("dd/MM/yyyy").format(date);
+    }
 
     public static String computeSHA256Hash(String password) throws NoSuchAlgorithmException {
         MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
@@ -21,11 +27,11 @@ public class Utilities {
     }
 
     public static void showAlert(String message, Alert.AlertType type) {
-        Alert popUpWindow = new Alert(type);
-        popUpWindow.setTitle(null);
-        popUpWindow.setHeaderText(null);
-        popUpWindow.setContentText(message);
-        popUpWindow.showAndWait();
+        Alert alert = new Alert(type);
+        alert.setTitle(null);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
 }

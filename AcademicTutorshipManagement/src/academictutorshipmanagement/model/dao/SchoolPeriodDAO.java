@@ -20,14 +20,14 @@ public class SchoolPeriodDAO {
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String query = "SELECT schoolPeriod.*\n"
                 + "FROM schoolPeriod\n"
-                + "WHERE NOW() BETWEEN schoolPeriod.startDate AND schoolPeriod.endDate;";
-        try (Connection database = databaseConnection.open()) {
-            PreparedStatement configuredQuery = database.prepareStatement(query);
-            ResultSet queryResult = configuredQuery.executeQuery();
-            if (queryResult.next()) {
-                schoolPeriod.setIdSchoolPeriod(queryResult.getInt("idSchoolPeriod"));
-                schoolPeriod.setStartDate(queryResult.getDate("startDate"));
-                schoolPeriod.setEndDate(queryResult.getDate("endDate"));
+                + "WHERE NOW() BETWEEN startDate AND endDate";
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                schoolPeriod.setIdSchoolPeriod(resultSet.getInt("idSchoolPeriod"));
+                schoolPeriod.setStartDate(resultSet.getDate("startDate"));
+                schoolPeriod.setEndDate(resultSet.getDate("endDate"));
             }
         } catch (SQLException exception) {
             schoolPeriod.setResponseCode(Constants.NO_DATABASE_CONNECTION_CODE);
@@ -36,4 +36,5 @@ public class SchoolPeriodDAO {
         }
         return schoolPeriod;
     }
+    
 }

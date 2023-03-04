@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 01, 2023.
- * Date of update: March 02, 2023.
+ * Date of update: March 03, 2023.
  */
 package academictutorshipmanagement.views;
 
@@ -62,8 +62,8 @@ public class SelectEducationalProgramRoleFXMLController implements Initializable
 
     private void loadEducationalPrograms() throws SQLException {
         String username = user.getUsername();
-        ArrayList<EducationalProgram> educationalProgramsQuery = EducationalProgramDAO.getEducationalProgramsByUser(username);
-        educationalPrograms.addAll(educationalProgramsQuery);
+        ArrayList<EducationalProgram> educationalProgramsResultSet = EducationalProgramDAO.getEducationalProgramsByUser(username);
+        educationalPrograms.addAll(educationalProgramsResultSet);
         educationalProgramComboBox.setItems(educationalPrograms);
         educationalProgramComboBox.valueProperty().addListener(new ChangeListener<EducationalProgram>() {
             @Override
@@ -75,9 +75,9 @@ public class SelectEducationalProgramRoleFXMLController implements Initializable
 
     private void loadRolesByEducationalProgram(EducationalProgram educationalProgram, String username) {
         int idEducationalProgram = educationalProgram.getIdEducationalProgram();
-        ArrayList<Role> rolesQuery = RoleDAO.getRolesByEducationalProgram(idEducationalProgram, username);
+        ArrayList<Role> rolesResultSet = RoleDAO.getRolesByEducationalProgram(idEducationalProgram, username);
         roles.clear();
-        roles.addAll(rolesQuery);
+        roles.addAll(rolesResultSet);
         roleComboBox.setItems(roles);
     }
 
@@ -97,8 +97,7 @@ public class SelectEducationalProgramRoleFXMLController implements Initializable
     }
 
     private boolean validateEmptyFields() {
-        return educationalProgramComboBox.getSelectionModel().isEmpty()
-                || roleComboBox.getSelectionModel().isEmpty();
+        return educationalProgramComboBox.getSelectionModel().isEmpty() || roleComboBox.getSelectionModel().isEmpty();
     }
 
     private void closePopUpWindow() {

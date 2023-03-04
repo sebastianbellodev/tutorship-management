@@ -1,19 +1,19 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 01, 2023.
- * Date of update: March 01, 2023.
+ * Date of update: March 03, 2023.
  */
 package academictutorshipmanagement.model.pojo;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class AcademicTutorshipReport {
     
     private String generalComment;
     private int numberOfStudentsAttending;
     private int numberOfStudentsAtRisk;
-    private List<AcademicProblem> academicProblems;
-    private List<Student> students;
+    private ArrayList<AcademicProblem> academicProblems;
+    private ArrayList<Student> students;
     private AcademicPersonnel academicPersonnel;
     private AcademicTutorshipSession academicTutorshipSession;
 
@@ -50,19 +50,19 @@ public class AcademicTutorshipReport {
         this.numberOfStudentsAtRisk = numberOfStudentsAtRisk;
     }
 
-    public List<AcademicProblem> getAcademicProblems() {
+    public ArrayList<AcademicProblem> getAcademicProblems() {
         return academicProblems;
     }
 
-    public void setAcademicProblems(List<AcademicProblem> academicProblems) {
+    public void setAcademicProblems(ArrayList<AcademicProblem> academicProblems) {
         this.academicProblems = academicProblems;
     }
 
-    public List<Student> getStudents() {
+    public ArrayList<Student> getStudents() {
         return students;
     }
 
-    public void setStudents(List<Student> students) {
+    public void setStudents(ArrayList<Student> students) {
         this.students = students;
     }
 
