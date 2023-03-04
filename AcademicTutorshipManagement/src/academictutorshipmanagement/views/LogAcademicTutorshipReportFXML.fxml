@@ -11,106 +11,111 @@
 
 <AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="academictutorshipmanagement.views.LogAcademicTutorshipReportFXMLController">
    <children>
-      <Label layoutX="35.0" layoutY="35.0" prefHeight="40.0" prefWidth="500.0" text="Reporte de Tutorías Académicas.">
+      <Label layoutX="35.0" layoutY="26.0" prefHeight="40.0" prefWidth="500.0" text="Reporte de Tutorías Académicas">
          <font>
             <Font name="Arial" size="28.0" />
          </font>
       </Label>
-      <Label layoutX="35.0" layoutY="85.0" prefHeight="26.0" prefWidth="490.0" text="Facultad de Estadística e Informática.">
+      <Label layoutX="35.0" layoutY="76.0" prefHeight="26.0" prefWidth="490.0" text="Facultad de Estadística e Informática">
          <font>
             <Font name="Arial" size="22.0" />
          </font>
       </Label>
-      <Label layoutX="555.0" layoutY="46.0" prefHeight="20.0" prefWidth="225.0" text="Número de estudiantes asistentes:">
+      <Label layoutX="555.0" layoutY="37.0" prefHeight="20.0" prefWidth="225.0" text="Número de estudiantes asistentes:">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="numberOfStudentsAttendingTextBox" layoutX="795.0" layoutY="43.0" prefHeight="20.0" prefWidth="135.0">
+      <TextField fx:id="numberOfStudentsAttendingTextBox" editable="false" layoutX="795.0" layoutY="34.0" prefHeight="20.0" prefWidth="135.0">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </TextField>
-      <Label layoutX="555.0" layoutY="89.0" prefHeight="20.0" prefWidth="225.0" text="Número de estudiantes en riesgo:">
+      <Label layoutX="555.0" layoutY="80.0" prefHeight="20.0" prefWidth="225.0" text="Número de estudiantes en riesgo:">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="numberOfStudentsAtRiskTextBox" layoutX="795.0" layoutY="86.0" prefHeight="20.0" prefWidth="135.0">
+      <TextField fx:id="numberOfStudentsAtRiskTextBox" editable="false" layoutX="795.0" layoutY="77.0" prefHeight="20.0" prefWidth="135.0">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </TextField>
-      <Label layoutX="35.0" layoutY="133.0" prefHeight="20.0" prefWidth="225.0" text="Programa educativo:">
+      <Label layoutX="35.0" layoutY="124.0" prefHeight="20.0" prefWidth="225.0" text="Programa educativo:">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="educationalProgramTextBox" layoutX="189.0" layoutY="130.0" prefHeight="26.0" prefWidth="331.0">
+      <TextField fx:id="educationalProgramTextBox" editable="false" layoutX="189.0" layoutY="121.0" prefHeight="26.0" prefWidth="331.0">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </TextField>
-      <Label layoutX="555.0" layoutY="133.0" prefHeight="20.0" prefWidth="125.0" text="Periodo escolar:">
+      <Label layoutX="555.0" layoutY="124.0" prefHeight="20.0" prefWidth="125.0" text="Periodo escolar:">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="SchoolPeriodTextBox" layoutX="685.0" layoutY="131.0" prefHeight="25.0" prefWidth="245.0" />
-      <Label layoutX="35.0" layoutY="178.0" prefHeight="20.0" prefWidth="256.0" text="Fecha de sesión de tutoría académica:">
+      <TextField fx:id="schoolPeriodTextBox" editable="false" layoutX="685.0" layoutY="122.0" prefHeight="20.0" prefWidth="245.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font></TextField>
+      <Label layoutX="35.0" layoutY="169.0" prefHeight="20.0" prefWidth="256.0" text="Fecha de sesión de tutoría académica:">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="tutorialAcademicSessionTextBox" layoutX="305.0" layoutY="175.0" prefHeight="26.0" prefWidth="215.0">
+      <TextField fx:id="academicTutorshipSessionTextBox" editable="false" layoutX="305.0" layoutY="166.0" prefHeight="26.0" prefWidth="215.0">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </TextField>
-      <Label layoutX="555.0" layoutY="178.0" prefHeight="20.0" prefWidth="125.0" text="Número de sesión:">
+      <Label layoutX="555.0" layoutY="169.0" prefHeight="20.0" prefWidth="125.0" text="Número de sesión:">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="numberOfSessionTextBox" layoutX="685.0" layoutY="175.0" prefHeight="26.0" prefWidth="245.0">
+      <TextField fx:id="sessionNumberTextBox" editable="false" layoutX="685.0" layoutY="166.0" prefHeight="26.0" prefWidth="245.0">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </TextField>
-      <Label layoutX="35.0" layoutY="220.0" prefHeight="40.0" prefWidth="890.0" text="Seleccione al o los estudiantes asistentes a la sesión de tutoría académica y al o los que estén en riesgo. Y, de ser necesario, ingrese un comentario general sobre la sesión de tutoría académica." wrapText="true">
+      <Label layoutX="35.0" layoutY="211.0" prefHeight="40.0" prefWidth="890.0" text="Seleccione al o los estudiantes asistentes a la sesión de tutoría académica y al o los que estén en riesgo. Y, de ser necesario, ingrese un comentario general sobre la sesión de tutoría académica." wrapText="true">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <TableView fx:id="studentsTableView" layoutX="35.0" layoutY="280.0" prefHeight="245.0" prefWidth="480.0" style="-fx-font: 14px &quot;Arial&quot;;">
+      <TableView fx:id="studentsTableView" layoutX="35.0" layoutY="270.0" prefHeight="245.0" prefWidth="600.0" style="-fx-font: 12px &quot;Arial&quot;;">
         <columns>
-          <TableColumn fx:id="registrationNumberTableColumn" prefWidth="88.0" text="Matrícula" />
-          <TableColumn fx:id="fullNameTableColumn" prefWidth="232.0" text="Nombre del estudiante" />
-            <TableColumn fx:id="attendingTableColumn" prefWidth="70.0" text="Asistió" />
-            <TableColumn prefWidth="89.0" text="En riesgo" />
+          <TableColumn fx:id="registrationNumberTableColumn" prefWidth="100.0" text="Matrícula" />
+          <TableColumn fx:id="nameTableColumn" prefWidth="142.0" text="Nombre" />
+            <TableColumn fx:id="paternalSurnameTableColumn" prefWidth="114.0" text="Apellido paterno" />
+            <TableColumn fx:id="maternalSurnameTableColumn" prefWidth="115.0" text="Apellido materno" />
+            <TableColumn fx:id="attendedByTableColumn" minWidth="0.0" prefWidth="58.0" style="-fx-alignment: CENTER;" text="Asistió" />
+            <TableColumn fx:id="atRiskTableColumn" prefWidth="70.0" style="-fx-alignment: CENTER;" text="En riesgo" />
         </columns>
       </TableView>
-      <TextArea fx:id="generalCommentTextArea" layoutX="560.0" layoutY="280.0" prefHeight="245.0" prefWidth="370.0">
+      <TextArea fx:id="generalCommentTextArea" layoutX="665.0" layoutY="271.0" prefHeight="245.0" prefWidth="265.0">
          <font>
-            <Font name="Arial" size="14.0" />
+            <Font name="Arial" size="12.0" />
          </font>
       </TextArea>
-      <Button layoutX="35.0" layoutY="550.0" mnemonicParsing="false" onAction="#acceptButtonClick" prefHeight="26.0" prefWidth="125.0" text="Aceptar">
+      <Button layoutX="35.0" layoutY="541.0" mnemonicParsing="false" onAction="#acceptButtonClick" prefHeight="26.0" prefWidth="125.0" text="Aceptar">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </Button>
-      <Button layoutX="175.0" layoutY="550.0" mnemonicParsing="false" onAction="#logAcademicProblemButtonClick" prefHeight="26.0" prefWidth="300.0" text="Registrar problemáticas académicas">
+      <Button layoutX="175.0" layoutY="541.0" mnemonicParsing="false" onAction="#logAcademicProblemButtonClick" prefHeight="26.0" prefWidth="300.0" text="Registrar problemática académicas">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </Button>
-      <Button layoutX="490.0" layoutY="550.0" mnemonicParsing="false" onAction="#viewAcademicProblemsButtonClick" prefHeight="26.0" prefWidth="300.0" text="Ver problemáticas académicas">
+      <Button layoutX="490.0" layoutY="541.0" mnemonicParsing="false" onAction="#viewAcademicProblemsButtonClick" prefHeight="26.0" prefWidth="300.0" text="Ver problemáticas académicas">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </Button>
-      <Button layoutX="805.0" layoutY="550.0" mnemonicParsing="false" onAction="#cancelButtonClick" prefHeight="26.0" prefWidth="125.0" text="Cancelar">
+      <Button layoutX="805.0" layoutY="541.0" mnemonicParsing="false" onAction="#cancelButtonClick" prefHeight="26.0" prefWidth="125.0" text="Cancelar">
          <font>
             <Font name="Arial" size="14.0" />
          </font>

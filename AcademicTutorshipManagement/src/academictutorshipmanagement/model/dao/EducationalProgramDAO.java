@@ -24,14 +24,14 @@ public class EducationalProgramDAO {
                 + "ON educationalProgram.idEducationalProgram = educationalProgramRole.idEducationalProgram\n"
                 + "WHERE educationalProgramRole.username = ?"
                 + "ORDER BY name ASC";
-        try (Connection database = databaseConnection.open()) {
-            PreparedStatement configuredQuery = database.prepareStatement(query);
-            configuredQuery.setString(1, username);
-            ResultSet queryResult = configuredQuery.executeQuery();
-            while (queryResult.next()) {
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
                 EducationalProgram educationalProgram = new EducationalProgram();
-                educationalProgram.setIdEducationalProgram(queryResult.getInt("idEducationalProgram"));
-                educationalProgram.setName(queryResult.getString("name"));
+                educationalProgram.setIdEducationalProgram(resultSet.getInt("idEducationalProgram"));
+                educationalProgram.setName(resultSet.getString("name"));
                 educationalPrograms.add(educationalProgram);
             }
         } catch (SQLException exception) {

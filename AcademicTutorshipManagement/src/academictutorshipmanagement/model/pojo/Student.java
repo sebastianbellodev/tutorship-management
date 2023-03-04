@@ -1,20 +1,27 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 01, 2023.
- * Date of update: March 01, 2023.
+ * Date of update: March 03, 2023.
  */
 package academictutorshipmanagement.model.pojo;
 
+import javafx.scene.control.CheckBox;
+
 public class Student {
 
+    private String registrationNumber;
     private String name;
     private String paternalSurname;
     private String maternalSurname;
     private String emailAddress;
     private EducationalProgram educationalProgram;
     private AcademicPersonnel academicPersonnel;
+    private CheckBox attendedBy;
+    private CheckBox atRisk;
 
     public Student() {
+        attendedBy = new CheckBox();
+        atRisk = new CheckBox();
     }
 
     public Student(String name, String paternalSurname, String maternalSurname, String emailAddress) {
@@ -22,6 +29,14 @@ public class Student {
         this.paternalSurname = paternalSurname;
         this.maternalSurname = maternalSurname;
         this.emailAddress = emailAddress;
+    }
+
+    public String getRegistrationNumber() {
+        return registrationNumber;
+    }
+
+    public void setRegistrationNumber(String registrationNumber) {
+        this.registrationNumber = registrationNumber;
     }
 
     public String getName() {
@@ -70,6 +85,22 @@ public class Student {
 
     public void setAcademicPersonnel(AcademicPersonnel academicPersonnel) {
         this.academicPersonnel = academicPersonnel;
+    }
+
+    public CheckBox getAttendedBy() {
+        return attendedBy;
+    }
+
+    public void setAttendedBy(CheckBox attendedBy) {
+        this.attendedBy = attendedBy;
+    }
+
+    public CheckBox getAtRisk() {
+        return atRisk;
+    }
+
+    public void setAtRisk(CheckBox atRisk) {
+        this.atRisk = atRisk;
     }
    
 }

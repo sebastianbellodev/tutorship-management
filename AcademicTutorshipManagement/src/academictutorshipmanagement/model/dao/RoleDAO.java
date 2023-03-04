@@ -25,15 +25,15 @@ public class RoleDAO {
                 + "ON role.idRole = educationalProgramRole.idRole\n"
                 + "WHERE educationalProgramRole.idEducationalProgram = ? AND educationalProgramRole.username = ?"
                 + "ORDER BY name ASC";
-        try (Connection database = databaseConnection.open()) {
-            PreparedStatement configuredQuery = database.prepareStatement(query);
-            configuredQuery.setInt(1, idEducationalProgram);
-            configuredQuery.setString(2, username);
-            ResultSet queryResult = configuredQuery.executeQuery();
-            while (queryResult.next()) {
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idEducationalProgram);
+            preparedStatement.setString(2, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
                 Role role = new Role();
-                role.setIdRole(queryResult.getInt("idRole"));
-                role.setName(queryResult.getString("name"));
+                role.setIdRole(resultSet.getInt("idRole"));
+                role.setName(resultSet.getString("name"));
                 roles.add(role);
             }
         } catch (SQLException exception) {
