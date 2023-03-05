@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 02, 2023.
- * Date of update: March 02, 2023.
+ * Date of update: March 04, 2023.
  */
 package academictutorshipmanagement.model.dao;
 
@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class AcademicPersonnelDAO {
 
@@ -37,6 +38,35 @@ public class AcademicPersonnelDAO {
             databaseConnection.close();
         }
         return academicPersonnel;
+    }
+
+    public static ArrayList<AcademicPersonnel> getAcademicPersonnelByEducationalExperience(int idSchoolPeriod, int idEducationalExperience) {
+        ArrayList<AcademicPersonnel> academicPersonnels = new ArrayList<>();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String query = "SELECT DISTINCT academicpersonnel.idAcademicPersonnel, academicPersonnel.name, academicPersonnel.paternalSurname, academicPersonnel.maternalSurname\n"
+                + "FROM academicpersonnel\n"
+                + "INNER JOIN academicOffering\n"
+                + "ON academicPersonnel.idAcademicPersonnel = academicOffering.idAcademicPersonnel\n"
+                + "WHERE academicOffering.idSchoolPeriod = ? AND academicOffering.idEducationalExperience = ?";
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idSchoolPeriod);
+            preparedStatement.setInt(2, idEducationalExperience);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                AcademicPersonnel academicPersonnel = new AcademicPersonnel();
+                academicPersonnel.setIdAcademicPersonnel(resultSet.getInt("idAcademicPersonnel"));
+                academicPersonnel.setName(resultSet.getString("name"));
+                academicPersonnel.setPaternalSurname(resultSet.getString("paternalSurname"));
+                academicPersonnel.setMaternalSurname(resultSet.getString("maternalSurname"));
+                academicPersonnels.add(academicPersonnel);
+            }
+        } catch (SQLException exception) {
+            academicPersonnels = null;
+        } finally {
+            databaseConnection.close();
+        }
+        return academicPersonnels;
     }
 
 }

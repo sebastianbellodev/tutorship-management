@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 02, 2023.
- * Date of update: March 02, 2023.
+ * Date of update: March 04, 2023.
  */
 package academictutorshipmanagement.views;
 
@@ -24,22 +24,22 @@ public class EducationalProgramAdministrationMenuFXMLController implements Initi
 
     @FXML
     private Button backButton;
-    
-    private AcademicPersonnel academicPersonnel;
+
     private SchoolPeriod schoolPeriod;
-    
+    private AcademicPersonnel academicPersonnel;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    }    
-    
-    public void configureView(AcademicPersonnel academicPersonnel, SchoolPeriod schoolPeriod) {
-        this.academicPersonnel = academicPersonnel;
+    }
+
+    public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
         this.schoolPeriod = schoolPeriod;
+        this.academicPersonnel = academicPersonnel;
     }
 
     @FXML
     private void backButtonClick(ActionEvent event) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("MainMenuFXML.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainMenuFXML.fxml"));
         try {
             Parent root = loader.load();
             MainMenuFXMLController mainMenuFXMLController = loader.getController();
@@ -54,5 +54,5 @@ public class EducationalProgramAdministrationMenuFXMLController implements Initi
             System.err.println("The 'MainMenuFXML.fxml' file could not be open. Please try again later.");
         }
     }
-    
+
 }

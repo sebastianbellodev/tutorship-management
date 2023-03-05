@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 02, 2023.
- * Date of update: March 02, 2023.
+ * Date of update: March 04, 2023.
  */
 package academictutorshipmanagement.views;
 
@@ -25,16 +25,16 @@ public class SpecificFormatGenerationMenuFXMLController implements Initializable
     @FXML
     private Button backButton;
 
-    private AcademicPersonnel academicPersonnel;
     private SchoolPeriod schoolPeriod;
-    
+    private AcademicPersonnel academicPersonnel;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }
 
-    public void configureView(AcademicPersonnel academicPersonnel, SchoolPeriod schoolPeriod) {
-        this.academicPersonnel = academicPersonnel;
+    public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
         this.schoolPeriod = schoolPeriod;
+        this.academicPersonnel = academicPersonnel;
     }
 
     @FXML

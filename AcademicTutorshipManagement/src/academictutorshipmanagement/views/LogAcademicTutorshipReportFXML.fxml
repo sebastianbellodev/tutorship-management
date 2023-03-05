@@ -26,7 +26,7 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="numberOfStudentsAttendingTextBox" editable="false" layoutX="795.0" layoutY="34.0" prefHeight="20.0" prefWidth="135.0">
+      <TextField fx:id="numberOfStudentsAttendingTextField" editable="false" layoutX="795.0" layoutY="34.0" prefHeight="20.0" prefWidth="135.0">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
@@ -36,7 +36,7 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="numberOfStudentsAtRiskTextBox" editable="false" layoutX="795.0" layoutY="77.0" prefHeight="20.0" prefWidth="135.0">
+      <TextField fx:id="numberOfStudentsAtRiskTextField" editable="false" layoutX="795.0" layoutY="77.0" prefHeight="20.0" prefWidth="135.0">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
@@ -46,7 +46,7 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="educationalProgramTextBox" editable="false" layoutX="189.0" layoutY="121.0" prefHeight="26.0" prefWidth="331.0">
+      <TextField fx:id="educationalProgramTextField" editable="false" layoutX="189.0" layoutY="121.0" prefHeight="26.0" prefWidth="331.0">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
@@ -56,7 +56,7 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="schoolPeriodTextBox" editable="false" layoutX="685.0" layoutY="122.0" prefHeight="20.0" prefWidth="245.0">
+      <TextField fx:id="schoolPeriodTextField" editable="false" layoutX="685.0" layoutY="122.0" prefHeight="20.0" prefWidth="245.0">
          <font>
             <Font name="Arial" size="14.0" />
          </font></TextField>
@@ -65,7 +65,7 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="academicTutorshipSessionTextBox" editable="false" layoutX="305.0" layoutY="166.0" prefHeight="26.0" prefWidth="215.0">
+      <TextField fx:id="academicTutorshipSessionTextField" editable="false" layoutX="305.0" layoutY="166.0" prefHeight="26.0" prefWidth="215.0">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
@@ -75,7 +75,7 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="sessionNumberTextBox" editable="false" layoutX="685.0" layoutY="166.0" prefHeight="26.0" prefWidth="245.0">
+      <TextField fx:id="sessionNumberTextField" editable="false" layoutX="685.0" layoutY="166.0" prefHeight="26.0" prefWidth="245.0">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
@@ -95,7 +95,7 @@
             <TableColumn fx:id="atRiskTableColumn" prefWidth="70.0" style="-fx-alignment: CENTER;" text="En riesgo" />
         </columns>
       </TableView>
-      <TextArea fx:id="generalCommentTextArea" layoutX="665.0" layoutY="271.0" prefHeight="245.0" prefWidth="265.0">
+      <TextArea fx:id="generalCommentTextArea" layoutX="665.0" layoutY="271.0" prefHeight="245.0" prefWidth="265.0" wrapText="true">
          <font>
             <Font name="Arial" size="12.0" />
          </font>
@@ -105,7 +105,7 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Button>
-      <Button layoutX="175.0" layoutY="541.0" mnemonicParsing="false" onAction="#logAcademicProblemButtonClick" prefHeight="26.0" prefWidth="300.0" text="Registrar problemática académicas">
+      <Button layoutX="175.0" layoutY="541.0" mnemonicParsing="false" onAction="#logAcademicProblemButtonClick" prefHeight="26.0" prefWidth="300.0" text="Registrar problemática académica">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
