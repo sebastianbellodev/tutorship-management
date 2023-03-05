@@ -69,14 +69,14 @@
       <TableView fx:id="academicProblemTableView" layoutX="50.0" layoutY="295.0" prefHeight="150.0" prefWidth="851.0">
         <columns>
           <TableColumn fx:id="educativeExperienceTableColumn" prefWidth="247.0" text="Experiencia educativa" />
-          <TableColumn fx:id="academicPersonnelTableColumn" prefWidth="302.0" text="Personal académico" />
+          <TableColumn fx:id="academicPersonnelTableColumn" prefWidth="302.0" text="Nombre del personal académico" />
             <TableColumn fx:id="titleTableColumn" prefWidth="179.0" text="Título" />
             <TableColumn fx:id="numberOfStudentsTableColumn" prefWidth="122.0" text="Estudiantes" />
         </columns>
       </TableView>
       <TableView fx:id="generalCommentTableView" layoutX="50.0" layoutY="509.0" prefHeight="150.0" prefWidth="851.0">
          <columns>
-            <TableColumn fx:id="academicTutorTableColumn" prefWidth="293.0" text="Personal académico" />
+            <TableColumn fx:id="academicTutorTableColumn" prefWidth="293.0" text="Nombre del personal académico" />
             <TableColumn fx:id="generalCommentTableColumn" prefWidth="557.0" text="Comentario general" />
          </columns>
       </TableView>
