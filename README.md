@@ -3,4 +3,4 @@ The Academic Tutorship Management System is a software product that will provide
 
 This development has academic purposes and restricted rights. 
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Logo_de_la_Universidad_Veracruzana.svg/696px-Logo_de_la_Universidad_Veracruzana.svg.png" alt="Universidad Veracruzana" width="50" height="50" />.
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Logo_de_la_Universidad_Veracruzana.svg/696px-Logo_de_la_Universidad_Veracruzana.svg.png" alt="Universidad Veracruzana" width="30" height="50" />.
