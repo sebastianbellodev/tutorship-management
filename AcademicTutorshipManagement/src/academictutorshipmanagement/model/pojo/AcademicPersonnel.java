@@ -85,5 +85,5 @@ public class AcademicPersonnel {
     public String toString() {
         return getName() + " " + getPaternalSurname() + " " + getMaternalSurname();
     }
-
+    
 }

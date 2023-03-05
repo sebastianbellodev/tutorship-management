@@ -30,8 +30,7 @@ public class DatabaseConnection {
     private void connectToDatabase() throws SQLException, IOException {
         try {
             Properties attributes = new Properties();
-            try (FileInputStream databaseConfigurationFile = new FileInputStream(
-                    new File("src\\academictutorshipmanagement\\model\\DatabaseConfiguration.txt"))) {
+            try (FileInputStream databaseConfigurationFile = new FileInputStream(new File("src\\academictutorshipmanagement\\model\\DatabaseConfiguration.txt"))) {
                 attributes.load(databaseConfigurationFile);
             }
             String url = attributes.getProperty("URL");

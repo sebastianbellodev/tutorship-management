@@ -16,5 +16,9 @@ public class Constants {
     public static final int INVALID_DATA_ENTERED_CODE = 1002;
     public static final int CORRECT_OPERATION_CODE = 1003;
     public static final int INVALID_CURRENT_DATE_CODE = 1004;
+    
+    public static final int FIRST_ACADEMIC_TUTORSHIP_SESSION_INDEX = 0;
+    public static final int MINIUM_NUMBER_OF_DAYS_FOR_ACADEMIC_TUTORSHIP_REPORT_SUBMISSION = 0;
+    public static final int MINIUM_NUMBER_OF_STUDENTS_PER_ACADEMIC_PROBLEM = 1;
 
 }

@@ -1,17 +1,20 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 02, 2023.
- * Date of update: March 03, 2023.
+ * Date of update: March 04, 2023.
  */
 package academictutorshipmanagement.views;
 
+import academictutorshipmanagement.interfaces.IAcademicProblem;
 import academictutorshipmanagement.model.dao.StudentDAO;
 import academictutorshipmanagement.model.pojo.AcademicPersonnel;
+import academictutorshipmanagement.model.pojo.AcademicProblem;
 import academictutorshipmanagement.model.pojo.AcademicTutorshipSession;
 import academictutorshipmanagement.model.pojo.EducationalProgram;
 import academictutorshipmanagement.model.pojo.SchoolPeriod;
 import academictutorshipmanagement.model.pojo.Student;
 import academictutorshipmanagement.model.pojo.User;
+import academictutorshipmanagement.utilities.Constants;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -29,22 +32,23 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class LogAcademicTutorshipReportFXMLController implements Initializable {
+public class LogAcademicTutorshipReportFXMLController implements Initializable, IAcademicProblem {
 
     @FXML
-    private TextField numberOfStudentsAttendingTextBox;
+    private TextField numberOfStudentsAttendingTextField;
     @FXML
-    private TextField numberOfStudentsAtRiskTextBox;
+    private TextField numberOfStudentsAtRiskTextField;
     @FXML
-    private TextField schoolPeriodTextBox;
+    private TextField schoolPeriodTextField;
     @FXML
-    private TextField academicTutorshipSessionTextBox;
+    private TextField academicTutorshipSessionTextField;
     @FXML
-    private TextField educationalProgramTextBox;
+    private TextField educationalProgramTextField;
     @FXML
-    private TextField sessionNumberTextBox;
+    private TextField sessionNumberTextField;
     @FXML
     private TableView<Student> studentsTableView;
     @FXML
@@ -62,14 +66,18 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable {
     @FXML
     private TextArea generalCommentTextArea;
 
-    private AcademicPersonnel academicPersonnel;
-    private EducationalProgram educationalProgram;
+    private ArrayList<AcademicProblem> academicProblems;
+    
+    private ObservableList<Student> students;
+
     private SchoolPeriod schoolPeriod;
     private AcademicTutorshipSession academicTutorshipSession;
-    private ObservableList<Student> students;
+    private AcademicPersonnel academicPersonnel;
+    private EducationalProgram educationalProgram;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        academicProblems = new ArrayList<>();
         students = FXCollections.observableArrayList();
         configureStudentsTableViewColumns();
     }
@@ -83,20 +91,20 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable {
         atRiskTableColumn.setCellValueFactory(new PropertyValueFactory("atRisk"));
     }
 
-    public void configureView(AcademicPersonnel academicPersonnel, SchoolPeriod schoolPeriod) {
+    public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
+        this.schoolPeriod = schoolPeriod;
+        academicTutorshipSession = schoolPeriod.getAcademicTutorshipSessions().get(Constants.FIRST_ACADEMIC_TUTORSHIP_SESSION_INDEX);
         this.academicPersonnel = academicPersonnel;
         educationalProgram = academicPersonnel.getUser().getEducationalProgram();
-        this.schoolPeriod = schoolPeriod;
-        academicTutorshipSession = schoolPeriod.getAcademicTutorshipSessions().get(0);
         configureAcademicTutorshipReportInformation();
         loadStudentsByAcademicPersonnel();
     }
 
     private void configureAcademicTutorshipReportInformation() {
-        educationalProgramTextBox.setText(educationalProgram.toString());
-        schoolPeriodTextBox.setText(schoolPeriod.toString());
-        academicTutorshipSessionTextBox.setText(academicTutorshipSession.toString());
-        sessionNumberTextBox.setText(String.valueOf(academicTutorshipSession.getSessionNumber()));
+        educationalProgramTextField.setText(educationalProgram.toString());
+        schoolPeriodTextField.setText(schoolPeriod.toString());
+        academicTutorshipSessionTextField.setText(academicTutorshipSession.toString());
+        sessionNumberTextField.setText(String.valueOf(academicTutorshipSession.getSessionNumber()));
     }
 
     private void loadStudentsByAcademicPersonnel() {
@@ -119,7 +127,7 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable {
             User user = academicPersonnel.getUser();
             mainMenuFXMLController.configureView(user);
             Scene mainMenuView = new Scene(root);
-            Stage stage = (Stage) numberOfStudentsAttendingTextBox.getScene().getWindow();
+            Stage stage = (Stage) numberOfStudentsAttendingTextField.getScene().getWindow();
             stage.setScene(mainMenuView);
             stage.setTitle("Menú principal.");
             stage.show();
@@ -130,6 +138,21 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable {
 
     @FXML
     private void logAcademicProblemButtonClick(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("LogAcademicProblemFXML.fxml"));
+        try {
+            Parent root = loader.load();
+            LogAcademicProblemFXMLController logAcademicProblemFXMLController = loader.getController();
+            int numberOfStudentsByAcademicPersonnel = students.size();
+            logAcademicProblemFXMLController.configureView(this, schoolPeriod, educationalProgram, numberOfStudentsByAcademicPersonnel);
+            Stage stage = new Stage();
+            Scene logAcademicProblemView = new Scene(root);
+            stage.setScene(logAcademicProblemView);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Registrar problemática académica.");
+            stage.showAndWait();
+        } catch (IOException exception) {
+            System.err.println("The LogAcademicProblemFXML.fxml' file could not be open. Please try again later.");
+        }
     }
 
     @FXML
@@ -139,6 +162,11 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable {
     @FXML
     private void cancelButtonClick(ActionEvent event) {
         goToMainMenu();
+    }
+
+    @Override
+    public void configureAcademicProblem(AcademicProblem academicProblem) {
+        academicProblems.add(academicProblem);
     }
 
 }

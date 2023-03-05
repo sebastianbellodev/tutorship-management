@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 01, 2023.
- * Date of update: March 02, 2023.
+ * Date of update: March 04, 2023.
  */
 package academictutorshipmanagement.views;
 
@@ -57,7 +57,7 @@ public class MainMenuFXMLController implements Initializable {
         try {
             Parent root = loader.load();
             TutorialReportManagementMenuFXMLController tutorialReportManagementMenuFXMLController = loader.getController();
-            tutorialReportManagementMenuFXMLController.configureView(academicPersonnel, schoolPeriod);
+            tutorialReportManagementMenuFXMLController.configureView(schoolPeriod, academicPersonnel);
             Scene mainMenuView = new Scene(root);
             Stage stage = (Stage) academicPersonnelLabel.getScene().getWindow();
             stage.setScene(mainMenuView);
@@ -74,7 +74,7 @@ public class MainMenuFXMLController implements Initializable {
         try {
             Parent root = loader.load();
             TutorialSessionAdministrationMenuFXMLController tutorialSessionAdministrationMenuFXMLController = loader.getController();
-            tutorialSessionAdministrationMenuFXMLController.configureView(academicPersonnel, schoolPeriod);
+            tutorialSessionAdministrationMenuFXMLController.configureView(schoolPeriod, academicPersonnel);
             Scene mainMenuView = new Scene(root);
             Stage stage = (Stage) academicPersonnelLabel.getScene().getWindow();
             stage.setScene(mainMenuView);
@@ -91,7 +91,7 @@ public class MainMenuFXMLController implements Initializable {
         try {
             Parent root = loader.load();
             FollowUpOnAcademicProblemsMenuFXMLController followUpOnAcademicProblemsMenuFXMLController = loader.getController();
-            followUpOnAcademicProblemsMenuFXMLController.configureView(academicPersonnel, schoolPeriod);
+            followUpOnAcademicProblemsMenuFXMLController.configureView(schoolPeriod, academicPersonnel);
             Scene mainMenuView = new Scene(root);
             Stage stage = (Stage) academicPersonnelLabel.getScene().getWindow();
             stage.setScene(mainMenuView);
@@ -108,7 +108,7 @@ public class MainMenuFXMLController implements Initializable {
         try {
             Parent root = loader.load();
             StudentManagementMenuFXMLController studentManagementMenuFXMLController = loader.getController();
-            studentManagementMenuFXMLController.configureView(academicPersonnel, schoolPeriod);
+            studentManagementMenuFXMLController.configureView(schoolPeriod, academicPersonnel);
             Scene mainMenuView = new Scene(root);
             Stage stage = (Stage) academicPersonnelLabel.getScene().getWindow();
             stage.setScene(mainMenuView);
@@ -125,7 +125,7 @@ public class MainMenuFXMLController implements Initializable {
         try {
             Parent root = loader.load();
             EducationalProgramAdministrationMenuFXMLController educationalProgramAdministrationMenuFXMLController  = loader.getController();
-            educationalProgramAdministrationMenuFXMLController.configureView(academicPersonnel, schoolPeriod);
+            educationalProgramAdministrationMenuFXMLController.configureView(schoolPeriod, academicPersonnel);
             Scene mainMenuView = new Scene(root);
             Stage stage = (Stage) academicPersonnelLabel.getScene().getWindow();
             stage.setScene(mainMenuView);
@@ -142,7 +142,7 @@ public class MainMenuFXMLController implements Initializable {
         try {
             Parent root = loader.load();
             SpecificFormatGenerationMenuFXMLController specificFormatGenerationMenuFXMLController = loader.getController();
-            specificFormatGenerationMenuFXMLController.configureView(academicPersonnel, schoolPeriod);
+            specificFormatGenerationMenuFXMLController.configureView(schoolPeriod, academicPersonnel);
             Scene mainMenuView = new Scene(root);
             Stage stage = (Stage) academicPersonnelLabel.getScene().getWindow();
             stage.setScene(mainMenuView);
@@ -158,7 +158,6 @@ public class MainMenuFXMLController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginFXML.fxml"));
         try {
             Parent root = loader.load();
-            LoginFXMLController loginFXMLController = loader.getController();
             Scene logInView = new Scene(root);
             Stage stage = (Stage) academicPersonnelLabel.getScene().getWindow();
             stage.setScene(logInView);

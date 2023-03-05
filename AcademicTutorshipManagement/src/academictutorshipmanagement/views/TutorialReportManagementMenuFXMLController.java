@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 02, 2023.
- * Date of update: March 03, 2023.
+ * Date of update: March 04, 2023.
  */
 package academictutorshipmanagement.views;
 
@@ -32,18 +32,19 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
     @FXML
     private Button backButton;
 
-    private AcademicPersonnel academicPersonnel;
     private SchoolPeriod schoolPeriod;
-    private int idRol;
+    private AcademicPersonnel academicPersonnel;
     private AcademicTutorshipSession academicTutorshipSession;
+
+    private int idRol;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }
 
-    public void configureView(AcademicPersonnel academicPersonnel, SchoolPeriod schoolPeriod) {
-        this.academicPersonnel = academicPersonnel;
+    public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
         this.schoolPeriod = schoolPeriod;
+        this.academicPersonnel = academicPersonnel;
         idRol = academicPersonnel.getUser().getRole().getIdRole();
     }
 
@@ -86,7 +87,7 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
     private boolean validateClosingDateReportSubmission() {
         Date currentDate = new Date();
         Date closingDateReportSubmission = academicTutorshipSession.getClosingDateReportSubmission();
-        return currentDate.compareTo(closingDateReportSubmission) <= 0;
+        return currentDate.compareTo(closingDateReportSubmission) <= Constants.MINIUM_NUMBER_OF_DAYS_FOR_ACADEMIC_TUTORSHIP_REPORT_SUBMISSION;
     }
 
     private void goToLogAcademicTutorshipReport() {
@@ -94,7 +95,7 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
         try {
             Parent root = loader.load();
             LogAcademicTutorshipReportFXMLController logAcademicTutorshipReportFXMLController = loader.getController();
-            logAcademicTutorshipReportFXMLController.configureView(academicPersonnel, schoolPeriod);
+            logAcademicTutorshipReportFXMLController.configureView(schoolPeriod, academicPersonnel);
             Scene logAcademicTutorshipReportView = new Scene(root);
             Stage stage = (Stage) backButton.getScene().getWindow();
             stage.setScene(logAcademicTutorshipReportView);

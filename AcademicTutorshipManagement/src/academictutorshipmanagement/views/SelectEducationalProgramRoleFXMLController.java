@@ -16,7 +16,6 @@ import academictutorshipmanagement.utilities.Utilities;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -35,11 +34,13 @@ public class SelectEducationalProgramRoleFXMLController implements Initializable
     @FXML
     private ComboBox<Role> roleComboBox;
 
-    private IEducationalProgram educationalProgramInterface;
-    private IRole roleInterface;
-    private User user;
     private ObservableList<EducationalProgram> educationalPrograms;
     private ObservableList<Role> roles;
+
+    private IEducationalProgram educationalProgramInterface;
+    private IRole roleInterface;
+
+    private User user;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -65,18 +66,15 @@ public class SelectEducationalProgramRoleFXMLController implements Initializable
         ArrayList<EducationalProgram> educationalProgramsResultSet = EducationalProgramDAO.getEducationalProgramsByUser(username);
         educationalPrograms.addAll(educationalProgramsResultSet);
         educationalProgramComboBox.setItems(educationalPrograms);
-        educationalProgramComboBox.valueProperty().addListener(new ChangeListener<EducationalProgram>() {
-            @Override
-            public void changed(ObservableValue<? extends EducationalProgram> observable, EducationalProgram oldEducationalProgram, EducationalProgram newEducationalProgram) {
-                loadRolesByEducationalProgram(newEducationalProgram, username);
-            }
+        educationalProgramComboBox.valueProperty().addListener((ObservableValue<? extends EducationalProgram> observable, EducationalProgram oldValue, EducationalProgram newValue) -> {
+            roles.clear();
+            int idEducationalProgram = newValue.getIdEducationalProgram();
+            loadRolesByEducationalProgram(idEducationalProgram, username);
         });
     }
 
-    private void loadRolesByEducationalProgram(EducationalProgram educationalProgram, String username) {
-        int idEducationalProgram = educationalProgram.getIdEducationalProgram();
+    private void loadRolesByEducationalProgram(int idEducationalProgram, String username) {
         ArrayList<Role> rolesResultSet = RoleDAO.getRolesByEducationalProgram(idEducationalProgram, username);
-        roles.clear();
         roles.addAll(rolesResultSet);
         roleComboBox.setItems(roles);
     }
