@@ -14,6 +14,7 @@ public class AcademicPersonnel {
     private String emailAddress;
     private User user;
     private ContractType contractType;
+    private int responseCode;
     
     public AcademicPersonnel() {
     }
@@ -79,6 +80,14 @@ public class AcademicPersonnel {
 
     public void setContractType(ContractType contractType) {
         this.contractType = contractType;
+    }
+
+    public int getResponseCode() {
+        return responseCode;
+    }
+
+    public void setResponseCode(int responseCode) {
+        this.responseCode = responseCode;
     }
 
     @Override

@@ -9,7 +9,6 @@ public class EducationalExperience {
 
     private int idEducationalExperience;
     private String name;
-    private int nrc;
 
     public EducationalExperience() {
     }
@@ -32,14 +31,6 @@ public class EducationalExperience {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getNrc() {
-        return nrc;
-    }
-
-    public void setNrc(int nrc) {
-        this.nrc = nrc;
     }
     
     @Override

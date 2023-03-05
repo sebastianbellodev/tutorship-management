@@ -1,12 +1,13 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 02, 2023.
- * Date of update: March 04, 2023.
+ * Date of update: March 05, 2023.
  */
 package academictutorshipmanagement.model.dao;
 
 import academictutorshipmanagement.model.DatabaseConnection;
 import academictutorshipmanagement.model.pojo.AcademicPersonnel;
+import academictutorshipmanagement.utilities.Constants;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,9 +32,10 @@ public class AcademicPersonnelDAO {
                 academicPersonnel.setPaternalSurname(resultSet.getString("paternalSurname"));
                 academicPersonnel.setMaternalSurname(resultSet.getString("maternalSurname"));
                 academicPersonnel.setEmailAddress(resultSet.getString("emailAddress"));
+                academicPersonnel.setResponseCode(Constants.CORRECT_OPERATION_CODE);
             }
         } catch (SQLException exception) {
-            System.err.println("There is no connection to the connection. Please try again later.");
+            academicPersonnel.setResponseCode(Constants.NO_DATABASE_CONNECTION_CODE);
         } finally {
             databaseConnection.close();
         }
@@ -43,8 +45,8 @@ public class AcademicPersonnelDAO {
     public static ArrayList<AcademicPersonnel> getAcademicPersonnelByEducationalExperience(int idSchoolPeriod, int idEducationalExperience) {
         ArrayList<AcademicPersonnel> academicPersonnels = new ArrayList<>();
         DatabaseConnection databaseConnection = new DatabaseConnection();
-        String query = "SELECT DISTINCT academicpersonnel.idAcademicPersonnel, academicPersonnel.name, academicPersonnel.paternalSurname, academicPersonnel.maternalSurname\n"
-                + "FROM academicpersonnel\n"
+        String query = "SELECT DISTINCT academicPersonnel.idAcademicPersonnel, academicPersonnel.name, academicPersonnel.paternalSurname, academicPersonnel.maternalSurname\n"
+                + "FROM academicPersonnel\n"
                 + "INNER JOIN academicOffering\n"
                 + "ON academicPersonnel.idAcademicPersonnel = academicOffering.idAcademicPersonnel\n"
                 + "WHERE academicOffering.idSchoolPeriod = ? AND academicOffering.idEducationalExperience = ?";

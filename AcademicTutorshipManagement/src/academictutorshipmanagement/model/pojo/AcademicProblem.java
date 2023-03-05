@@ -6,13 +6,11 @@
 package academictutorshipmanagement.model.pojo;
 
 public class AcademicProblem {
-    
+
     private String title;
     private String description;
     private int numberOfStudents;
-    private EducationalExperience educationalExperience;
-    private AcademicPersonnel academicPersonnel;
-    private SchoolPeriod schoolPeriod;
+    private AcademicOffering academicOffering;
 
     public AcademicProblem() {
     }
@@ -47,28 +45,12 @@ public class AcademicProblem {
         this.numberOfStudents = numberOfStudents;
     }
 
-    public EducationalExperience getEducationalExperience() {
-        return educationalExperience;
+    public AcademicOffering getAcademicOffering() {
+        return academicOffering;
     }
 
-    public void setEducationalExperience(EducationalExperience educationalExperience) {
-        this.educationalExperience = educationalExperience;
-    }
-
-    public AcademicPersonnel getAcademicPersonnel() {
-        return academicPersonnel;
-    }
-
-    public void setAcademicPersonnel(AcademicPersonnel academicPersonnel) {
-        this.academicPersonnel = academicPersonnel;
-    }
-
-    public SchoolPeriod getSchoolPeriod() {
-        return schoolPeriod;
-    }
-
-    public void setSchoolPeriod(SchoolPeriod schoolPeriod) {
-        this.schoolPeriod = schoolPeriod;
+    public void setAcademicOffering(AcademicOffering academicOffering) {
+        this.academicOffering = academicOffering;
     }
     
 }

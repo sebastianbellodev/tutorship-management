@@ -1,13 +1,15 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 04, 2023.
- * Date of update: March 04, 2023.
+ * Date of update: March 05, 2023.
  */
 package academictutorshipmanagement.views;
 
 import academictutorshipmanagement.interfaces.IAcademicProblem;
+import academictutorshipmanagement.model.dao.AcademicOfferingDAO;
 import academictutorshipmanagement.model.dao.AcademicPersonnelDAO;
 import academictutorshipmanagement.model.dao.EducationalExperienceDAO;
+import academictutorshipmanagement.model.pojo.AcademicOffering;
 import academictutorshipmanagement.model.pojo.AcademicPersonnel;
 import academictutorshipmanagement.model.pojo.AcademicProblem;
 import academictutorshipmanagement.model.pojo.EducationalExperience;
@@ -43,16 +45,15 @@ public class LogAcademicProblemFXMLController implements Initializable {
     @FXML
     private Spinner<Integer> numberOfStudentsSpinner;
     @FXML
-    private ComboBox<Integer> nrcComboBox;
+    private ComboBox<AcademicOffering> nrcComboBox;
     @FXML
     private TextArea descriptionTextArea;
 
     private ObservableList<EducationalExperience> educationalExperiences;
-    private ObservableList<AcademicPersonnel> academicPersonnels;
-    private ObservableList<Integer> nrcs;
-    
-    private IAcademicProblem academicProblemInterface;
+    private ObservableList<AcademicPersonnel> academicPersonnel;
+    private ObservableList<AcademicOffering> academicOfferings;
 
+    private IAcademicProblem academicProblemInterface;
 
     private int idEducationalProgram;
     private int idSchoolPeriod;
@@ -61,8 +62,8 @@ public class LogAcademicProblemFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         educationalExperiences = FXCollections.observableArrayList();
-        academicPersonnels = FXCollections.observableArrayList();
-        nrcs = FXCollections.observableArrayList();
+        academicPersonnel = FXCollections.observableArrayList();
+        academicOfferings = FXCollections.observableArrayList();
     }
 
     public void configureView(IAcademicProblem academicProblemInterface, SchoolPeriod schoolPeriod, EducationalProgram educationalProgram, int numberOfStudentsByAcademicPersonnel) {
@@ -80,35 +81,41 @@ public class LogAcademicProblemFXMLController implements Initializable {
 
     private void loadCurrentEducationalExperiencesByEducationalProgram() {
         ArrayList<EducationalExperience> educationalExperiencesResultSet = EducationalExperienceDAO.getEducationalExperiencesByEducationalProgram(idSchoolPeriod, idEducationalProgram);
-        educationalExperiences.addAll(educationalExperiencesResultSet);
-        educationalExperienceComboBox.setItems(educationalExperiences);
-        educationalExperienceComboBox.valueProperty().addListener((ObservableValue<? extends EducationalExperience> observable, EducationalExperience oldValue, EducationalExperience newValue) -> {
-            if (newValue != null) {
-                academicPersonnels.clear();
-                nrcs.clear();
-                idEducationalExperience = newValue.getIdEducationalExperience();
-                loadAcademicPersonnelByEducationalExperience(idEducationalExperience);
-            }
-        });
+        if (educationalExperiencesResultSet.isEmpty()) {
+            Utilities.showAlert("No hay conexión con la base de datos.\n\n"
+                    + "Por favor, inténtelo más tarde.\n",
+                    Alert.AlertType.ERROR);
+        } else {
+            educationalExperiences.addAll(educationalExperiencesResultSet);
+            educationalExperienceComboBox.setItems(educationalExperiences);
+            educationalExperienceComboBox.valueProperty().addListener((ObservableValue<? extends EducationalExperience> observable, EducationalExperience oldValue, EducationalExperience newValue) -> {
+                if (newValue != null) {
+                    academicPersonnel.clear();
+                    academicOfferings.clear();
+                    idEducationalExperience = newValue.getIdEducationalExperience();
+                    loadAcademicPersonnelByEducationalExperience(idEducationalExperience);
+                }
+            });
+        }
     }
 
     private void loadAcademicPersonnelByEducationalExperience(int idEducationalExperience) {
-        ArrayList<AcademicPersonnel> academicPersonnelResultSet = AcademicPersonnelDAO.getAcademicPersonnelByEducationalExperience(idSchoolPeriod, idEducationalExperience);
-        academicPersonnels.addAll(academicPersonnelResultSet);
-        academicPersonnelComboBox.setItems(academicPersonnels);
+        ArrayList<AcademicPersonnel> academicPersonnelsResultSet = AcademicPersonnelDAO.getAcademicPersonnelByEducationalExperience(idSchoolPeriod, idEducationalExperience);
+        academicPersonnel.addAll(academicPersonnelsResultSet);
+        academicPersonnelComboBox.setItems(academicPersonnel);
         academicPersonnelComboBox.valueProperty().addListener((ObservableValue<? extends AcademicPersonnel> observable, AcademicPersonnel oldValue, AcademicPersonnel newValue) -> {
             if (newValue != null) {
-                nrcs.clear();
+                academicOfferings.clear();
                 int idAcademicPersonnel = newValue.getIdAcademicPersonnel();
-                loadNrcByAcademicOfferings(idAcademicPersonnel);
+                loadAcademicOfferingsByAcademicPersonnel(idAcademicPersonnel);
             }
         });
     }
 
-    private void loadNrcByAcademicOfferings(int idAcademicPersonnel) {
-        ArrayList<Integer> nrcsResultSet = EducationalExperienceDAO.getNrcByAcademicOffering(idEducationalExperience, idAcademicPersonnel, idSchoolPeriod);
-        nrcs.addAll(nrcsResultSet);
-        nrcComboBox.setItems(nrcs);
+    private void loadAcademicOfferingsByAcademicPersonnel(int idAcademicPersonnel) {
+        ArrayList<AcademicOffering> academicOfferingsResultSet = AcademicOfferingDAO.getAcademicOfferings(idEducationalExperience, idAcademicPersonnel, idSchoolPeriod);
+        academicOfferings.addAll(academicOfferingsResultSet);
+        nrcComboBox.setItems(academicOfferings);
     }
 
     @FXML
@@ -118,12 +125,8 @@ public class LogAcademicProblemFXMLController implements Initializable {
             String description = descriptionTextArea.getText();
             int numberOfStudents = numberOfStudentsSpinner.getValue();
             AcademicProblem academicProblem = new AcademicProblem(title, description, numberOfStudents);
-            EducationalExperience educationalExperience = educationalExperienceComboBox.getValue();
-            int nrc = nrcComboBox.getValue();
-            educationalExperience.setNrc(nrc);
-            academicProblem.setEducationalExperience(educationalExperience);
-            AcademicPersonnel academicPersonnel = academicPersonnelComboBox.getValue();
-            academicProblem.setAcademicPersonnel(academicPersonnel);
+            AcademicOffering academicOffering = nrcComboBox.getValue();
+            academicProblem.setAcademicOffering(academicOffering);
             academicProblemInterface.configureAcademicProblem(academicProblem);
             closePopUpWindow();
         } else {

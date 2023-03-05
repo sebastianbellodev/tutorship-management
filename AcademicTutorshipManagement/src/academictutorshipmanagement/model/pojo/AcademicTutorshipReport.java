@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 01, 2023.
- * Date of update: March 03, 2023.
+ * Date of update: March 05, 2023.
  */
 package academictutorshipmanagement.model.pojo;
 
@@ -9,13 +9,15 @@ import java.util.ArrayList;
 
 public class AcademicTutorshipReport {
     
+    private int idAcademicTutorshipReport;
     private String generalComment;
     private int numberOfStudentsAttending;
     private int numberOfStudentsAtRisk;
     private ArrayList<AcademicProblem> academicProblems;
     private ArrayList<Student> students;
     private AcademicPersonnel academicPersonnel;
-    private AcademicTutorshipSession academicTutorshipSession;
+    private AcademicTutorship academicTutorship;
+    private int responseCode;
 
     public AcademicTutorshipReport() {
     }
@@ -24,6 +26,14 @@ public class AcademicTutorshipReport {
         this.generalComment = generalComment;
         this.numberOfStudentsAttending = numberOfStudentsAttending;
         this.numberOfStudentsAtRisk = numberOfStudentsAtRisk;
+    }
+
+    public int getIdAcademicTutorshipReport() {
+        return idAcademicTutorshipReport;
+    }
+
+    public void setIdAcademicTutorshipReport(int idAcademicTutorshipReport) {
+        this.idAcademicTutorshipReport = idAcademicTutorshipReport;
     }
 
     public String getGeneralComment() {
@@ -74,12 +84,20 @@ public class AcademicTutorshipReport {
         this.academicPersonnel = academicPersonnel;
     }
 
-    public AcademicTutorshipSession getAcademicTutorshipSession() {
-        return academicTutorshipSession;
+    public AcademicTutorship getAcademicTutorship() {
+        return academicTutorship;
     }
 
-    public void setAcademicTutorshipSession(AcademicTutorshipSession academicTutorshipSession) {
-        this.academicTutorshipSession = academicTutorshipSession;
+    public void setAcademicTutorship(AcademicTutorship academicTutorship) {
+        this.academicTutorship = academicTutorship;
+    }
+
+    public int getResponseCode() {
+        return responseCode;
+    }
+
+    public void setResponseCode(int responseCode) {
+        this.responseCode = responseCode;
     }
     
 }

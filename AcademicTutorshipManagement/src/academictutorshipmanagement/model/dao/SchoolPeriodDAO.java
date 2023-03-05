@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 02, 2023.
- * Date of update: March 02, 2023.
+ * Date of update: March 05, 2023.
  */
 package academictutorshipmanagement.model.dao;
 
@@ -28,6 +28,7 @@ public class SchoolPeriodDAO {
                 schoolPeriod.setIdSchoolPeriod(resultSet.getInt("idSchoolPeriod"));
                 schoolPeriod.setStartDate(resultSet.getDate("startDate"));
                 schoolPeriod.setEndDate(resultSet.getDate("endDate"));
+                schoolPeriod.setResponseCode(Constants.CORRECT_OPERATION_CODE);
             }
         } catch (SQLException exception) {
             schoolPeriod.setResponseCode(Constants.NO_DATABASE_CONNECTION_CODE);
