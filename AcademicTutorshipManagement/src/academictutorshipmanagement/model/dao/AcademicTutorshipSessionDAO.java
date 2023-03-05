@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 02, 2023.
- * Date of update: March 03, 2023.
+ * Date of update: March 05, 2023.
  */
 package academictutorshipmanagement.model.dao;
 
@@ -41,5 +41,5 @@ public class AcademicTutorshipSessionDAO {
         }
         return academicTutorshipSession;
     }
-    
+
 }

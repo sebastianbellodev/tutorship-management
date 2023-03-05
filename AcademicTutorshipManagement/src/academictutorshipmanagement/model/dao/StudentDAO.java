@@ -1,12 +1,13 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 03, 2023.
- * Date of update: March 03, 2023.
+ * Date of update: March 05, 2023.
  */
 package academictutorshipmanagement.model.dao;
 
 import academictutorshipmanagement.model.DatabaseConnection;
 import academictutorshipmanagement.model.pojo.Student;
+import academictutorshipmanagement.utilities.Constants;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,4 +44,29 @@ public class StudentDAO {
         return students;
     }
 
+    public static int logStudentByAcademicTutorshipReport(Student student, int idAcademicTutorshipReport) {
+        int responseCode;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String sentence = "INSERT INTO academicTutorshipReportStudent\n"
+                + "(attendedBy, atRisk, idAcademicTutorshipReport, registrationNumber)\n"
+                + "VALUES(?, ?, ?, ?)";
+        try (Connection connection = databaseConnection.open()) {
+            boolean attendedBy = student.isAttendedBy();
+            boolean atRisk = student.isAtRisk();
+            String registrationNumber = student.getRegistrationNumber();
+            PreparedStatement preparedStatement = connection.prepareStatement(sentence);
+            preparedStatement.setBoolean(1, attendedBy);
+            preparedStatement.setBoolean(2, atRisk);
+            preparedStatement.setInt(3, idAcademicTutorshipReport);
+            preparedStatement.setString(4, registrationNumber);
+            int numberOfRowsAffected = preparedStatement.executeUpdate();
+            responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
+        } catch (SQLException exception) {
+            responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
+        } finally {
+            databaseConnection.close();
+        }
+        return responseCode;
+    }
+    
 }

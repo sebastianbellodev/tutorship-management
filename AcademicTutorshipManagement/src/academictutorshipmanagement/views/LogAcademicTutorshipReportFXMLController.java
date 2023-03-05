@@ -1,20 +1,26 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 02, 2023.
- * Date of update: March 04, 2023.
+ * Date of update: March 05, 2023.
  */
 package academictutorshipmanagement.views;
 
 import academictutorshipmanagement.interfaces.IAcademicProblem;
+import academictutorshipmanagement.model.dao.AcademicProblemDAO;
+import academictutorshipmanagement.model.dao.AcademicTutorshipDAO;
+import academictutorshipmanagement.model.dao.AcademicTutorshipReportDAO;
 import academictutorshipmanagement.model.dao.StudentDAO;
 import academictutorshipmanagement.model.pojo.AcademicPersonnel;
 import academictutorshipmanagement.model.pojo.AcademicProblem;
+import academictutorshipmanagement.model.pojo.AcademicTutorship;
+import academictutorshipmanagement.model.pojo.AcademicTutorshipReport;
 import academictutorshipmanagement.model.pojo.AcademicTutorshipSession;
 import academictutorshipmanagement.model.pojo.EducationalProgram;
 import academictutorshipmanagement.model.pojo.SchoolPeriod;
 import academictutorshipmanagement.model.pojo.Student;
 import academictutorshipmanagement.model.pojo.User;
 import academictutorshipmanagement.utilities.Constants;
+import academictutorshipmanagement.utilities.Utilities;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -27,6 +33,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -67,13 +74,18 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
     private TextArea generalCommentTextArea;
 
     private ArrayList<AcademicProblem> academicProblems;
-    
+
     private ObservableList<Student> students;
 
     private SchoolPeriod schoolPeriod;
     private AcademicTutorshipSession academicTutorshipSession;
     private AcademicPersonnel academicPersonnel;
     private EducationalProgram educationalProgram;
+    private AcademicTutorship academicTutorship;
+    private AcademicTutorshipReport academicTutorshipReport;
+
+    private int idAcademicPersonnel;
+    private int idAcademicTutorshipReport;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -87,8 +99,8 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
         nameTableColumn.setCellValueFactory(new PropertyValueFactory("name"));
         paternalSurnameTableColumn.setCellValueFactory(new PropertyValueFactory("paternalSurname"));
         maternalSurnameTableColumn.setCellValueFactory(new PropertyValueFactory("maternalSurname"));
-        attendedByTableColumn.setCellValueFactory(new PropertyValueFactory("attendedBy"));
-        atRiskTableColumn.setCellValueFactory(new PropertyValueFactory("atRisk"));
+        attendedByTableColumn.setCellValueFactory(new PropertyValueFactory("attendedByCheckBox"));
+        atRiskTableColumn.setCellValueFactory(new PropertyValueFactory("atRiskCheckBox"));
     }
 
     public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
@@ -97,6 +109,7 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
         this.academicPersonnel = academicPersonnel;
         educationalProgram = academicPersonnel.getUser().getEducationalProgram();
         configureAcademicTutorshipReportInformation();
+        loadAcademicTutorship();
         loadStudentsByAcademicPersonnel();
     }
 
@@ -107,9 +120,21 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
         sessionNumberTextField.setText(String.valueOf(academicTutorshipSession.getSessionNumber()));
     }
 
+    private void loadAcademicTutorship() {
+        int idEducationalProgram = educationalProgram.getIdEducationalProgram();
+        int idAcademicTutorshipSession = academicTutorshipSession.getIdAcademicTutorshipSession();
+        academicTutorship = AcademicTutorshipDAO.getAcademicTutorship(idEducationalProgram, idAcademicTutorshipSession);
+        int responseCode = academicTutorship.getResponseCode();
+        if (responseCode == Constants.NO_DATABASE_CONNECTION_CODE) {
+            Utilities.showAlert("No hay conexión con la base de datos.\n\n"
+                    + "Por favor, inténtelo más tarde.\n",
+                    Alert.AlertType.ERROR);
+        }
+    }
+
     private void loadStudentsByAcademicPersonnel() {
         int idEducationalProgram = educationalProgram.getIdEducationalProgram();
-        int idAcademicPersonnel = academicPersonnel.getIdAcademicPersonnel();
+        idAcademicPersonnel = academicPersonnel.getIdAcademicPersonnel();
         ArrayList<Student> studentsResultSet = StudentDAO.getStudentsByAcademicPersonnel(idEducationalProgram, idAcademicPersonnel);
         students.addAll(studentsResultSet);
         studentsTableView.setItems(students);
@@ -117,6 +142,70 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
 
     @FXML
     private void acceptButtonClick(ActionEvent event) {
+        String generalComment = generalCommentTextArea.getText();
+        int numberOfStudentsAttending = calculateNumberOfStudentsAttending();
+        int numberOfStudentsAtRisk = calculateNumberOfStudentsAtRisk();
+        numberOfStudentsAttendingTextField.setText(String.valueOf(numberOfStudentsAttending));
+        numberOfStudentsAtRiskTextField.setText(String.valueOf(numberOfStudentsAtRisk));
+        academicTutorshipReport = new AcademicTutorshipReport(generalComment, numberOfStudentsAttending, numberOfStudentsAtRisk);
+        academicTutorshipReport.setAcademicPersonnel(academicPersonnel);
+        academicTutorshipReport.setAcademicTutorship(academicTutorship);
+        logAcademicTutorshipReport();
+    }
+
+    private int calculateNumberOfStudentsAttending() {
+        int numberOfStudentsAttending = 0;
+        for (Student student : students) {
+            boolean attendedBy = student.getAttendedByCheckBox().isSelected();
+            if (attendedBy) {
+                numberOfStudentsAttending++;
+            }
+            student.setAttendedBy(attendedBy);
+        }
+        return numberOfStudentsAttending;
+    }
+
+    private int calculateNumberOfStudentsAtRisk() {
+        int numberOfStudentsAtRisk = 0;
+        for (Student student : students) {
+            boolean atRisk = student.getAtRiskCheckBox().isSelected();
+            if (atRisk) {
+                numberOfStudentsAtRisk++;
+            }
+            student.setAtRisk(atRisk);
+        }
+        return numberOfStudentsAtRisk;
+    }
+
+    private void logAcademicTutorshipReport() {
+        int responseCode = AcademicTutorshipReportDAO.logAcademicTutorshipReport(academicTutorshipReport);
+        if (responseCode == Constants.CORRECT_OPERATION_CODE) {
+            int idAcademicTutorship = academicTutorship.getIdAcademicTutorship();
+            idAcademicTutorshipReport = AcademicTutorshipReportDAO.getAcademicTutorshipReport(idAcademicPersonnel, idAcademicTutorship).getIdAcademicTutorshipReport();
+            logAcademicProblemsByAcademicTutorshipReport();
+            logStudentsByAcademicTutorshipReport();
+            Utilities.showAlert("La información se registró correctamente en el sistema.\n",
+                    Alert.AlertType.INFORMATION);
+            goToMainMenu();
+        } else {
+            if (responseCode == Constants.NO_DATABASE_CONNECTION_CODE) {
+                Utilities.showAlert("No hay conexión con la base de datos.\n\n"
+                        + "Por favor, inténtelo más tarde.\n",
+                        Alert.AlertType.ERROR);
+            }
+        }
+    }
+
+    private void logAcademicProblemsByAcademicTutorshipReport() {
+        academicProblems.forEach(academicProblem -> {
+            AcademicProblemDAO.logAcademicProblemByAcademicTutorshipReport(academicProblem, idAcademicTutorshipReport);
+        });
+    }
+
+    private void logStudentsByAcademicTutorshipReport() {
+        students.forEach(student -> {
+            StudentDAO.logStudentByAcademicTutorshipReport(student, idAcademicTutorshipReport);
+        });
     }
 
     private void goToMainMenu() {
