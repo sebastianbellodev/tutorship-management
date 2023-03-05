@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="academictutorshipmanagement.views.QueryAcademicTutorshipGeneralReportFXMLController">
+   <children>
+      <Label layoutX="50.0" layoutY="97.0" prefHeight="20.0" prefWidth="118.0" text="Periodo escolar:" wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="schoolPeriodComboBox" layoutX="206.0" layoutY="94.0" prefHeight="26.0" prefWidth="258.0" />
+      <Label layoutX="638.0" layoutY="97.0" prefHeight="20.0" prefWidth="118.0" text="Número de sesión:" wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="sessionNumberComboBox" layoutX="788.0" layoutY="94.0" prefHeight="26.0" prefWidth="111.0" />
+      <TextField fx:id="educativeProgramTextField" layoutX="257.0" layoutY="149.0" prefHeight="26.0" prefWidth="258.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <Label layoutX="50.0" layoutY="152.0" prefHeight="20.0" prefWidth="149.0" text="Programa educativo:" wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="50.0" layoutY="205.0" prefHeight="20.0" prefWidth="283.0" text="Fecha de sesión de tutoría academica:" wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="academicTutorshipSessionDateTextField" layoutX="324.0" layoutY="202.0" prefHeight="26.0" prefWidth="191.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <Label layoutX="542.0" layoutY="152.0" prefHeight="20.0" prefWidth="231.0" text="Número de estudiantes asistentes:" wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="numberOfStudentsAttendingTextField" layoutX="773.0" layoutY="149.0" prefHeight="26.0" prefWidth="126.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="numberOfStudentsAtRiskTextField" layoutX="773.0" layoutY="202.0" prefHeight="26.0" prefWidth="126.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <Label layoutX="542.0" layoutY="205.0" prefHeight="20.0" prefWidth="231.0" text="Número de estudiantes en riesgo:" wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="50.0" layoutY="248.0" prefHeight="40.0" prefWidth="489.0" text="Concentrado de problemáticas académicas reportadas por estudiantes:" wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <TableView fx:id="academicProblemTableView" layoutX="50.0" layoutY="295.0" prefHeight="150.0" prefWidth="851.0">
+        <columns>
+          <TableColumn fx:id="educativeExperienceTableColumn" prefWidth="247.0" text="Experiencia educativa" />
+          <TableColumn fx:id="academicPersonnelTableColumn" prefWidth="302.0" text="Personal académico" />
+            <TableColumn fx:id="titleTableColumn" prefWidth="179.0" text="Título" />
+            <TableColumn fx:id="numberOfStudentsTableColumn" prefWidth="122.0" text="Estudiantes" />
+        </columns>
+      </TableView>
+      <TableView fx:id="generalCommentTableView" layoutX="50.0" layoutY="509.0" prefHeight="150.0" prefWidth="851.0">
+         <columns>
+            <TableColumn fx:id="academicTutorTableColumn" prefWidth="293.0" text="Personal académico" />
+            <TableColumn fx:id="generalCommentTableColumn" prefWidth="557.0" text="Comentario general" />
+         </columns>
+      </TableView>
+      <Label layoutX="50.0" layoutY="462.0" prefHeight="40.0" prefWidth="489.0" text="Comentarios generales por tutor académico:" wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Button layoutX="50.0" layoutY="692.0" mnemonicParsing="false" onAction="#downloadButtonClick" prefHeight="20.0" prefWidth="150.0" text="Descargar">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="220.0" layoutY="692.0" mnemonicParsing="false" onAction="#printButtonClick" prefHeight="20.0" prefWidth="150.0" text="Imprimir">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="749.0" layoutY="692.0" mnemonicParsing="false" onAction="#cancelButtonClick" prefHeight="20.0" prefWidth="150.0" text="Cancelar">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
