@@ -18,7 +18,7 @@ public class SchoolPeriodDAO {
     public static SchoolPeriod getCurrentSchoolPeriod() {
         SchoolPeriod schoolPeriod = new SchoolPeriod();
         DatabaseConnection databaseConnection = new DatabaseConnection();
-        String query = "SELECT schoolPeriod.*\n"
+        String query = "SELECT *\n"
                 + "FROM schoolPeriod\n"
                 + "WHERE NOW() BETWEEN startDate AND endDate";
         try (Connection connection = databaseConnection.open()) {

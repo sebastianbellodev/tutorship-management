@@ -5,8 +5,12 @@
  */
 package academictutorshipmanagement.views;
 
+import academictutorshipmanagement.model.dao.AcademicTutorshipDAO;
+import academictutorshipmanagement.model.dao.AcademicTutorshipReportDAO;
 import academictutorshipmanagement.model.dao.AcademicTutorshipSessionDAO;
 import academictutorshipmanagement.model.pojo.AcademicPersonnel;
+import academictutorshipmanagement.model.pojo.AcademicTutorship;
+import academictutorshipmanagement.model.pojo.AcademicTutorshipReport;
 import academictutorshipmanagement.model.pojo.AcademicTutorshipSession;
 import academictutorshipmanagement.model.pojo.SchoolPeriod;
 import academictutorshipmanagement.model.pojo.User;
@@ -35,6 +39,7 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
     private SchoolPeriod schoolPeriod;
     private AcademicPersonnel academicPersonnel;
     private AcademicTutorshipSession academicTutorshipSession;
+    private AcademicTutorship academicTutorship;
 
     private int idRol;
 
@@ -56,10 +61,12 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
             switch (responseCode) {
                 case Constants.CORRECT_OPERATION_CODE:
                     if (validateClosingDateReportSubmission()) {
-                        ArrayList<AcademicTutorshipSession> academicTutorshipSessions = new ArrayList<>();
-                        academicTutorshipSessions.add(academicTutorshipSession);
-                        schoolPeriod.setAcademicTutorshipSessions(academicTutorshipSessions);
-                        goToLogAcademicTutorshipReport();
+                        ArrayList<AcademicTutorship> academicTutorships = new ArrayList<>();
+                        academicTutorship = loadAcademicTutorship();
+                        academicTutorship.setAcademicTutorshipSession(academicTutorshipSession);
+                        academicTutorships.add(academicTutorship);
+                        schoolPeriod.setAcademicTutorships(academicTutorships);
+                        validateAcademicTutorshipReportExistence();
                     } else {
                         Utilities.showAlert("La fecha de entrega para el Reporte de Tutorías Académicas ha finalizado.\n\n"
                                 + "Por favor, inténtelo más tarde.\n",
@@ -90,6 +97,24 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
         return currentDate.compareTo(closingDateReportSubmission) <= Constants.MINIUM_NUMBER_OF_DAYS_FOR_ACADEMIC_TUTORSHIP_REPORT_SUBMISSION;
     }
 
+    private AcademicTutorship loadAcademicTutorship() {
+        int idEducationalProgram = academicPersonnel.getUser().getEducationalProgram().getIdEducationalProgram();
+        int idAcademicTutorshipSession = academicTutorshipSession.getIdAcademicTutorshipSession();
+        return AcademicTutorshipDAO.getAcademicTutorship(idEducationalProgram, idAcademicTutorshipSession);
+    }
+
+    private void validateAcademicTutorshipReportExistence() {
+        int idAcademicPersonnel = academicPersonnel.getIdAcademicPersonnel();
+        int idAcademicTutorship = academicTutorship.getIdAcademicTutorship();
+        AcademicTutorshipReport academicTutorshipReport = AcademicTutorshipReportDAO.getAcademicTutorshipReport(idAcademicPersonnel, idAcademicTutorship);
+        int responseCode = academicTutorshipReport.getResponseCode();
+        if (responseCode == Constants.CORRECT_OPERATION_CODE) {
+            goToModifyAcademicTutorshipReport(academicTutorshipReport);
+        } else {
+            goToLogAcademicTutorshipReport();
+        }
+    }
+
     private void goToLogAcademicTutorshipReport() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("LogAcademicTutorshipReportFXML.fxml"));
         try {
@@ -103,6 +128,22 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
             stage.show();
         } catch (IOException exception) {
             System.err.println("The 'LogAcademicTutorshipReport.fxml' file could not be open. Please try again later.");
+        }
+    }
+
+    private void goToModifyAcademicTutorshipReport(AcademicTutorshipReport academicTutorshipReport) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ModifyAcademicTutorshipReportFXML.fxml"));
+        try {
+            Parent root = loader.load();
+            ModifyAcademicTutorshipReportFXMLController modifyAcademicTutorshipReportFXMLController = loader.getController();
+            modifyAcademicTutorshipReportFXMLController.configureView(schoolPeriod, academicPersonnel, academicTutorshipReport);
+            Scene modifyAcademicTutorshipReportView = new Scene(root);
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.setScene(modifyAcademicTutorshipReportView);
+            stage.setTitle("Editar Reporte de Tutorías Académicas.");
+            stage.show();
+        } catch (IOException exception) {
+            System.err.println("The 'ModifyAcademicTutorshipReport.fxml' file could not be open. Please try again later.");
         }
     }
 

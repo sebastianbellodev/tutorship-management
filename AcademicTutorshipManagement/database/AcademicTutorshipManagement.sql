@@ -197,7 +197,7 @@ CREATE TABLE `academictutorshipreport` (
 
 LOCK TABLES `academictutorshipreport` WRITE;
 /*!40000 ALTER TABLE `academictutorshipreport` DISABLE KEYS */;
-INSERT INTO `academictutorshipreport` VALUES (1,'Es conveniente que se implementen asesorías académicas para la Experiencia Educativa de Estructuras de Datos.',11,4,28,4);
+INSERT INTO `academictutorshipreport` VALUES (1,'Es conveniente que se implementen asesorías académicas para la Experiencia Educativa de Estructuras de Datos.',10,4,28,4);
 /*!40000 ALTER TABLE `academictutorshipreport` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -228,7 +228,7 @@ CREATE TABLE `academictutorshipreportstudent` (
 
 LOCK TABLES `academictutorshipreportstudent` WRITE;
 /*!40000 ALTER TABLE `academictutorshipreportstudent` DISABLE KEYS */;
-INSERT INTO `academictutorshipreportstudent` VALUES (1,_binary '',_binary '\0',1,'S20015700'),(2,_binary '',_binary '\0',1,'S21013898'),(3,_binary '',_binary '\0',1,'S19014017'),(4,_binary '\0',_binary '',1,'S20015717'),(5,_binary '\0',_binary '',1,'S21013877'),(6,_binary '\0',_binary '\0',1,'S20015718'),(7,_binary '',_binary '\0',1,'S20015742'),(8,_binary '',_binary '\0',1,'S19014045'),(9,_binary '',_binary '',1,'S20015757'),(10,_binary '',_binary '\0',1,'S20015699'),(11,_binary '',_binary '\0',1,'S21013906'),(12,_binary '\0',_binary '\0',1,'S21021432'),(13,_binary '',_binary '\0',1,'S20015744'),(14,_binary '\0',_binary '\0',1,'S21013852'),(15,_binary '\0',_binary '',1,'S21013872'),(16,_binary '',_binary '\0',1,'S21013884'),(17,_binary '',_binary '\0',1,'S19014012');
+INSERT INTO `academictutorshipreportstudent` VALUES (1,_binary '',_binary '\0',1,'S20015700'),(2,_binary '\0',_binary '\0',1,'S21013898'),(3,_binary '',_binary '\0',1,'S19014017'),(4,_binary '\0',_binary '',1,'S20015717'),(5,_binary '',_binary '',1,'S21013877'),(6,_binary '\0',_binary '',1,'S20015718'),(7,_binary '',_binary '\0',1,'S20015742'),(8,_binary '\0',_binary '\0',1,'S19014045'),(9,_binary '',_binary '',1,'S20015757'),(10,_binary '',_binary '\0',1,'S20015699'),(11,_binary '',_binary '\0',1,'S21013906'),(12,_binary '\0',_binary '\0',1,'S21021432'),(13,_binary '',_binary '\0',1,'S20015744'),(14,_binary '\0',_binary '\0',1,'S21013852'),(15,_binary '\0',_binary '\0',1,'S21013872'),(16,_binary '',_binary '\0',1,'S21013884'),(17,_binary '',_binary '\0',1,'S19014012');
 /*!40000 ALTER TABLE `academictutorshipreportstudent` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -510,4 +510,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-05 14:58:40
+-- Dump completed on 2023-03-05 18:18:43
