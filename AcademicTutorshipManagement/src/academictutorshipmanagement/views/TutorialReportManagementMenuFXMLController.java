@@ -88,11 +88,7 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
         Date closingDateReportSubmission = academicTutorshipSession.getClosingDateReportSubmission();
         boolean isValid = currentDate.compareTo(closingDateReportSubmission) <= Constants.MINIUM_NUMBER_OF_DAYS_FOR_ACADEMIC_TUTORSHIP_REPORT_SUBMISSION;
         if (isValid) {
-            academicTutorship = loadAcademicTutorship();
-            academicTutorship.setAcademicTutorshipSession(academicTutorshipSession);
-            academicTutorships.add(academicTutorship);
-            schoolPeriod.setAcademicTutorships(academicTutorships);
-            validateAcademicTutorshipReportExistence();
+            loadAcademicTutorship();
         } else {
             Utilities.showAlert("La fecha de entrega para el Reporte de Tutorías Académicas ha finalizado.\n\n"
                     + "Por favor, inténtelo más tarde.\n",
@@ -100,10 +96,14 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
         }
     }
 
-    private AcademicTutorship loadAcademicTutorship() {
+    private void loadAcademicTutorship() {
         int idEducationalProgram = academicPersonnel.getUser().getEducationalProgram().getIdEducationalProgram();
         int idAcademicTutorshipSession = academicTutorshipSession.getIdAcademicTutorshipSession();
-        return AcademicTutorshipDAO.getAcademicTutorship(idEducationalProgram, idAcademicTutorshipSession);
+        academicTutorship = AcademicTutorshipDAO.getAcademicTutorship(idEducationalProgram, idAcademicTutorshipSession);
+        academicTutorship.setAcademicTutorshipSession(academicTutorshipSession);
+        academicTutorships.add(academicTutorship);
+        schoolPeriod.setAcademicTutorships(academicTutorships);
+        validateAcademicTutorshipReportExistence();
     }
 
     private void validateAcademicTutorshipReportExistence() {
