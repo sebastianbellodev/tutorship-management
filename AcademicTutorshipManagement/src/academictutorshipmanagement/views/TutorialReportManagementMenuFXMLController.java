@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 02, 2023.
- * Date of update: March 04, 2023.
+ * Date of update: March 06, 2023.
  */
 package academictutorshipmanagement.views;
 
@@ -36,6 +36,8 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
     @FXML
     private Button backButton;
 
+    private ArrayList<AcademicTutorship> academicTutorships;
+
     private SchoolPeriod schoolPeriod;
     private AcademicPersonnel academicPersonnel;
     private AcademicTutorshipSession academicTutorshipSession;
@@ -45,6 +47,7 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        academicTutorships = new ArrayList<>();
     }
 
     public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
@@ -60,18 +63,7 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
             int responseCode = academicTutorshipSession.getResponseCode();
             switch (responseCode) {
                 case Constants.CORRECT_OPERATION_CODE:
-                    if (validateClosingDateReportSubmission()) {
-                        ArrayList<AcademicTutorship> academicTutorships = new ArrayList<>();
-                        academicTutorship = loadAcademicTutorship();
-                        academicTutorship.setAcademicTutorshipSession(academicTutorshipSession);
-                        academicTutorships.add(academicTutorship);
-                        schoolPeriod.setAcademicTutorships(academicTutorships);
-                        validateAcademicTutorshipReportExistence();
-                    } else {
-                        Utilities.showAlert("La fecha de entrega para el Reporte de Tutorías Académicas ha finalizado.\n\n"
-                                + "Por favor, inténtelo más tarde.\n",
-                                Alert.AlertType.INFORMATION);
-                    }
+                    validateClosingDateReportSubmission();
                     break;
                 case Constants.INVALID_CURRENT_DATE_CODE:
                     Utilities.showAlert("La sesión de tutoría académica ha finalizado.\n\n"
@@ -91,10 +83,21 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
         }
     }
 
-    private boolean validateClosingDateReportSubmission() {
+    private void validateClosingDateReportSubmission() {
         Date currentDate = new Date();
         Date closingDateReportSubmission = academicTutorshipSession.getClosingDateReportSubmission();
-        return currentDate.compareTo(closingDateReportSubmission) <= Constants.MINIUM_NUMBER_OF_DAYS_FOR_ACADEMIC_TUTORSHIP_REPORT_SUBMISSION;
+        boolean isValid = currentDate.compareTo(closingDateReportSubmission) <= Constants.MINIUM_NUMBER_OF_DAYS_FOR_ACADEMIC_TUTORSHIP_REPORT_SUBMISSION;
+        if (isValid) {
+            academicTutorship = loadAcademicTutorship();
+            academicTutorship.setAcademicTutorshipSession(academicTutorshipSession);
+            academicTutorships.add(academicTutorship);
+            schoolPeriod.setAcademicTutorships(academicTutorships);
+            validateAcademicTutorshipReportExistence();
+        } else {
+            Utilities.showAlert("La fecha de entrega para el Reporte de Tutorías Académicas ha finalizado.\n\n"
+                    + "Por favor, inténtelo más tarde.\n",
+                    Alert.AlertType.INFORMATION);
+        }
     }
 
     private AcademicTutorship loadAcademicTutorship() {

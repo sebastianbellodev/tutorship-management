@@ -67,7 +67,7 @@ public class SchoolPeriod {
 
     @Override
     public String toString() {
-        return Utilities.changeDateFormat(getStartDate()) + " - " + Utilities.changeDateFormat(getStartDate());
+        return Utilities.changeDateFormat(getStartDate()) + " - " + Utilities.changeDateFormat(getEndDate());
     }
     
 }
