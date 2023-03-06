@@ -1,6 +1,6 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
- * Date of creation: March 02, 2023.
+ * Date of creation: March 05, 2023.
  * Date of update: March 05, 2023.
  */
 package academictutorshipmanagement.views;
@@ -40,18 +40,18 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class LogAcademicTutorshipReportFXMLController implements Initializable, IAcademicProblem {
+public class ModifyAcademicTutorshipReportFXMLController implements Initializable, IAcademicProblem {
 
     @FXML
     private TextField numberOfStudentsAttendingTextField;
     @FXML
     private TextField numberOfStudentsAtRiskTextField;
     @FXML
+    private TextField educationalProgramTextField;
+    @FXML
     private TextField schoolPeriodTextField;
     @FXML
     private TextField academicTutorshipSessionTextField;
-    @FXML
-    private TextField educationalProgramTextField;
     @FXML
     private TextField sessionNumberTextField;
     @FXML
@@ -81,7 +81,6 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
     private EducationalProgram educationalProgram;
     private AcademicTutorshipReport academicTutorshipReport;
 
-    private int idAcademicPersonnel;
     private int idAcademicTutorshipReport;
 
     @Override
@@ -100,29 +99,40 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
         atRiskTableColumn.setCellValueFactory(new PropertyValueFactory("atRiskCheckBox"));
     }
 
-    public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
+    public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel, AcademicTutorshipReport academicTutorshipReport) {
         this.schoolPeriod = schoolPeriod;
         academicTutorship = schoolPeriod.getAcademicTutorships().get(Constants.FIRST_ACADEMIC_TUTORSHIP_SESSION_INDEX);
         this.academicPersonnel = academicPersonnel;
         educationalProgram = academicPersonnel.getUser().getEducationalProgram();
+        this.academicTutorshipReport = academicTutorshipReport;
         configureAcademicTutorshipReportInformation();
-        loadStudentsByAcademicPersonnel();
+        loadStudentsByAcademicTutorshipReport();
     }
 
     private void configureAcademicTutorshipReportInformation() {
+        numberOfStudentsAttendingTextField.setText(String.valueOf(academicTutorshipReport.getNumberOfStudentsAttending()));
+        numberOfStudentsAtRiskTextField.setText(String.valueOf(academicTutorshipReport.getNumberOfStudentsAtRisk()));
         educationalProgramTextField.setText(educationalProgram.toString());
         schoolPeriodTextField.setText(schoolPeriod.toString());
         AcademicTutorshipSession academicTutorshipSession = academicTutorship.getAcademicTutorshipSession();
         academicTutorshipSessionTextField.setText(academicTutorshipSession.toString());
         sessionNumberTextField.setText(String.valueOf(academicTutorshipSession.getSessionNumber()));
+        generalCommentTextArea.setText(academicTutorshipReport.getGeneralComment());
     }
 
-    private void loadStudentsByAcademicPersonnel() {
-        int idEducationalProgram = educationalProgram.getIdEducationalProgram();
-        idAcademicPersonnel = academicPersonnel.getIdAcademicPersonnel();
-        ArrayList<Student> studentsResultSet = StudentDAO.getStudentsByAcademicPersonnel(idEducationalProgram, idAcademicPersonnel);
+    private void loadStudentsByAcademicTutorshipReport() {
+        idAcademicTutorshipReport = academicTutorshipReport.getIdAcademicTutorshipReport();
+        ArrayList<Student> studentsResultSet = StudentDAO.getStudentsByAcademicTutorshipReport(idAcademicTutorshipReport);
         students.addAll(studentsResultSet);
+        configureTableViewCheckBoxes();
         studentsTableView.setItems(students);
+    }
+
+    private void configureTableViewCheckBoxes() {
+        students.forEach(student -> {
+            student.getAttendedByCheckBox().setSelected(student.isAttendedBy());
+            student.getAtRiskCheckBox().setSelected(student.isAtRisk());
+        });
     }
 
     @FXML
@@ -132,10 +142,10 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
         int numberOfStudentsAtRisk = calculateNumberOfStudentsAtRisk();
         numberOfStudentsAttendingTextField.setText(String.valueOf(numberOfStudentsAttending));
         numberOfStudentsAtRiskTextField.setText(String.valueOf(numberOfStudentsAtRisk));
-        academicTutorshipReport = new AcademicTutorshipReport(generalComment, numberOfStudentsAttending, numberOfStudentsAtRisk);
-        academicTutorshipReport.setAcademicPersonnel(academicPersonnel);
-        academicTutorshipReport.setAcademicTutorship(academicTutorship);
-        logAcademicTutorshipReport();
+        academicTutorshipReport.setGeneralComment(generalComment);
+        academicTutorshipReport.setNumberOfStudentsAttending(numberOfStudentsAttending);
+        academicTutorshipReport.setNumberOfStudentsAtRisk(numberOfStudentsAtRisk);
+        updateAcademicTutorshipReport();
     }
 
     private int calculateNumberOfStudentsAttending() {
@@ -162,13 +172,11 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
         return numberOfStudentsAtRisk;
     }
 
-    private void logAcademicTutorshipReport() {
-        int responseCode = AcademicTutorshipReportDAO.logAcademicTutorshipReport(academicTutorshipReport);
+    private void updateAcademicTutorshipReport() {
+        int responseCode = AcademicTutorshipReportDAO.updateAcademicTutorshipReport(academicTutorshipReport);
         if (responseCode == Constants.CORRECT_OPERATION_CODE) {
-            int idAcademicTutorship = academicTutorship.getIdAcademicTutorship();
-            idAcademicTutorshipReport = AcademicTutorshipReportDAO.getAcademicTutorshipReport(idAcademicPersonnel, idAcademicTutorship).getIdAcademicTutorshipReport();
             logAcademicProblemsByAcademicTutorshipReport();
-            logStudentsByAcademicTutorshipReport();
+            updateStudentsByAcademicTutorshipReport();
             Utilities.showAlert("La información se registró correctamente en el sistema.\n",
                     Alert.AlertType.INFORMATION);
             goToTutorialReportManagementMenu();
@@ -187,9 +195,9 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
         });
     }
 
-    private void logStudentsByAcademicTutorshipReport() {
+    private void updateStudentsByAcademicTutorshipReport() {
         students.forEach(student -> {
-            StudentDAO.logStudentByAcademicTutorshipReport(student, idAcademicTutorshipReport);
+            StudentDAO.updateStudentByAcademicTutorshipReport(student);
         });
     }
 

@@ -19,7 +19,7 @@ public class AcademicPersonnelDAO {
     public static AcademicPersonnel getAcademicPersonnelByUser(String username) {
         AcademicPersonnel academicPersonnel = new AcademicPersonnel();
         DatabaseConnection databaseConnection = new DatabaseConnection();
-        String query = "SELECT academicPersonnel.*\n"
+        String query = "SELECT *\n"
                 + "FROM academicPersonnel\n"
                 + "WHERE username = ?";
         try (Connection connection = databaseConnection.open()) {

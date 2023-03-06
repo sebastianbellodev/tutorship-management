@@ -14,7 +14,7 @@ public class SchoolPeriod {
     private int idSchoolPeriod;
     private Date startDate;
     private Date endDate;
-    private ArrayList<AcademicTutorshipSession> academicTutorshipSessions;
+    private ArrayList<AcademicTutorship> academicTutorships;
     private int responseCode;
 
     public SchoolPeriod() {
@@ -49,12 +49,12 @@ public class SchoolPeriod {
         this.endDate = endDate;
     }
 
-    public ArrayList<AcademicTutorshipSession> getAcademicTutorshipSessions() {
-        return academicTutorshipSessions;
+    public ArrayList<AcademicTutorship> getAcademicTutorships() {
+        return academicTutorships;
     }
 
-    public void setAcademicTutorshipSessions(ArrayList<AcademicTutorshipSession> academicTutorshipSessions) {
-        this.academicTutorshipSessions = academicTutorshipSessions;
+    public void setAcademicTutorships(ArrayList<AcademicTutorship> academicTutorships) {
+        this.academicTutorships = academicTutorships;
     }
 
     public int getResponseCode() {

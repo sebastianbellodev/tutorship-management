@@ -69,4 +69,30 @@ public class AcademicTutorshipReportDAO {
         return responseCode;
     }
 
+    public static int updateAcademicTutorshipReport(AcademicTutorshipReport academicTutorshipReport) {
+        int responseCode;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String sentence = "UPDATE academicTutorshipReport\n"
+                + "SET generalComment = ?, numberOfStudentsAttending = ?, numberOfStudentsAtRisk = ?\n"
+                + "WHERE idAcademicTutorshipReport = ?";
+        try (Connection connection = databaseConnection.open()) {
+            String generalComment = (academicTutorshipReport.getGeneralComment().isEmpty()) ? null : academicTutorshipReport.getGeneralComment();
+            int numberOfStudentsAttending = academicTutorshipReport.getNumberOfStudentsAttending();
+            int numberOfStudentsAtRisk = academicTutorshipReport.getNumberOfStudentsAtRisk();
+            int idAcademicTutorshipReport = academicTutorshipReport.getIdAcademicTutorshipReport();
+            PreparedStatement preparedStatement = connection.prepareStatement(sentence);
+            preparedStatement.setString(1, generalComment);
+            preparedStatement.setInt(2, numberOfStudentsAttending);
+            preparedStatement.setInt(3, numberOfStudentsAtRisk);
+            preparedStatement.setInt(4, idAcademicTutorshipReport);
+            int numberOfRowsAffected = preparedStatement.executeUpdate();
+            responseCode = (numberOfRowsAffected == Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
+        } catch (SQLException exception) {
+            responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
+        } finally {
+            databaseConnection.close();
+        }
+        return responseCode;
+    }
+
 }

@@ -18,7 +18,7 @@ public class AcademicTutorshipSessionDAO {
     public static AcademicTutorshipSession getCurrentAcademicTutorshipSession() {
         AcademicTutorshipSession academicTutorshipSession = new AcademicTutorshipSession();
         DatabaseConnection databaseConnection = new DatabaseConnection();
-        String query = "SELECT academicTutorshipSession.*\n"
+        String query = "SELECT *\n"
                 + "FROM academicTutorshipSession\n"
                 + "WHERE NOW() BETWEEN startDate AND endDate";
         try (Connection connection = databaseConnection.open()) {
