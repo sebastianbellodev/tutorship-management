@@ -24,7 +24,15 @@ public class Utilities {
         byte[] bytes = messageDigest.digest(password.getBytes(StandardCharsets.UTF_8));
         return Base64.getEncoder().encodeToString(bytes);
     }
-
+    
+    public static boolean compareRegistrationNumberLength(Integer registrationNumber) {
+        return registrationNumber.equals(Constants.REGISTRATION_NUMBER);
+    }
+    
+    public static boolean compareStudentEmailAddressLength(Integer emailAddress) {
+        return emailAddress.equals(Constants.STUDENT_EMAIL_ADDRESS);
+    }
+    
     public static void showAlert(String message, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setTitle(null);

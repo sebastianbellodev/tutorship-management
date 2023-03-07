@@ -24,7 +24,7 @@
             <Font name="Arial" size="14.0" />
          </font>
       </TextField>
-      <TextField fx:id="firstSurnameTextField" layoutX="166.0" layoutY="256.0" prefHeight="26.0" prefWidth="258.0">
+      <TextField fx:id="paternalSurnameTextField" layoutX="166.0" layoutY="256.0" prefHeight="26.0" prefWidth="258.0">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
@@ -39,7 +39,7 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="secondSurnameTextField" layoutX="164.0" layoutY="302.0" prefHeight="26.0" prefWidth="258.0">
+      <TextField fx:id="maternalSurnameTextField" layoutX="164.0" layoutY="302.0" prefHeight="26.0" prefWidth="258.0">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
@@ -59,7 +59,7 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="educativeProgramTextField" layoutX="665.0" layoutY="253.0" prefHeight="26.0" prefWidth="258.0">
+      <TextField fx:id="educationalProgramTextField" layoutX="665.0" layoutY="253.0" prefHeight="26.0" prefWidth="258.0">
          <font>
             <Font name="Arial" size="14.0" />
          </font>

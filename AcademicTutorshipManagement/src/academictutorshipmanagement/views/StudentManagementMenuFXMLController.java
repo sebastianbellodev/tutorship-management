@@ -55,4 +55,21 @@ public class StudentManagementMenuFXMLController implements Initializable {
         }
     }
 
+    @FXML
+    private void logStudenttButtonClick(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("LogStudentFXML.fxml"));
+        try {
+            Parent root = loader.load();
+            LogStudentFXMLController logStudentFXMLController = loader.getController();
+            logStudentFXMLController.configureView(schoolPeriod, academicPersonnel);
+            Scene mainMenuView = new Scene(root);
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.setScene(mainMenuView);
+            stage.setTitle("Registrar estudiante.");
+            stage.show();
+        } catch (IOException exception) {
+            System.err.println("The 'MainMenuFXML.fxml' file could not be open. Please try again later.");
+        }
+    }
+
 }

@@ -124,5 +124,35 @@ public class StudentDAO {
         }
         return responseCode;
     }
+        
+        public static int logStudent(Student student) {
+            int responseCode;
+            DatabaseConnection databaseConnection = new DatabaseConnection();
+            String sentence = "INSERT INTO student\n"
+                + "(registrationNumber, name, paternalSurname, maternalSurname, emailAddress, idEducationalProgram)\n"
+                + "VALUES(?, ?, ?, ?, ?, ?)";
+            try(Connection connection = databaseConnection.open()) {
+                String registrationNumber = student.getRegistrationNumber();
+                String name = student.getName();
+                String paternalSurname = student.getPaternalSurname();
+                String maternalSurname = student.getMaternalSurname();
+                String emailAddress = student.getEmailAddress();
+                int idEducationalProgram = student.getEducationalProgram().getIdEducationalProgram();
+                PreparedStatement preparedStatement = connection.prepareStatement(sentence);
+                preparedStatement.setString(1, registrationNumber);
+                preparedStatement.setString(2, name);
+                preparedStatement.setString(3, paternalSurname);
+                preparedStatement.setString(4, maternalSurname);
+                preparedStatement.setString(5, emailAddress);
+                preparedStatement.setInt(6, idEducationalProgram);
+                int numberOfRowsAffected = preparedStatement.executeUpdate();
+                responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
+            } catch(SQLException exception) {
+                responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
+            } finally {
+                databaseConnection.close();
+            }
+            return responseCode;
+        }
 
 }
