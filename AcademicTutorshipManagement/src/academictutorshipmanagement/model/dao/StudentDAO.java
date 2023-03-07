@@ -155,4 +155,22 @@ public class StudentDAO {
             return responseCode;
         }
 
+        public static int checkStudent(String registrationNumber) {
+            int responseCode;
+            DatabaseConnection databaseConnection = new DatabaseConnection();
+            String sentence = "SELECT * FROM student\n"
+                + "WHERE registrationNumber = ?";
+            try(Connection connection = databaseConnection.open()) {
+                PreparedStatement preparedStatement = connection.prepareStatement(sentence);
+                preparedStatement.setString(1, registrationNumber);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                responseCode = (resultSet.next()) ? Constants.MINIUM_NUMBER_OF_ROWS_RETURNED_PER_DATABASE_SELECT : Constants.NO_DATABASE_CONNECTION_CODE;
+            } catch(SQLException exception) {
+                responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
+            } finally {
+                databaseConnection.close();
+            }
+            return responseCode;
+        }
+        
 }

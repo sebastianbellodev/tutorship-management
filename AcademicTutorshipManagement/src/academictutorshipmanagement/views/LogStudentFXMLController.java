@@ -7,6 +7,7 @@ package academictutorshipmanagement.views;
 
 import academictutorshipmanagement.model.dao.StudentDAO;
 import academictutorshipmanagement.model.pojo.AcademicPersonnel;
+import academictutorshipmanagement.model.pojo.EducationalProgram;
 import academictutorshipmanagement.model.pojo.SchoolPeriod;
 import academictutorshipmanagement.model.pojo.Student;
 import academictutorshipmanagement.model.pojo.User;
@@ -98,6 +99,11 @@ public class LogStudentFXMLController implements Initializable {
                 && Utilities.compareRegistrationNumberLength(registrationNumber);
     }
     
+    private boolean checkStudent() {
+        Integer responseCode = StudentDAO.checkStudent(registrationNumberTextField.getText());
+        return responseCode.equals(Constants.MINIUM_NUMBER_OF_ROWS_RETURNED_PER_DATABASE_SELECT);
+    }
+    
     private void clearTextField() {
         nameTextField.clear();
         registrationNumberTextField.clear();
@@ -116,13 +122,20 @@ public class LogStudentFXMLController implements Initializable {
             Utilities.showAlert("Los datos ingresados son inválidos.\n\n"
                         + "Por favor, compruebe la información ingresada e inténtelo nuevamente.\n",
                         Alert.AlertType.WARNING);
+        } else if (checkStudent()) {
+            Utilities.showAlert("La información ingresada corresponde a un estudiante que ya se encuentra registrado en el sistema.\n\n"
+                        + "Por favor, compruebe la información ingresada e inténtelo nuevamente.\n",
+                        Alert.AlertType.WARNING);
         } else {
+            String registrationNumber = registrationNumberTextField.getText();
             String name = nameTextField.getText();
             String paternalSurname = paternalSurnameTextField.getText();
             String maternalSurname = maternalSurnameTextField.getText();
             String emailAddress = emailAddressTextField.getText();
-            Student student = new Student(name,paternalSurname, maternalSurname, emailAddress);
-            student.setEducationalProgram(academicPersonnel.getUser().getEducationalProgram());
+            EducationalProgram educationalProgram = academicPersonnel.getUser().getEducationalProgram();
+            Student student = new Student(name, paternalSurname, maternalSurname, emailAddress);
+            student.setRegistrationNumber(registrationNumber);
+            student.setEducationalProgram(educationalProgram);
             logStudent(student);
         }
     }
