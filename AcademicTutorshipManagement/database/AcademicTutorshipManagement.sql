@@ -429,7 +429,7 @@ CREATE TABLE `student` (
   `maternalSurname` varchar(150) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `emailAddress` varchar(150) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `idEducationalProgram` int NOT NULL,
-  `idAcademicPersonnel` int NOT NULL,
+  `idAcademicPersonnel` int,
   PRIMARY KEY (`registrationNumber`),
   KEY `FK_Student_EducationalProgram_idx` (`idEducationalProgram`),
   KEY `FK_Student_AcademicPersonnel_idx` (`idAcademicPersonnel`),
