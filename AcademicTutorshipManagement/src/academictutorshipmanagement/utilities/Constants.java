@@ -21,5 +21,8 @@ public class Constants {
     public static final int MINIUM_NUMBER_OF_DAYS_FOR_ACADEMIC_TUTORSHIP_REPORT_SUBMISSION = 0;
     public static final int MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE = 1;
     public static final int MINIUM_NUMBER_OF_STUDENTS_PER_ACADEMIC_PROBLEM = 1;
+    
+    public static final int REGISTRATION_NUMBER = 9;
+    public static final int STUDENT_EMAIL_ADDRESS = 28;
 
 }
