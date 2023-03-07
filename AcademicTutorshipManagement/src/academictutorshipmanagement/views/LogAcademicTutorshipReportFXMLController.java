@@ -171,7 +171,6 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
             logStudentsByAcademicTutorshipReport();
             Utilities.showAlert("La información se registró correctamente en el sistema.\n",
                     Alert.AlertType.INFORMATION);
-            goToTutorialReportManagementMenu();
         } else {
             if (responseCode == Constants.NO_DATABASE_CONNECTION_CODE) {
                 Utilities.showAlert("No hay conexión con la base de datos.\n\n"
@@ -179,6 +178,7 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
                         Alert.AlertType.ERROR);
             }
         }
+        goToTutorialReportManagementMenu();
     }
 
     private void logAcademicProblemsByAcademicTutorshipReport() {

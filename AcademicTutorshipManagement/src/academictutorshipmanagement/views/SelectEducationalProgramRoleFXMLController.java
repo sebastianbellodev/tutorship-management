@@ -58,6 +58,7 @@ public class SelectEducationalProgramRoleFXMLController implements Initializable
             Utilities.showAlert("No hay conexión con la base de datos.\n\n"
                     + "Por favor, inténtelo más tarde.\n",
                     Alert.AlertType.ERROR);
+            closePopUpWindow();
         }
     }
 
