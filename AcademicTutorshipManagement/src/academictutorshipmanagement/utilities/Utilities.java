@@ -24,16 +24,19 @@ public class Utilities {
         byte[] bytes = messageDigest.digest(password.getBytes(StandardCharsets.UTF_8));
         return Base64.getEncoder().encodeToString(bytes);
     }
-    
+
+    public static boolean compareStudentEmailAddressLength(Integer emailAddressLength) {
+        return emailAddressLength == Constants.STUDENT_EMAIL_ADDRESS_LENGTH;
+    }
+
     public static boolean compareGeneralFieldLength(Integer fieldLength) {
-        int result = fieldLength.compareTo(Constants.GENERAL_FIELD);
-        return result <= 0;
+        return fieldLength.compareTo(Constants.GENERAL_FIELD_LENGTH) <= 0;
     }
-    
-    public static boolean compareRegistrationNumberLength(Integer registrationNumber) {
-        return registrationNumber.equals(Constants.REGISTRATION_NUMBER_LENGTH);
+
+    public static boolean compareRegistrationNumberLength(Integer registrationNumberLenght) {
+        return registrationNumberLenght == Constants.REGISTRATION_NUMBER_LENGTH;
     }
-    
+
     public static void showAlert(String message, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setTitle(null);
