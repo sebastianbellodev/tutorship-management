@@ -26,11 +26,16 @@ public class Utilities {
     }
     
     public static boolean compareRegistrationNumberLength(Integer registrationNumber) {
-        return registrationNumber.equals(Constants.REGISTRATION_NUMBER);
+        return registrationNumber.equals(Constants.REGISTRATION_NUMBER_FIELD);
     }
     
     public static boolean compareStudentEmailAddressLength(Integer emailAddress) {
-        return emailAddress.equals(Constants.STUDENT_EMAIL_ADDRESS);
+        return emailAddress.equals(Constants.STUDENT_EMAIL_ADDRESS_FIELD);
+    }
+    
+    public static boolean compareGeneralFieldLength(Integer field) {
+        int result = field.compareTo(Constants.GENERAL_FIELD);
+        return (result <= 0) ? true : false;
     }
     
     public static void showAlert(String message, Alert.AlertType type) {

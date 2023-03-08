@@ -23,7 +23,8 @@ public class Constants {
     public static final int MINIUM_NUMBER_OF_ROWS_RETURNED_PER_DATABASE_SELECT = 1;
     public static final int MINIUM_NUMBER_OF_STUDENTS_PER_ACADEMIC_PROBLEM = 1;
     
-    public static final int REGISTRATION_NUMBER = 9;
-    public static final int STUDENT_EMAIL_ADDRESS = 28;
-
+    public static final int REGISTRATION_NUMBER_FIELD = 9;
+    public static final int STUDENT_EMAIL_ADDRESS_FIELD = 28;
+    public static final int GENERAL_FIELD = 28;
+    
 }
