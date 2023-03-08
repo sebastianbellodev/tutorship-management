@@ -168,4 +168,31 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
         }
     }
 
+    @FXML
+    private void queryAcademicTutorshipReportByAcademicTutorButtonClick(ActionEvent event) {
+        if (idRol == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE || idRol == Constants.CAREER_HEAD_ID_ROLE) {
+            goToQueryAcademicTutorshipReportByAcademicTutor();
+        } else {
+            Utilities.showAlert("No tiene los permisos necesarios para realizar esta acción.\n\n"
+                    + "Por favor, vuelva a iniciar sesión e inténtelo nuevamente.\n",
+                    Alert.AlertType.INFORMATION);
+        }
+    }
+    
+    private void goToQueryAcademicTutorshipReportByAcademicTutor() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("QueryAcademicTutorshipReportByAcademicTutorFXML.fxml"));
+        try {
+            Parent root = loader.load();
+            QueryAcademicTutorshipReportByAcademicTutorFXMLController queryAcademicTutorshipReportByAcademicTutorFXMLController = loader.getController();
+            queryAcademicTutorshipReportByAcademicTutorFXMLController.configureView(schoolPeriod, academicPersonnel);
+            Scene logAcademicTutorshipReportView = new Scene(root);
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.setScene(logAcademicTutorshipReportView);
+            stage.setTitle("Consultar Reporte de Tutorías Académicas por tutor académico.");
+            stage.show();
+        } catch (IOException exception) {
+            System.err.println("The 'LogAcademicTutorshipReport.fxml' file could not be open. Please try again later.");
+        }
+    }
+    
 }
