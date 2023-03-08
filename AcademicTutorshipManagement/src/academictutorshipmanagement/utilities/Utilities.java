@@ -25,17 +25,13 @@ public class Utilities {
         return Base64.getEncoder().encodeToString(bytes);
     }
     
+    public static boolean compareGeneralFieldLength(Integer fieldLength) {
+        int result = fieldLength.compareTo(Constants.GENERAL_FIELD);
+        return result <= 0;
+    }
+    
     public static boolean compareRegistrationNumberLength(Integer registrationNumber) {
-        return registrationNumber.equals(Constants.REGISTRATION_NUMBER_FIELD);
-    }
-    
-    public static boolean compareStudentEmailAddressLength(Integer emailAddress) {
-        return emailAddress.equals(Constants.STUDENT_EMAIL_ADDRESS_FIELD);
-    }
-    
-    public static boolean compareGeneralFieldLength(Integer field) {
-        int result = field.compareTo(Constants.GENERAL_FIELD);
-        return (result <= 0) ? true : false;
+        return registrationNumber.equals(Constants.REGISTRATION_NUMBER_LENGTH);
     }
     
     public static void showAlert(String message, Alert.AlertType type) {

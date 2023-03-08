@@ -129,6 +129,8 @@ public class LogAcademicProblemFXMLController implements Initializable {
             AcademicOffering academicOffering = nrcComboBox.getValue();
             academicProblem.setAcademicOffering(academicOffering);
             academicProblemInterface.configureAcademicProblem(academicProblem);
+            Utilities.showAlert("La problemática académica se asignó correctamente al Reporte de Tutorías Académicas.\n",
+                    Alert.AlertType.WARNING);
             closePopUpWindow();
         } else {
             Utilities.showAlert("No se puede dejar ningún campo vacío.\n\n"
