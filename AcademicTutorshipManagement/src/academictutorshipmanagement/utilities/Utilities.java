@@ -26,11 +26,11 @@ public class Utilities {
     }
     
     public static boolean compareRegistrationNumberLength(Integer registrationNumber) {
-        return registrationNumber.equals(Constants.REGISTRATION_NUMBER);
+        return registrationNumber.equals(Constants.REGISTRATION_NUMBER_LENGTH);
     }
     
     public static boolean compareStudentEmailAddressLength(Integer emailAddress) {
-        return emailAddress.equals(Constants.STUDENT_EMAIL_ADDRESS);
+        return emailAddress.equals(Constants.STUDENT_EMAIL_ADDRESS_LENGTH);
     }
     
     public static void showAlert(String message, Alert.AlertType type) {
