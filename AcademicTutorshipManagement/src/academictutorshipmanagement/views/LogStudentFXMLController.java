@@ -81,7 +81,7 @@ public class LogStudentFXMLController implements Initializable {
         }
     }
     
-    private boolean validateEmptyFields() {
+    private boolean validateEmptyField() {
         return nameTextField.getText().isEmpty()
                 || paternalSurnameTextField.getText().isEmpty()
                 || maternalSurnameTextField.getText().isEmpty()
@@ -89,14 +89,21 @@ public class LogStudentFXMLController implements Initializable {
                 || emailAddressTextField.getText().isEmpty();
     }
     
-    private boolean validateRegistrationNumber() {
+    private boolean validateInvalidData() {
         Integer registrationNumber = registrationNumberTextField.getText().length();
         Integer emailAddress = emailAddressTextField.getText().length();
+        Integer name = nameTextField.getText().length();
+        Integer paternalSurname = paternalSurnameTextField.getText().length();
+        Integer maternalSurname = maternalSurnameTextField.getText().length();
+        
         return registrationNumberTextField.getText().startsWith("S")
                 && emailAddressTextField.getText().startsWith("zs")
                 && emailAddressTextField.getText().endsWith(registrationNumberTextField.getText().replace("S", "") + "@estudiantes.uv.mx")
                 && Utilities.compareStudentEmailAddressLength(emailAddress)
-                && Utilities.compareRegistrationNumberLength(registrationNumber);
+                && Utilities.compareRegistrationNumberLength(registrationNumber)
+                && Utilities.compareGeneralFieldLength(name)
+                && Utilities.compareGeneralFieldLength(paternalSurname)
+                && Utilities.compareGeneralFieldLength(maternalSurname);
     }
     
     private boolean checkStudent() {
@@ -114,11 +121,11 @@ public class LogStudentFXMLController implements Initializable {
 
     @FXML
     private void acceptButtonClick(ActionEvent event) {
-        if (validateEmptyFields()) {
+        if (validateEmptyField()) {
             Utilities.showAlert("No se puede dejar ningún campo vacío.\n\n"
                     + "Por favor, compruebe la información ingresada e inténtelo nuevamente.\n",
                     Alert.AlertType.WARNING);
-        } else if (!validateRegistrationNumber()) {
+        } else if (!validateInvalidData()) {
             Utilities.showAlert("Los datos ingresados son inválidos.\n\n"
                         + "Por favor, compruebe la información ingresada e inténtelo nuevamente.\n",
                         Alert.AlertType.WARNING);
