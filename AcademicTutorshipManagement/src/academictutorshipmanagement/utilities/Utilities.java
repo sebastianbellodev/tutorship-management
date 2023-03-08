@@ -1,7 +1,7 @@
 /**
- * Name(s) of the programmer(s): María José Torres Igartua.
+ * Name(s) of the programmer(s): sebastián Bello Trejo, María José Torres Igartua.
  * Date of creation: March 01, 2023.
- * Date of update: March 03, 2023.
+ * Date of update: March 08, 2023.
  */
 package academictutorshipmanagement.utilities;
 
@@ -9,6 +9,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Base64;
 import java.util.Date;
 import javafx.scene.control.Alert;
@@ -35,6 +38,11 @@ public class Utilities {
 
     public static boolean compareRegistrationNumberLength(Integer registrationNumberLenght) {
         return registrationNumberLenght == Constants.REGISTRATION_NUMBER_LENGTH;
+    }
+    
+    public static String convertLocalDateToDate(LocalDate localDate) {
+        Date date = Date.from(Instant.from(localDate.atStartOfDay(ZoneId.systemDefault())));
+        return new SimpleDateFormat("yyyy-MM-DD").format(date);
     }
 
     public static void showAlert(String message, Alert.AlertType type) {
