@@ -7,6 +7,8 @@ package academictutorshipmanagement.model.dao;
 
 import academictutorshipmanagement.model.DatabaseConnection;
 import academictutorshipmanagement.model.pojo.AcademicPersonnel;
+import academictutorshipmanagement.model.pojo.ContractType;
+import academictutorshipmanagement.model.pojo.User;
 import academictutorshipmanagement.utilities.Constants;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -70,5 +72,41 @@ public class AcademicPersonnelDAO {
         }
         return academicPersonnels;
     }
-
+    
+    public static ArrayList<AcademicPersonnel> getAcademicPersonnelByRole(int idRole, int idEducationalProgram) {
+        ArrayList<AcademicPersonnel> academicPersonnels = new ArrayList<>();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String query = "SELECT academicPersonnel.*\n"
+                + "FROM educationalProgramRole\n"
+                + "INNER JOIN academicPersonnel\n"
+                + "ON educationalProgramRole.username = academicPersonnel.username\n"
+                + "WHERE idRole = ? AND idEducationalProgram = ?\n"
+                + "ORDER BY academicPersonnel.name ASC";
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idRole);
+            preparedStatement.setInt(2, idEducationalProgram);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                AcademicPersonnel academicPersonnel = new AcademicPersonnel();
+                ContractType contractType = new ContractType();
+                User user = new User();
+                academicPersonnel.setIdAcademicPersonnel(resultSet.getInt("idAcademicPersonnel"));
+                academicPersonnel.setName(resultSet.getString("name"));
+                academicPersonnel.setPaternalSurname(resultSet.getString("paternalSurname"));
+                academicPersonnel.setMaternalSurname(resultSet.getString("maternalSurname"));
+                academicPersonnel.setEmailAddress(resultSet.getString("emailAddress"));
+                contractType.setIdContractType(resultSet.getInt("idContractType"));
+                academicPersonnel.setContractType(contractType);
+                user.setUsername(resultSet.getString("username"));
+                academicPersonnel.setUser(user);
+                academicPersonnels.add(academicPersonnel);
+            }
+        } catch (SQLException exception) {
+            academicPersonnels = null;
+        } finally {
+            databaseConnection.close();
+        }
+        return academicPersonnels;
+    }
 }
