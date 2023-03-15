@@ -440,6 +440,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
+INSERT INTO `student` VALUES ('S19014012','María José','Torres','Igartua','zs19014012@estudiantes.uv.mx',2,28),('S19014017','Gustavo','Flores','Romero','zs19014017@estudiantes.uv.mx',2,28),('S19014045','David Alexander','Mijangos','Paredes','zs19014045@estudiantes.uv.mx',2,28),('S20015699','Armando Omar','Obando','Muñóz','zs20015699@estudiantes.uv.mx',2,28),('S20015700','Jonatan','Alarcón','Alarcón','zs20015700@estudiantes.uv.mx',2,28),('S20015717','Obet Jair','Hernández','González','zs20015717@estudiantes.uv.mx',2,28),('S20015718','Gerardo','Herrera','Solano','zs20015718@estudiantes.uv.mx',2,28),('S20015742','Mario Alberto','Jiménez','Jiménez','zs20015742@estudiantes.uv.mx',2,28),('S20015744','Franz Jesús','Rivera','Alcántara','zs20015744@estudiantes.uv.mx',2,28),('S20015757','Ricardo','Noguera','Martínez','zs20015757@estudiantes.uv.mx',2,28),('S21013852','Ares Judda','Rivera','Soto','zs21013852@estudiantes.uv.mx',2,28),('S21013872','Luis Alexis','Rodríguez','Medina','zs21013872@estudiantes.uv.mx',2,28),('S21013877','Sergio de Jesús Marlon','Hernández','Pérez','zs21013877@estudiantes.uv.mx',2,28),('S21013884','Omar Dylan','Segura','Platas','zs21013884@estudiantes.uv.mx',2,28),('S21013898','Martin Emmanuel','Cruz','Carmona','zs21013898@estudiantes.uv.mx',2,28),('S21013906','Xavier Arian','Olivares','Sánchez','zs21013906@estudiantes.uv.mx',2,28),('S21021432','Ferdy Alexis','Reyes','Viveros','zs21021432@estudiantes.uv.mx',2,28);
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -505,4 +506,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-14 16:32:05
+-- Dump completed on 2023-03-14 20:48:29
