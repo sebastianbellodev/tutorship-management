@@ -6,7 +6,8 @@
 package academictutorshipmanagement.model.pojo;
 
 public class ContractType {
- 
+    
+    private int idContractType;
     private String name;
 
     public ContractType() {
@@ -16,6 +17,16 @@ public class ContractType {
         this.name = name;
     }
 
+    public int getIdContractType() {
+        return idContractType;
+    }
+
+    public void setIdContractType(int idContractType) {
+        this.idContractType = idContractType;
+    }
+    
+    
+    
     public String getName() {
         return name;
     }

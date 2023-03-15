@@ -1,16 +1,16 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 01, 2023.
- * Date of update: March 01, 2023.
+ * Date of update: March 15, 2023.
  */
 package academictutorshipmanagement.model.pojo;
 
 public class AcademicProblem {
-    
     private int idAcademicProblem;
     private String title;
     private String description;
     private int numberOfStudents;
+    private int idAcademicOffering;
     private AcademicOffering academicOffering;
     private AcademicProblemFollowUp academicProblemFollowUp;
 
@@ -36,6 +36,15 @@ public class AcademicProblem {
         this.idAcademicProblem = idAcademicProblem;
     }
     
+
+    public int getIdAcademicProblem() {
+        return idAcademicProblem;
+    }
+
+    public void setIdAcademicProblem(int idAcademicProblem) {
+        this.idAcademicProblem = idAcademicProblem;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -60,6 +69,14 @@ public class AcademicProblem {
         this.numberOfStudents = numberOfStudents;
     }
 
+    public int getIdAcademicOffering() {
+        return idAcademicOffering;
+    }
+
+    public void setIdAcademicOffering(int idAcademicOffering) {
+        this.idAcademicOffering = idAcademicOffering;
+    }
+
     public AcademicOffering getAcademicOffering() {
         return academicOffering;
     }
@@ -75,5 +92,4 @@ public class AcademicProblem {
     public void setAcademicProblemFollowUp(AcademicProblemFollowUp academicProblemFollowUp) {
         this.academicProblemFollowUp = academicProblemFollowUp;
     }
-    
 }

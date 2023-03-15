@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 05, 2023.
- * Date of update: March 05, 2023.
+ * Date of update: March 15, 2023.
  */
 package academictutorshipmanagement.model.dao;
 
@@ -14,7 +14,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.Date;
-
 
 public class AcademicProblemDAO {
 
@@ -44,6 +43,7 @@ public class AcademicProblemDAO {
         }
         return responseCode;
     }
+
     
     public static ArrayList<AcademicProblem> queryAcademicProblemForEducationalProgram(int idEducationalProgram) throws SQLException{
         DatabaseConnection databaseConnection = new DatabaseConnection();
@@ -172,4 +172,33 @@ public class AcademicProblemDAO {
         }
         return response;
     }
+
+
+    public static ArrayList<AcademicProblem> loadAcademicProblemsByAcademicTutorshipReport(int idAcademicTutorshipReport) {
+        ArrayList<AcademicProblem> academicProblems = new ArrayList<>();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String query = "SELECT *\n"
+                + "FROM academicProblem\n"
+                + "WHERE idAcademicTutorshipReport = ?";
+         try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idAcademicTutorshipReport);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                AcademicProblem academicProblem = new AcademicProblem();
+                academicProblem.setIdAcademicProblem(resultSet.getInt("idAcademicProblem"));
+                academicProblem.setTitle(resultSet.getString("title"));
+                academicProblem.setDescription(resultSet.getString("description"));
+                academicProblem.setNumberOfStudents(resultSet.getInt("numberOfStudents"));
+                academicProblem.setIdAcademicOffering(resultSet.getInt("idAcademicOffering"));
+                academicProblems.add(academicProblem);
+            }
+        } catch (SQLException exception) {
+            academicProblems = null;
+        } finally {
+            databaseConnection.close();
+        }
+         return academicProblems;
+    }
+
 }
