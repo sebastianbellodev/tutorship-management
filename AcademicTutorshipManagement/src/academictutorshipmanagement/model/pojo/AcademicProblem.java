@@ -6,21 +6,36 @@
 package academictutorshipmanagement.model.pojo;
 
 public class AcademicProblem {
-
+    
+    private int idAcademicProblem;
     private String title;
     private String description;
     private int numberOfStudents;
     private AcademicOffering academicOffering;
+    private AcademicProblemFollowUp academicProblemFollowUp;
 
     public AcademicProblem() {
+        this.academicOffering = new AcademicOffering();
+        this.academicProblemFollowUp = new AcademicProblemFollowUp();
     }
 
     public AcademicProblem(String title, String description, int numberOfStudents) {
         this.title = title;
         this.description = description;
         this.numberOfStudents = numberOfStudents;
+        this.academicOffering = new AcademicOffering();
+        this.academicProblemFollowUp = new AcademicProblemFollowUp();
     }
 
+    
+    public int getIdAcademicProblem() {
+        return idAcademicProblem;
+    }
+
+    public void setIdAcademicProblem(int idAcademicProblem) {
+        this.idAcademicProblem = idAcademicProblem;
+    }
+    
     public String getTitle() {
         return title;
     }
@@ -51,6 +66,14 @@ public class AcademicProblem {
 
     public void setAcademicOffering(AcademicOffering academicOffering) {
         this.academicOffering = academicOffering;
+    }
+
+    public AcademicProblemFollowUp getAcademicProblemFollowUp() {
+        return academicProblemFollowUp;
+    }
+
+    public void setAcademicProblemFollowUp(AcademicProblemFollowUp academicProblemFollowUp) {
+        this.academicProblemFollowUp = academicProblemFollowUp;
     }
     
 }
