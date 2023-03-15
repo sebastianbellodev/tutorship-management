@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.Date;
 
 public class AcademicProblemDAO {
 
@@ -42,6 +43,136 @@ public class AcademicProblemDAO {
         }
         return responseCode;
     }
+
+    
+    public static ArrayList<AcademicProblem> queryAcademicProblemForEducationalProgram(int idEducationalProgram) throws SQLException{
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        ArrayList<AcademicProblem> academicProblemQuery = new ArrayList<>();
+        String sentence = 
+                "select * from academicproblem join academictutorshipreport on academictutorshipreport.idAcademicTutorshipReport = academicproblem.idAcademicTutorshipReport "
+                + "join academicofferings on academicproblem.idAcademicOfferings = academicofferings.idAcademicOfferings "
+                + "join academicpersonnel on academicofferings.idAcademicPersonnel = academicpersonnel.idAcademicPersonnel "
+                + "join educationalexperience on academicofferings.idEducationalExperience = educationalexperience.idEducationalExperience "
+                + "join academictutorship on academictutorshipreport.idAcademicTutorship = academictutorship.idAcademicTutorship "
+                + "join schoolperiod on academicofferings.idSchoolPeriod = schoolperiod.idSchoolPeriod where academictutorship.idEducationalProgram = ?";
+        try(Connection connection = databaseConnection.open()){
+            PreparedStatement preparedStatement = connection.prepareStatement(sentence);
+            preparedStatement.setInt(1,idEducationalProgram);
+            ResultSet result = preparedStatement.executeQuery();
+            if(!result.next()){   
+            }else{
+                do{
+                    AcademicProblem academicProblem = new AcademicProblem();
+                    academicProblem.setIdAcademicProblem(result.getInt("idAcademicProblem"));
+                    academicProblem.setTitle(result.getString("title"));
+                    academicProblem.setDescription(result.getString("description"));
+                    academicProblem.setNumberOfStudents(result.getInt("numberStudents"));
+                    academicProblem.getAcademicOffering().setIdAcademicOffering(result.getInt("idAcademicOfferings"));
+                    academicProblem.getAcademicOffering().getEducationalExperience().setIdEducationalExperience(result.getInt("idEducationalExperience"));
+                    academicProblem.getAcademicOffering().getEducationalExperience().setName(result.getString("name"));
+                    academicProblem.getAcademicOffering().getSchoolPeriod().setIdSchoolPeriod(result.getInt("idSchoolPeriod"));
+                    academicProblem.getAcademicOffering().getSchoolPeriod().setStartDate(result.getDate("startDate"));
+                    academicProblem.getAcademicOffering().getSchoolPeriod().setEndDate(result.getDate("endDate"));
+                    academicProblem.getAcademicOffering().getAcademicPersonnel().setName(result.getString("academicpersonnel.name"));
+                    academicProblem.getAcademicOffering().getAcademicPersonnel().setPaternalSurname(result.getString("academicpersonnel.paternalSurname"));
+                    academicProblem.getAcademicOffering().getAcademicPersonnel().setMaternalSurname(result.getString("academicpersonnel.maternalSurname"));
+                    academicProblemQuery.add(academicProblem);
+                }while(result.next());
+            }
+        }finally{
+            databaseConnection.close();
+        }
+        return academicProblemQuery;
+    }
+    
+    public static ArrayList<AcademicProblem> queryAcademicProblemForAcademicPersonnel(int idAcademicPersonel) throws SQLException{
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        ArrayList<AcademicProblem> academicProblemQuery = new ArrayList<>();
+        String sentence = 
+          "select * from academicproblem join academictutorshipreport on academictutorshipreport.idAcademicTutorshipReport = academicproblem.idAcademicTutorshipReport "
+                + "join academicofferings on academicproblem.idAcademicOfferings = academicofferings.idAcademicOfferings "
+                + "join academicpersonnel on academicofferings.idAcademicPersonnel = academicpersonnel.idAcademicPersonnel "
+                + "join educationalexperience on academicofferings.idEducationalExperience = educationalexperience.idEducationalExperience "
+                + "join academictutorship on academictutorshipreport.idAcademicTutorship = academictutorship.idAcademicTutorship "
+                + "join schoolperiod on academicofferings.idSchoolPeriod = schoolperiod.idSchoolPeriod where academictutorshipreport.idAcademicPersonnel = ?";
+        try(Connection connection = databaseConnection.open()){
+            PreparedStatement preparedStatement = connection.prepareStatement(sentence);
+            preparedStatement.setInt(1,idAcademicPersonel);
+            ResultSet result = preparedStatement.executeQuery();
+            if(!result.next()){   
+            }else{
+                do{
+                    AcademicProblem academicProblem = new AcademicProblem();
+                    academicProblem.setIdAcademicProblem(result.getInt("idAcademicProblem"));
+                    academicProblem.setTitle(result.getString("title"));
+                    academicProblem.setDescription(result.getString("description"));
+                    academicProblem.setNumberOfStudents(result.getInt("numberStudents"));
+                    academicProblem.getAcademicOffering().setIdAcademicOffering(result.getInt("idAcademicOfferings"));
+                    academicProblem.getAcademicOffering().getEducationalExperience().setIdEducationalExperience(result.getInt("idEducationalExperience"));
+                    academicProblem.getAcademicOffering().getEducationalExperience().setName(result.getString("name"));
+                    academicProblem.getAcademicOffering().getSchoolPeriod().setIdSchoolPeriod(result.getInt("idSchoolPeriod"));
+                    academicProblem.getAcademicOffering().getSchoolPeriod().setStartDate(result.getDate("startDate"));
+                    academicProblem.getAcademicOffering().getSchoolPeriod().setEndDate(result.getDate("endDate")); 
+                    academicProblemQuery.add(academicProblem);
+                }while(result.next());
+            }
+        }finally{
+            databaseConnection.close();
+        }
+        return academicProblemQuery;
+    }
+    
+    public static AcademicProblem queryAcademicProblemWithFollowUp(int idAcademicProblem) throws SQLException{
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        AcademicProblem queryAcademicProblem = new AcademicProblem();
+        String sentence = "SELECT * FROM academicproblem join academicproblemfollowup on academicproblem.idAcademicProblem = academicproblemfollowup.idAcademicProblem "
+                + "join academicofferings on academicproblem.idAcademicOfferings = academicofferings.idAcademicOfferings "
+                + "join educationalexperience on academicofferings.idEducationalExperience = educationalexperience.idEducationalExperience "
+                + "join academicpersonnel on academicofferings.idAcademicPersonnel = academicpersonnel.idAcademicPersonnel where academicproblem.idAcademicProblem = ?";
+        try(Connection connection = databaseConnection.open()){
+            PreparedStatement preparedStatement = connection.prepareStatement(sentence);
+            preparedStatement.setInt(1,idAcademicProblem);           
+            ResultSet result = preparedStatement.executeQuery();
+            if(!result.next()){  
+            }else{
+                queryAcademicProblem.setIdAcademicProblem(result.getInt("idAcademicProblem"));
+                queryAcademicProblem.setTitle(result.getString("academicproblem.title"));
+                queryAcademicProblem.setDescription(result.getString("academicproblem.description"));
+                queryAcademicProblem.setNumberOfStudents(result.getInt("academicproblem.numberStudents"));
+                queryAcademicProblem.getAcademicOffering().setIdAcademicOffering(result.getInt("idAcademicOfferings"));
+                queryAcademicProblem.getAcademicOffering().getEducationalExperience().setIdEducationalExperience(result.getInt("idEducationalExperience"));
+                queryAcademicProblem.getAcademicOffering().getEducationalExperience().setName(result.getString("educationalexperience.name"));
+                queryAcademicProblem.getAcademicOffering().getAcademicPersonnel().setName(result.getString("academicpersonnel.name"));
+                queryAcademicProblem.getAcademicOffering().getAcademicPersonnel().setPaternalSurname(result.getString("academicpersonnel.paternalSurname"));
+                queryAcademicProblem.getAcademicOffering().getAcademicPersonnel().setMaternalSurname(result.getString("academicpersonnel.maternalSurname"));
+                queryAcademicProblem.getAcademicProblemFollowUp().setIdAcademicProblemFollowUp(result.getInt("idAcademicProblemFollowUp"));       
+                queryAcademicProblem.getAcademicProblemFollowUp().setDescription(result.getString("academicproblemfollowup.description"));
+                queryAcademicProblem.getAcademicProblemFollowUp().setDate(result.getDate("academicproblemfollowup.date"));
+            }
+        }finally{
+            databaseConnection.close();
+        }    
+        return queryAcademicProblem;
+    }
+    
+    
+    public static int registerAcademicProblemFollowUp(AcademicProblem academicProblem) throws SQLException{
+        int response;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String sentence = "INSERT INTO `academictutorshipmanagement`.`academicproblemfollowup`"
+                + " (`description`, `date`, `idAcademicProblem`) VALUES (?,?,?);";
+        try(Connection connection = databaseConnection.open()){
+            PreparedStatement preparedStatement = connection.prepareCall(sentence);
+            preparedStatement.setString(1,academicProblem.getAcademicProblemFollowUp().getDescription());
+            preparedStatement.setDate(2, academicProblem.getAcademicProblemFollowUp().getDate());
+            preparedStatement.setInt(3,academicProblem.getIdAcademicProblem());
+            response = preparedStatement.executeUpdate();  
+        }finally{
+            databaseConnection.close();
+        }
+        return response;
+    }
+
 
     public static ArrayList<AcademicProblem> loadAcademicProblemsByAcademicTutorshipReport(int idAcademicTutorshipReport) {
         ArrayList<AcademicProblem> academicProblems = new ArrayList<>();

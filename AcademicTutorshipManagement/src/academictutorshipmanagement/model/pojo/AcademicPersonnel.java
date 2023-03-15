@@ -90,6 +90,14 @@ public class AcademicPersonnel {
         this.responseCode = responseCode;
     }
 
+    
+    public String getFullName(){
+        String fullName = "";
+        fullName = this.name + " " + this.paternalSurname + " " + this.maternalSurname;
+        return fullName; 
+    }
+            
+            
     @Override
     public String toString() {
         return getName() + " " + getPaternalSurname() + " " + getMaternalSurname();
