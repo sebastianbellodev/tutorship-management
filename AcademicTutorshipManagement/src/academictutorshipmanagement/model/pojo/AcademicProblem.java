@@ -35,15 +35,6 @@ public class AcademicProblem {
     public void setIdAcademicProblem(int idAcademicProblem) {
         this.idAcademicProblem = idAcademicProblem;
     }
-    
-
-    public int getIdAcademicProblem() {
-        return idAcademicProblem;
-    }
-
-    public void setIdAcademicProblem(int idAcademicProblem) {
-        this.idAcademicProblem = idAcademicProblem;
-    }
 
     public String getTitle() {
         return title;
