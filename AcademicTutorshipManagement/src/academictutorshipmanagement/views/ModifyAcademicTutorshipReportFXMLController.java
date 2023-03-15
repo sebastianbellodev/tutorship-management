@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 05, 2023.
- * Date of update: March 05, 2023.
+ * Date of update: March 15, 2023.
  */
 package academictutorshipmanagement.views;
 
@@ -106,6 +106,7 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
         educationalProgram = academicPersonnel.getUser().getEducationalProgram();
         this.academicTutorshipReport = academicTutorshipReport;
         configureAcademicTutorshipReportInformation();
+        loadAcademicProblemsByAcademicTutorshipReport();
         loadStudentsByAcademicTutorshipReport();
     }
 
@@ -118,6 +119,10 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
         academicTutorshipSessionTextField.setText(academicTutorshipSession.toString());
         sessionNumberTextField.setText(String.valueOf(academicTutorshipSession.getSessionNumber()));
         generalCommentTextArea.setText(academicTutorshipReport.getGeneralComment());
+    }
+
+    private void loadAcademicProblemsByAcademicTutorshipReport() {
+        academicProblems = AcademicProblemDAO.loadAcademicProblemsByAcademicTutorshipReport(idAcademicTutorshipReport);
     }
 
     private void loadStudentsByAcademicTutorshipReport() {
@@ -191,7 +196,9 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
 
     private void logAcademicProblemsByAcademicTutorshipReport() {
         academicProblems.forEach(academicProblem -> {
-            AcademicProblemDAO.logAcademicProblemByAcademicTutorshipReport(academicProblem, idAcademicTutorshipReport);
+            if (academicProblem.getIdAcademicOffering() == Constants.PRIMARY_KEY_OF_NON_EXISTENT_RECORD_IN_DATABASE) {
+                AcademicProblemDAO.logAcademicProblemByAcademicTutorshipReport(academicProblem, idAcademicTutorshipReport);
+            }
         });
     }
 

@@ -126,6 +126,7 @@ public class LogAcademicProblemFXMLController implements Initializable {
             String description = descriptionTextArea.getText();
             int numberOfStudents = numberOfStudentsSpinner.getValue();
             AcademicProblem academicProblem = new AcademicProblem(title, description, numberOfStudents);
+            academicProblem.setIdAcademicProblem(Constants.PRIMARY_KEY_OF_NON_EXISTENT_RECORD_IN_DATABASE);
             AcademicOffering academicOffering = nrcComboBox.getValue();
             academicProblem.setAcademicOffering(academicOffering);
             academicProblemInterface.configureAcademicProblem(academicProblem);
