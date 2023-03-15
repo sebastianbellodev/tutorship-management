@@ -9,6 +9,8 @@ import academictutorshipmanagement.model.dao.AcademicPersonnelDAO;
 import academictutorshipmanagement.model.dao.SchoolPeriodDAO;
 import academictutorshipmanagement.model.pojo.AcademicPersonnel;
 import academictutorshipmanagement.model.pojo.SchoolPeriod;
+import academictutorshipmanagement.model.pojo.SessionInformation;
+import static academictutorshipmanagement.model.pojo.SessionInformation.getSessionInformation;
 import academictutorshipmanagement.model.pojo.User;
 import academictutorshipmanagement.utilities.Constants;
 import academictutorshipmanagement.utilities.Utilities;
@@ -49,6 +51,9 @@ public class MainMenuFXMLController implements Initializable {
         academicPersonnel = AcademicPersonnelDAO.getAcademicPersonnelByUser(username);
         academicPersonnel.setUser(user);
         academicPersonnelLabel.setText(academicPersonnelLabel.getText() + academicPersonnel + ".");
+        SessionInformation sessionInformation = getSessionInformation();
+        sessionInformation.setAcademicPersonnel(AcademicPersonnelDAO.getAcademicPersonnelByUser(username));
+        sessionInformation.getAcademicPersonnel().setUser(user);
     }
 
     @FXML
@@ -87,18 +92,15 @@ public class MainMenuFXMLController implements Initializable {
 
     @FXML
     private void followUpOnAcademicProblemsButtonClick(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FollowUpOnAcademicProblemsMenuFXML.fxml"));
-        try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("QueryFollowUpOnAcademicProblemsListFXML.fxml"));
+        try{
             Parent root = loader.load();
-            FollowUpOnAcademicProblemsMenuFXMLController followUpOnAcademicProblemsMenuFXMLController = loader.getController();
-            followUpOnAcademicProblemsMenuFXMLController.configureView(schoolPeriod, academicPersonnel);
-            Scene mainMenuView = new Scene(root);
+            Scene queryFollowUpOnAcademicProblemsListView = new Scene(root);
             Stage stage = (Stage) academicPersonnelLabel.getScene().getWindow();
-            stage.setScene(mainMenuView);
-            stage.setTitle("Seguimiento a problemáticas académicas.");
+            stage.setScene(queryFollowUpOnAcademicProblemsListView);
             stage.show();
-        } catch (IOException exception) {
-            System.err.println("The FollowUpOnAcademicProblemsMenuFXML.fxml' file could not be open. Please try again later.");
+        }catch(IOException ioException){
+            System.out.println(ioException.getMessage());
         }
     }
 

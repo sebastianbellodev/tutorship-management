@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="academictutorshipmanagement.views.QueryFollowUpOnAcademicProblemsListFXMLController">
+   <children>
+      <Label layoutX="41.0" layoutY="29.0" text="Busqueda:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="filterTextField" layoutX="144.0" layoutY="29.0" prefHeight="27.0" prefWidth="773.0" />
+      <TableView fx:id="academicProblemTableView" layoutX="44.0" layoutY="88.0" prefHeight="443.0" prefWidth="873.0">
+        <columns>
+          <TableColumn fx:id="titleAcademicProblemTableColumn" prefWidth="318.0" text="Titulo de Problematica" />
+          <TableColumn fx:id="nameEducationalExperienceTableColumn" prefWidth="246.0" text="Experiencia Educativa" />
+            <TableColumn fx:id="schoolPeriodTableColumn" prefWidth="173.0" text="Periodo Escolar" />
+            <TableColumn fx:id="academicProblemNumberReportsTableColumn" prefWidth="135.0" text="Cantidad de Reportes" />
+        </columns>
+      </TableView>
+      <Button fx:id="consultButton" layoutX="720.0" layoutY="548.0" mnemonicParsing="false" onAction="#consultButtonClick" prefHeight="25.0" prefWidth="90.0" text="Consultar" />
+      <Button fx:id="backButton" layoutX="827.0" layoutY="548.0" mnemonicParsing="false" onAction="#backButtonClick" prefHeight="25.0" prefWidth="90.0" text="Regresar" />
+   </children>
+</AnchorPane>
