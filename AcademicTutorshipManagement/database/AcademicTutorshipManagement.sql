@@ -16,19 +16,19 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `academicofferings`
+-- Table structure for table `academicoffering`
 --
 
-DROP TABLE IF EXISTS `academicofferings`;
+DROP TABLE IF EXISTS `academicoffering`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `academicofferings` (
-  `idAcademicOfferings` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `academicoffering` (
+  `idAcademicOffering` int NOT NULL AUTO_INCREMENT,
   `nrc` int NOT NULL,
   `idEducationalExperience` int NOT NULL,
   `idAcademicPersonnel` int NOT NULL,
   `idSchoolPeriod` int NOT NULL,
-  PRIMARY KEY (`idAcademicOfferings`),
+  PRIMARY KEY (`idAcademicOffering`),
   KEY `FK_AcademicOfferings_EducationalExperience_idx` (`idEducationalExperience`),
   KEY `FK_AcademicOfferings_AcademicPersonnel_idx` (`idAcademicPersonnel`),
   KEY `FK_AcademicOfferings_SchoolPeriod_idx` (`idSchoolPeriod`),
@@ -39,13 +39,13 @@ CREATE TABLE `academicofferings` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `academicofferings`
+-- Dumping data for table `academicoffering`
 --
 
-LOCK TABLES `academicofferings` WRITE;
-/*!40000 ALTER TABLE `academicofferings` DISABLE KEYS */;
-INSERT INTO `academicofferings` VALUES (1,81756,10,1,1),(2,81761,11,2,1),(3,81764,12,3,1),(4,81767,13,4,1),(5,81744,8,5,1),(6,81752,9,6,1),(7,81768,5,7,1),(8,81851,4,8,1),(9,86634,7,9,1),(10,81774,10,10,1),(11,81778,11,2,1),(12,81779,12,11,1),(13,81781,13,12,1),(14,81771,8,1,1),(15,86525,20,12,1),(16,86530,21,16,1),(17,86536,22,13,1),(18,86547,23,3,1),(19,86567,24,17,1),(20,89510,15,4,1),(21,86527,20,18,1),(22,86532,21,14,1),(23,86551,23,1,1),(24,86579,24,16,1),(25,90614,20,19,1),(26,90631,21,16,1),(27,90640,24,20,1),(28,89513,30,18,1),(29,89515,31,21,1),(30,89520,32,22,1),(31,89521,33,19,1),(32,89522,34,12,1),(33,89505,28,19,1),(34,90018,30,20,1),(35,89532,31,14,1),(36,89545,32,23,1),(37,94045,33,20,1),(38,89550,34,18,1),(39,94018,39,4,1),(40,93958,35,24,1),(41,94028,36,25,1),(42,12157,35,24,1),(43,12231,39,26,1),(44,17386,35,24,1),(45,17391,35,24,1),(46,69377,61,27,1),(47,74415,63,28,1),(48,69380,62,29,1),(49,69387,64,2,1),(50,69393,66,30,1),(51,69389,65,31,1),(52,71936,57,32,1),(53,70171,55,33,1),(54,13915,60,34,1),(55,69402,61,35,1),(56,69405,63,36,1),(57,69403,62,37,1),(58,69407,64,30,1),(59,69409,66,38,1),(60,69408,65,39,1),(61,78263,62,37,1),(62,78270,65,40,1),(63,78278,66,38,1),(64,74282,73,94,1),(65,74284,73,41,1),(66,72486,74,42,1),(67,74465,75,43,1),(68,74289,76,44,1),(69,74467,68,41,1),(70,93069,67,45,1),(71,74290,73,46,1),(72,74291,72,58,1),(73,74293,74,71,1),(74,74470,75,69,1),(75,74298,76,95,1),(76,78280,82,47,1),(77,78288,83,28,1),(78,78485,84,48,1),(79,78489,85,49,1),(80,78490,94,50,1),(81,78492,77,51,1),(82,78493,79,42,1),(83,85106,93,52,1),(84,78494,82,53,1),(85,78495,83,49,1),(86,78496,84,54,1),(87,78497,85,48,1),(88,11710,101,55,1),(89,84264,92,13,1),(90,84183,90,56,1),(91,81357,86,45,1),(92,85103,87,56,1),(93,81219,88,49,1),(94,93071,99,57,1),(95,85103,87,48,1),(96,84184,91,58,1),(97,89689,89,59,1),(98,74381,63,28,1),(99,69489,105,60,1),(100,69482,61,61,1),(101,69486,64,26,1),(102,69487,71,62,1),(103,69485,66,38,1),(104,71928,57,63,1),(105,69495,63,64,1),(106,74691,105,60,1),(107,69490,61,65,1),(108,69493,64,66,1),(109,69492,66,67,1),(110,70139,59,68,1),(111,74258,108,69,1),(112,74265,110,70,1),(113,74370,65,31,1),(114,74269,93,71,1),(115,89696,68,72,1),(116,78950,108,73,1),(117,74272,109,74,1),(118,74275,110,70,1),(119,74414,65,74,1),(120,74280,93,71,1),(121,78286,117,70,1),(122,78297,118,43,1),(123,78300,96,75,1),(124,78710,120,72,1),(125,78714,121,75,1),(126,84401,99,64,1),(127,81267,117,58,1),(128,81270,96,75,1),(129,81271,120,74,1),(130,81272,121,75,1),(131,84198,91,64,1),(132,81275,97,64,1),(133,84200,90,74,1),(134,94404,128,76,1),(135,87359,91,55,1),(136,87363,122,43,1),(137,69425,60,77,1),(138,69412,61,33,1),(139,69413,107,78,1),(140,69416,64,26,1),(141,69421,71,26,1),(142,69429,63,79,1),(143,70151,56,80,1),(144,78954,57,81,1),(145,69479,60,82,1),(146,69475,61,65,1),(147,69476,107,63,1),(148,69477,64,83,1),(149,69478,71,66,1),(150,69486,63,78,1),(151,70156,56,80,1),(152,70159,107,84,1),(153,78779,71,85,1),(154,78952,63,38,1),(155,78953,64,86,1),(156,74235,133,87,1),(157,74236,134,60,1),(158,74237,136,38,1),(159,74238,75,72,1),(160,74242,135,85,1),(161,74472,69,55,1),(162,74244,133,55,1),(163,74246,134,45,1),(164,74249,136,54,1),(165,74250,35,43,1),(166,16876,135,88,1),(167,87452,135,22,1),(168,78783,83,89,1),(169,78785,145,89,1),(170,78925,142,89,1),(171,78927,144,90,1),(172,78928,143,90,1),(173,78929,83,91,1),(174,78930,145,41,1),(175,78933,142,85,1),(176,78935,144,90,1),(177,78938,143,92,1),(178,84191,91,78,1),(179,81252,78,45,1),(180,84196,90,89,1),(181,85292,147,93,1),(182,84194,91,86,1),(183,81255,149,86,1);
-/*!40000 ALTER TABLE `academicofferings` ENABLE KEYS */;
+LOCK TABLES `academicoffering` WRITE;
+/*!40000 ALTER TABLE `academicoffering` DISABLE KEYS */;
+INSERT INTO `academicoffering` VALUES (1,81756,10,1,1),(2,81761,11,2,1),(3,81764,12,3,1),(4,81767,13,4,1),(5,81744,8,5,1),(6,81752,9,6,1),(7,81768,5,7,1),(8,81851,4,8,1),(9,86634,7,9,1),(10,81774,10,10,1),(11,81778,11,2,1),(12,81779,12,11,1),(13,81781,13,12,1),(14,81771,8,1,1),(15,86525,20,12,1),(16,86530,21,16,1),(17,86536,22,13,1),(18,86547,23,3,1),(19,86567,24,17,1),(20,89510,15,4,1),(21,86527,20,18,1),(22,86532,21,14,1),(23,86551,23,1,1),(24,86579,24,16,1),(25,90614,20,19,1),(26,90631,21,16,1),(27,90640,24,20,1),(28,89513,30,18,1),(29,89515,31,21,1),(30,89520,32,22,1),(31,89521,33,19,1),(32,89522,34,12,1),(33,89505,28,19,1),(34,90018,30,20,1),(35,89532,31,14,1),(36,89545,32,23,1),(37,94045,33,20,1),(38,89550,34,18,1),(39,94018,39,4,1),(40,93958,35,24,1),(41,94028,36,25,1),(42,12157,35,24,1),(43,12231,39,26,1),(44,17386,35,24,1),(45,17391,35,24,1),(46,69377,61,27,1),(47,74415,63,28,1),(48,69380,62,29,1),(49,69387,64,2,1),(50,69393,66,30,1),(51,69389,65,31,1),(52,71936,57,32,1),(53,70171,55,33,1),(54,13915,60,34,1),(55,69402,61,35,1),(56,69405,63,36,1),(57,69403,62,37,1),(58,69407,64,30,1),(59,69409,66,38,1),(60,69408,65,39,1),(61,78263,62,37,1),(62,78270,65,40,1),(63,78278,66,38,1),(64,74282,73,94,1),(65,74284,73,41,1),(66,72486,74,42,1),(67,74465,75,43,1),(68,74289,76,44,1),(69,74467,68,41,1),(70,93069,67,45,1),(71,74290,73,46,1),(72,74291,72,58,1),(73,74293,74,71,1),(74,74470,75,69,1),(75,74298,76,95,1),(76,78280,82,47,1),(77,78288,83,28,1),(78,78485,84,48,1),(79,78489,85,49,1),(80,78490,94,50,1),(81,78492,77,51,1),(82,78493,79,42,1),(83,85106,93,52,1),(84,78494,82,53,1),(85,78495,83,49,1),(86,78496,84,54,1),(87,78497,85,48,1),(88,11710,101,55,1),(89,84264,92,13,1),(90,84183,90,56,1),(91,81357,86,45,1),(92,85103,87,56,1),(93,81219,88,49,1),(94,93071,99,57,1),(95,85103,87,48,1),(96,84184,91,58,1),(97,89689,89,59,1),(98,74381,63,28,1),(99,69489,105,60,1),(100,69482,61,61,1),(101,69486,64,26,1),(102,69487,71,62,1),(103,69485,66,38,1),(104,71928,57,63,1),(105,69495,63,64,1),(106,74691,105,60,1),(107,69490,61,65,1),(108,69493,64,66,1),(109,69492,66,67,1),(110,70139,59,68,1),(111,74258,108,69,1),(112,74265,110,70,1),(113,74370,65,31,1),(114,74269,93,71,1),(115,89696,68,72,1),(116,78950,108,73,1),(117,74272,109,74,1),(118,74275,110,70,1),(119,74414,65,74,1),(120,74280,93,71,1),(121,78286,117,70,1),(122,78297,118,43,1),(123,78300,96,75,1),(124,78710,120,72,1),(125,78714,121,75,1),(126,84401,99,64,1),(127,81267,117,58,1),(128,81270,96,75,1),(129,81271,120,74,1),(130,81272,121,75,1),(131,84198,91,64,1),(132,81275,97,64,1),(133,84200,90,74,1),(134,94404,128,76,1),(135,87359,91,55,1),(136,87363,122,43,1),(137,69425,60,77,1),(138,69412,61,33,1),(139,69413,107,78,1),(140,69416,64,26,1),(141,69421,71,26,1),(142,69429,63,79,1),(143,70151,56,80,1),(144,78954,57,81,1),(145,69479,60,82,1),(146,69475,61,65,1),(147,69476,107,63,1),(148,69477,64,83,1),(149,69478,71,66,1),(150,69486,63,78,1),(151,70156,56,80,1),(152,70159,107,84,1),(153,78779,71,85,1),(154,78952,63,38,1),(155,78953,64,86,1),(156,74235,133,87,1),(157,74236,134,60,1),(158,74237,136,38,1),(159,74238,75,72,1),(160,74242,135,85,1),(161,74472,69,55,1),(162,74244,133,55,1),(163,74246,134,45,1),(164,74249,136,54,1),(165,74250,35,43,1),(166,16876,135,88,1),(167,87452,135,22,1),(168,78783,83,89,1),(169,78785,145,89,1),(170,78925,142,89,1),(171,78927,144,90,1),(172,78928,143,90,1),(173,78929,83,91,1),(174,78930,145,41,1),(175,78933,142,85,1),(176,78935,144,90,1),(177,78938,143,92,1),(178,84191,91,78,1),(179,81252,78,45,1),(180,84196,90,89,1),(181,85292,147,93,1),(182,84194,91,86,1),(183,81255,149,86,1);
+/*!40000 ALTER TABLE `academicoffering` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -92,15 +92,15 @@ CREATE TABLE `academicproblem` (
   `idAcademicProblem` int NOT NULL AUTO_INCREMENT,
   `title` varchar(150) NOT NULL,
   `description` text NOT NULL,
-  `numberStudents` int NOT NULL,
-  `idAcademicOfferings` int NOT NULL,
+  `numberOfStudents` int NOT NULL,
+  `idAcademicOffering` int NOT NULL,
   `idAcademicTutorshipReport` int NOT NULL,
   PRIMARY KEY (`idAcademicProblem`),
   KEY `FK_AcademicProblem_AcademicTutorshipReport_idx` (`idAcademicTutorshipReport`),
-  KEY `FK_AcademicProblem_AcademicOfferings_idx` (`idAcademicOfferings`),
-  CONSTRAINT `FK_AcademicProblem_AcademicOfferings` FOREIGN KEY (`idAcademicOfferings`) REFERENCES `academicofferings` (`idAcademicOfferings`),
+  KEY `FK_AcademicProblem_AcademicOfferings_idx` (`idAcademicOffering`),
+  CONSTRAINT `FK_AcademicProblem_AcademicOfferings` FOREIGN KEY (`idAcademicOffering`) REFERENCES `academicoffering` (`idAcademicOffering`),
   CONSTRAINT `FK_AcademicProblem_AcademicTutorshipReport` FOREIGN KEY (`idAcademicTutorshipReport`) REFERENCES `academictutorshipreport` (`idAcademicTutorshipReport`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -109,6 +109,7 @@ CREATE TABLE `academicproblem` (
 
 LOCK TABLES `academicproblem` WRITE;
 /*!40000 ALTER TABLE `academicproblem` DISABLE KEYS */;
+INSERT INTO `academicproblem` VALUES (1,'No imparte clases presenciales','Solo imparte sesiones de clase a través de herramientas de videoconferencia en línea; por ejemplo, Zoom o Microsoft Teams, ocasionando que los estudiantes no aprendan correctamente los saberes teóricos de la experiencia educativa.',3,101,1),(2,'No sigue el plan de estudios de la experiencia educativa','No imparte los saberes teóricos de la experiencia educativa ni brinda las herramientas educativas necesarias para el desarrollo del proyecto final, ocasionando que los estudiantes tengan conflictos académicos con otras experiencias educativas; por ejemplo, Desarrollo de Software y Desarrollo de Aplicaciones ',4,87,1);
 /*!40000 ALTER TABLE `academicproblem` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -178,8 +179,8 @@ DROP TABLE IF EXISTS `academictutorshipreport`;
 CREATE TABLE `academictutorshipreport` (
   `idAcademicTutorshipReport` int NOT NULL AUTO_INCREMENT,
   `generalComment` text,
-  `numberStudentsAttending` int NOT NULL,
-  `numberStudentsAtRisk` int NOT NULL,
+  `numberOfStudentsAttending` int NOT NULL,
+  `numberOfStudentsAtRisk` int NOT NULL,
   `idAcademicPersonnel` int NOT NULL,
   `idAcademicTutorship` int NOT NULL,
   PRIMARY KEY (`idAcademicTutorshipReport`),
@@ -187,7 +188,7 @@ CREATE TABLE `academictutorshipreport` (
   KEY `FK_AcademicTutorshipReport_AcademicPersonnel_idx` (`idAcademicPersonnel`),
   CONSTRAINT `FK_AcademicTutorshipReport_AcademicPersonnel` FOREIGN KEY (`idAcademicPersonnel`) REFERENCES `academicpersonnel` (`idAcademicPersonnel`),
   CONSTRAINT `FK_AcademicTutorshipReport_AcademicTutorship` FOREIGN KEY (`idAcademicTutorship`) REFERENCES `academictutorship` (`idAcademicTutorship`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -196,6 +197,7 @@ CREATE TABLE `academictutorshipreport` (
 
 LOCK TABLES `academictutorshipreport` WRITE;
 /*!40000 ALTER TABLE `academictutorshipreport` DISABLE KEYS */;
+INSERT INTO `academictutorshipreport` VALUES (1,'Es conveniente que se implementen asesorías académicas para la experiencia educativa de Estructuras de Datos',9,2,28,4);
 /*!40000 ALTER TABLE `academictutorshipreport` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -209,7 +211,7 @@ DROP TABLE IF EXISTS `academictutorshipreportstudent`;
 CREATE TABLE `academictutorshipreportstudent` (
   `idAcademicTutorshipReportStudent` int NOT NULL AUTO_INCREMENT,
   `attendedBy` bit(1) NOT NULL,
-  `inRisk` bit(1) NOT NULL,
+  `atRisk` bit(1) NOT NULL,
   `idAcademicTutorshipReport` int NOT NULL,
   `registrationNumber` varchar(10) NOT NULL,
   PRIMARY KEY (`idAcademicTutorshipReportStudent`),
@@ -217,7 +219,7 @@ CREATE TABLE `academictutorshipreportstudent` (
   KEY `FK_AcademicTutorshipReportStudent_Student_idx` (`registrationNumber`),
   CONSTRAINT `FK_AcademicTutorshipReportStudent_AcademicTutorshipReport` FOREIGN KEY (`idAcademicTutorshipReport`) REFERENCES `academictutorshipreport` (`idAcademicTutorshipReport`),
   CONSTRAINT `FK_AcademicTutorshipReportStudent_Student` FOREIGN KEY (`registrationNumber`) REFERENCES `student` (`registrationNumber`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -226,6 +228,7 @@ CREATE TABLE `academictutorshipreportstudent` (
 
 LOCK TABLES `academictutorshipreportstudent` WRITE;
 /*!40000 ALTER TABLE `academictutorshipreportstudent` DISABLE KEYS */;
+INSERT INTO `academictutorshipreportstudent` VALUES (1,_binary '',_binary '\0',1,'S20015700'),(2,_binary '',_binary '\0',1,'S21013898'),(3,_binary '',_binary '\0',1,'S19014017'),(4,_binary '\0',_binary '',1,'S20015717'),(5,_binary '\0',_binary '\0',1,'S21013877'),(6,_binary '',_binary '\0',1,'S20015718'),(7,_binary '',_binary '\0',1,'S20015742'),(8,_binary '',_binary '\0',1,'S19014045'),(9,_binary '\0',_binary '\0',1,'S20015757'),(10,_binary '\0',_binary '',1,'S20015699'),(11,_binary '',_binary '\0',1,'S21013906'),(12,_binary '\0',_binary '\0',1,'S21021432'),(13,_binary '\0',_binary '\0',1,'S20015744'),(14,_binary '',_binary '\0',1,'S21013852'),(15,_binary '\0',_binary '\0',1,'S21013872'),(16,_binary '\0',_binary '\0',1,'S21013884'),(17,_binary '',_binary '\0',1,'S19014012');
 /*!40000 ALTER TABLE `academictutorshipreportstudent` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -241,6 +244,7 @@ CREATE TABLE `academictutorshipsession` (
   `startDate` date NOT NULL,
   `endDate` date NOT NULL,
   `closingDateReportSubmission` date NOT NULL,
+  `sessionNumber` int NOT NULL,
   `idSchoolPeriod` int NOT NULL,
   PRIMARY KEY (`idAcademicTutorshipSession`),
   KEY `FK_AcademicTutorshipSession_SchoolPeriod_idx` (`idSchoolPeriod`),
@@ -254,7 +258,7 @@ CREATE TABLE `academictutorshipsession` (
 
 LOCK TABLES `academictutorshipsession` WRITE;
 /*!40000 ALTER TABLE `academictutorshipsession` DISABLE KEYS */;
-INSERT INTO `academictutorshipsession` VALUES (1,'2023-02-25','2023-03-25','2023-03-31',1),(2,'2023-03-25','2023-04-25','2023-04-30',1),(3,'2023-04-25','2023-05-25','2024-05-31',1);
+INSERT INTO `academictutorshipsession` VALUES (1,'2023-02-25','2023-03-25','2023-03-31',1,1),(2,'2023-03-25','2023-04-25','2023-04-30',2,1),(3,'2023-04-25','2023-05-25','2024-05-31',3,1);
 /*!40000 ALTER TABLE `academictutorshipsession` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -506,4 +510,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-14 20:48:29
+-- Dump completed on 2023-03-15  8:40:51
