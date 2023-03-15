@@ -50,11 +50,11 @@ public class AcademicProblemDAO {
         ArrayList<AcademicProblem> academicProblemQuery = new ArrayList<>();
         String sentence = 
                 "select * from academicproblem join academictutorshipreport on academictutorshipreport.idAcademicTutorshipReport = academicproblem.idAcademicTutorshipReport "
-                + "join academicofferings on academicproblem.idAcademicOfferings = academicofferings.idAcademicOfferings "
-                + "join academicpersonnel on academicofferings.idAcademicPersonnel = academicpersonnel.idAcademicPersonnel "
-                + "join educationalexperience on academicofferings.idEducationalExperience = educationalexperience.idEducationalExperience "
+                + "join academicoffering on academicproblem.idAcademicOffering = academicoffering.idAcademicOffering "
+                + "join academicpersonnel on academicoffering.idAcademicPersonnel = academicpersonnel.idAcademicPersonnel "
+                + "join educationalexperience on academicoffering.idEducationalExperience = educationalexperience.idEducationalExperience "
                 + "join academictutorship on academictutorshipreport.idAcademicTutorship = academictutorship.idAcademicTutorship "
-                + "join schoolperiod on academicofferings.idSchoolPeriod = schoolperiod.idSchoolPeriod where academictutorship.idEducationalProgram = ?";
+                + "join schoolperiod on academicoffering.idSchoolPeriod = schoolperiod.idSchoolPeriod where academictutorship.idEducationalProgram = ?";
         try(Connection connection = databaseConnection.open()){
             PreparedStatement preparedStatement = connection.prepareStatement(sentence);
             preparedStatement.setInt(1,idEducationalProgram);
@@ -66,8 +66,8 @@ public class AcademicProblemDAO {
                     academicProblem.setIdAcademicProblem(result.getInt("idAcademicProblem"));
                     academicProblem.setTitle(result.getString("title"));
                     academicProblem.setDescription(result.getString("description"));
-                    academicProblem.setNumberOfStudents(result.getInt("numberStudents"));
-                    academicProblem.getAcademicOffering().setIdAcademicOffering(result.getInt("idAcademicOfferings"));
+                    academicProblem.setNumberOfStudents(result.getInt("numberOfStudents"));
+                    academicProblem.getAcademicOffering().setIdAcademicOffering(result.getInt("idAcademicOffering"));
                     academicProblem.getAcademicOffering().getEducationalExperience().setIdEducationalExperience(result.getInt("idEducationalExperience"));
                     academicProblem.getAcademicOffering().getEducationalExperience().setName(result.getString("name"));
                     academicProblem.getAcademicOffering().getSchoolPeriod().setIdSchoolPeriod(result.getInt("idSchoolPeriod"));
@@ -90,11 +90,11 @@ public class AcademicProblemDAO {
         ArrayList<AcademicProblem> academicProblemQuery = new ArrayList<>();
         String sentence = 
           "select * from academicproblem join academictutorshipreport on academictutorshipreport.idAcademicTutorshipReport = academicproblem.idAcademicTutorshipReport "
-                + "join academicofferings on academicproblem.idAcademicOfferings = academicofferings.idAcademicOfferings "
-                + "join academicpersonnel on academicofferings.idAcademicPersonnel = academicpersonnel.idAcademicPersonnel "
-                + "join educationalexperience on academicofferings.idEducationalExperience = educationalexperience.idEducationalExperience "
+                + "join academicoffering on academicproblem.idAcademicOffering = academicoffering.idAcademicOffering "
+                + "join academicpersonnel on academicoffering.idAcademicPersonnel = academicpersonnel.idAcademicPersonnel "
+                + "join educationalexperience on academicoffering.idEducationalExperience = educationalexperience.idEducationalExperience "
                 + "join academictutorship on academictutorshipreport.idAcademicTutorship = academictutorship.idAcademicTutorship "
-                + "join schoolperiod on academicofferings.idSchoolPeriod = schoolperiod.idSchoolPeriod where academictutorshipreport.idAcademicPersonnel = ?";
+                + "join schoolperiod on academicoffering.idSchoolPeriod = schoolperiod.idSchoolPeriod where academictutorshipreport.idAcademicPersonnel = ?";
         try(Connection connection = databaseConnection.open()){
             PreparedStatement preparedStatement = connection.prepareStatement(sentence);
             preparedStatement.setInt(1,idAcademicPersonel);
@@ -106,8 +106,8 @@ public class AcademicProblemDAO {
                     academicProblem.setIdAcademicProblem(result.getInt("idAcademicProblem"));
                     academicProblem.setTitle(result.getString("title"));
                     academicProblem.setDescription(result.getString("description"));
-                    academicProblem.setNumberOfStudents(result.getInt("numberStudents"));
-                    academicProblem.getAcademicOffering().setIdAcademicOffering(result.getInt("idAcademicOfferings"));
+                    academicProblem.setNumberOfStudents(result.getInt("numberOfStudents"));
+                    academicProblem.getAcademicOffering().setIdAcademicOffering(result.getInt("idAcademicOffering"));
                     academicProblem.getAcademicOffering().getEducationalExperience().setIdEducationalExperience(result.getInt("idEducationalExperience"));
                     academicProblem.getAcademicOffering().getEducationalExperience().setName(result.getString("name"));
                     academicProblem.getAcademicOffering().getSchoolPeriod().setIdSchoolPeriod(result.getInt("idSchoolPeriod"));
@@ -126,9 +126,9 @@ public class AcademicProblemDAO {
         DatabaseConnection databaseConnection = new DatabaseConnection();
         AcademicProblem queryAcademicProblem = new AcademicProblem();
         String sentence = "SELECT * FROM academicproblem join academicproblemfollowup on academicproblem.idAcademicProblem = academicproblemfollowup.idAcademicProblem "
-                + "join academicofferings on academicproblem.idAcademicOfferings = academicofferings.idAcademicOfferings "
-                + "join educationalexperience on academicofferings.idEducationalExperience = educationalexperience.idEducationalExperience "
-                + "join academicpersonnel on academicofferings.idAcademicPersonnel = academicpersonnel.idAcademicPersonnel where academicproblem.idAcademicProblem = ?";
+                + "join academicoffering on academicproblem.idAcademicOffering = academicoffering.idAcademicOffering "
+                + "join educationalexperience on academicoffering.idEducationalExperience = educationalexperience.idEducationalExperience "
+                + "join academicpersonnel on academicoffering.idAcademicPersonnel = academicpersonnel.idAcademicPersonnel where academicproblem.idAcademicProblem = ?";
         try(Connection connection = databaseConnection.open()){
             PreparedStatement preparedStatement = connection.prepareStatement(sentence);
             preparedStatement.setInt(1,idAcademicProblem);           
@@ -138,8 +138,8 @@ public class AcademicProblemDAO {
                 queryAcademicProblem.setIdAcademicProblem(result.getInt("idAcademicProblem"));
                 queryAcademicProblem.setTitle(result.getString("academicproblem.title"));
                 queryAcademicProblem.setDescription(result.getString("academicproblem.description"));
-                queryAcademicProblem.setNumberOfStudents(result.getInt("academicproblem.numberStudents"));
-                queryAcademicProblem.getAcademicOffering().setIdAcademicOffering(result.getInt("idAcademicOfferings"));
+                queryAcademicProblem.setNumberOfStudents(result.getInt("academicproblem.numberOfStudents"));
+                queryAcademicProblem.getAcademicOffering().setIdAcademicOffering(result.getInt("idAcademicOffering"));
                 queryAcademicProblem.getAcademicOffering().getEducationalExperience().setIdEducationalExperience(result.getInt("idEducationalExperience"));
                 queryAcademicProblem.getAcademicOffering().getEducationalExperience().setName(result.getString("educationalexperience.name"));
                 queryAcademicProblem.getAcademicOffering().getAcademicPersonnel().setName(result.getString("academicpersonnel.name"));
