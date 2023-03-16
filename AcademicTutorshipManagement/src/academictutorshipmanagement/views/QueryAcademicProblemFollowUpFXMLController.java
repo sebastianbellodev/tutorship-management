@@ -8,6 +8,7 @@ import academictutorshipmanagement.model.dao.AcademicProblemDAO;
 import academictutorshipmanagement.model.pojo.AcademicProblem;
 import academictutorshipmanagement.model.pojo.SessionInformation;
 import static academictutorshipmanagement.model.pojo.SessionInformation.getSessionInformation;
+import academictutorshipmanagement.utilities.MessagesAlerts;
 import academictutorshipmanagement.utilities.Roles;
 import java.io.IOException;
 import java.net.URL;
@@ -85,7 +86,7 @@ public class QueryAcademicProblemFollowUpFXMLController implements Initializable
                 }
             }  
         }catch(SQLException sqlException){
-            //Definir msj SQL
+            MessagesAlerts.showDataBaseLostConnectionAlert();
         }
     }
     
@@ -120,7 +121,7 @@ public class QueryAcademicProblemFollowUpFXMLController implements Initializable
             stage.setScene(queryFollowUpOnAcademicProblemsList);
             stage.show();
         }catch(IOException ioException){
-            
+            MessagesAlerts.showFailureLoadWindow();
         }
     }
     
@@ -136,7 +137,7 @@ public class QueryAcademicProblemFollowUpFXMLController implements Initializable
             controller.configureView(this.queryAcademicProblem);
             stage.show();
         }catch(IOException ioException){
-           //Error
+           MessagesAlerts.showFailureLoadWindow();
         }
     }
 }
