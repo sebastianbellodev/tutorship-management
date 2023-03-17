@@ -113,6 +113,9 @@ public class AcademicProblemDAO {
                     academicProblem.getAcademicOffering().getSchoolPeriod().setIdSchoolPeriod(result.getInt("idSchoolPeriod"));
                     academicProblem.getAcademicOffering().getSchoolPeriod().setStartDate(result.getDate("startDate"));
                     academicProblem.getAcademicOffering().getSchoolPeriod().setEndDate(result.getDate("endDate")); 
+                    academicProblem.getAcademicOffering().getAcademicPersonnel().setName(result.getString("academicpersonnel.name"));
+                    academicProblem.getAcademicOffering().getAcademicPersonnel().setPaternalSurname(result.getString("academicpersonnel.paternalSurname"));
+                    academicProblem.getAcademicOffering().getAcademicPersonnel().setMaternalSurname(result.getString("academicpersonnel.maternalSurname"));
                     academicProblemQuery.add(academicProblem);
                 }while(result.next());
             }
@@ -126,7 +129,7 @@ public class AcademicProblemDAO {
         DatabaseConnection databaseConnection = new DatabaseConnection();
         AcademicProblem queryAcademicProblem = new AcademicProblem();
         String sentence = "SELECT * FROM academicproblem join academicproblemfollowup on academicproblem.idAcademicProblem = academicproblemfollowup.idAcademicProblem "
-                + "join academicoffering on academicproblem.idAcademicOffering = academicoffering.idAcademicOffering" 
+                + "join academicoffering on academicproblem.idAcademicOffering = academicoffering.idAcademicOffering " 
                 + "join educationalexperience on academicoffering.idEducationalExperience = educationalexperience.idEducationalExperience "
                 + "join academicpersonnel on academicoffering.idAcademicPersonnel = academicpersonnel.idAcademicPersonnel where academicproblem.idAcademicProblem = ?";
         try(Connection connection = databaseConnection.open()){
