@@ -65,7 +65,6 @@ public class QueryAcademicProblemFollowUpFXMLController implements Initializable
     public void configureView(AcademicProblem academicProblem) {
         this.queryAcademicProblem = academicProblem;
         this.loadGUI();
-        this.checkButtons();
     }
     
     private void loadGUI(){
@@ -84,8 +83,10 @@ public class QueryAcademicProblemFollowUpFXMLController implements Initializable
                 if(sessionInformation.getAcademicPersonnel().getUser().getRole().getIdRole() == Roles.CAREER_HEAD_ID_ROLE){
                     this.callWindowRegisterAcademicProblemFollowUp();
                 }
-            }  
+            }
+            this.checkButtons();
         }catch(SQLException sqlException){
+            System.out.print(sqlException.getMessage());
             MessagesAlerts.showDataBaseLostConnectionAlert();
         }
     }
