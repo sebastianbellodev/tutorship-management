@@ -6,6 +6,7 @@ package academictutorshipmanagement.views;
 
 import academictutorshipmanagement.model.dao.AcademicProblemDAO;
 import academictutorshipmanagement.model.pojo.AcademicProblem;
+import academictutorshipmanagement.utilities.MessagesAlerts;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,6 +23,7 @@ import java.time.LocalDate;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 /**
@@ -79,9 +81,9 @@ public class RegisterAcademicProblemFollowUpFXMLController implements Initializa
                     this.descriptionFollowUpTextArea.getText());
             AcademicProblemDAO.registerAcademicProblemFollowUp(this.academicProblem);
         }catch(DataFormatException dfException){
-            
+            MessagesAlerts.showBlankFieldsAlert();
         }catch(SQLException sqlException){
-            System.out.print(sqlException.getMessage());
+            MessagesAlerts.showDataBaseLostConnectionAlert();
         }
     }
     
@@ -95,13 +97,15 @@ public class RegisterAcademicProblemFollowUpFXMLController implements Initializa
             stage.setScene(queryFollowUpOnAcademicProblemsList);
             stage.show();
         }catch(IOException ioException){
-            
+            MessagesAlerts.showFailureLoadWindow();
         }
     }
 
     @FXML
     private void saveButtonClick(ActionEvent event) {
         this.registerFollowUp();
+        MessagesAlerts.showAlert("Se ha registrado el seguimiento con exito", Alert.AlertType.CONFIRMATION);
+        this.backButtonClick(event);
     }
     
     

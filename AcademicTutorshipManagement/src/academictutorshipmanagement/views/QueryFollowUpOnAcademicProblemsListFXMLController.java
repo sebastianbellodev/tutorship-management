@@ -9,6 +9,7 @@ import academictutorshipmanagement.model.pojo.AcademicProblem;
 import academictutorshipmanagement.model.pojo.EducationalExperience;
 import academictutorshipmanagement.model.pojo.SessionInformation;
 import static academictutorshipmanagement.model.pojo.SessionInformation.getSessionInformation;
+import academictutorshipmanagement.utilities.MessagesAlerts;
 import academictutorshipmanagement.utilities.Roles;
 import java.io.IOException;
 import java.net.URL;
@@ -80,7 +81,7 @@ public class QueryFollowUpOnAcademicProblemsListFXMLController implements Initia
           this.academicProblemTableView.setItems(this.academicProblemList);
           this.initializeFilter();
       }catch(SQLException sqlException){
-        //Ventana
+          MessagesAlerts.showDataBaseLostConnectionAlert();
       }
     }
     
@@ -140,7 +141,7 @@ public class QueryFollowUpOnAcademicProblemsListFXMLController implements Initia
             stage.setTitle("Menú principal.");
             stage.show();
         } catch (IOException exception) {
-            System.err.println("The 'MainMenuFXML.fxml' file could not be open. Please try again later.");
+            MessagesAlerts.showFailureLoadWindow();
         }
         
     }
@@ -156,7 +157,7 @@ public class QueryFollowUpOnAcademicProblemsListFXMLController implements Initia
             controller.configureView(academicProblemSelected);
             stage.show();
         }catch(IOException ioException){
-           //Error
+           MessagesAlerts.showFailureLoadWindow();
         }
     }
     

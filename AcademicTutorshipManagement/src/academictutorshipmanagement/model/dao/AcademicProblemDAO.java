@@ -126,7 +126,7 @@ public class AcademicProblemDAO {
         DatabaseConnection databaseConnection = new DatabaseConnection();
         AcademicProblem queryAcademicProblem = new AcademicProblem();
         String sentence = "SELECT * FROM academicproblem join academicproblemfollowup on academicproblem.idAcademicProblem = academicproblemfollowup.idAcademicProblem "
-                + "join academicoffering on academicproblem.idAcademicOffering = academicoffering.idAcademicOffering "
+                + "join academicoffering on academicproblem.idAcademicOffering = academicoffering.idAcademicOffering" 
                 + "join educationalexperience on academicoffering.idEducationalExperience = educationalexperience.idEducationalExperience "
                 + "join academicpersonnel on academicoffering.idAcademicPersonnel = academicpersonnel.idAcademicPersonnel where academicproblem.idAcademicProblem = ?";
         try(Connection connection = databaseConnection.open()){
