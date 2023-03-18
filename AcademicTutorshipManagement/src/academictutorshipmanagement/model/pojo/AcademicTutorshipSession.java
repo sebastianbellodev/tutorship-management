@@ -20,11 +20,10 @@ public class AcademicTutorshipSession {
     public AcademicTutorshipSession() {
     }
 
-    public AcademicTutorshipSession(Date startDate, Date endDate, Date closingDateReportSubmission, int sessionNumber) {
+    public AcademicTutorshipSession(Date startDate, Date endDate, Date closingDateReportSubmission) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.closingDateReportSubmission = closingDateReportSubmission;
-        this.sessionNumber = sessionNumber;
     }
 
     public int getIdAcademicTutorshipSession() {

@@ -71,11 +71,8 @@ public class SchoolPeriodDAO {
         try(Connection connection = databaseConnection.open()){
             String query = "SELECT  idSchoolPeriod, startDate, endDate FROM schoolPeriod";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
-           
-            if(resultSet.wasNull()){
-                    
-            }else{
+            ResultSet resultSet = preparedStatement.executeQuery();     
+            
                 while(resultSet.next()){
                     int idSchoolPeriod = resultSet.getInt("idSchoolPeriod");
                     Date startDate = resultSet.getDate("startDate");
@@ -84,7 +81,7 @@ public class SchoolPeriodDAO {
                     SchoolPeriod schoolPeriods = new SchoolPeriod(idSchoolPeriod, startDate, endDate);
                     schoolPeriod.add(schoolPeriods);
                 }
-            }
+           
         }catch(SQLException exception){
              
         } finally{

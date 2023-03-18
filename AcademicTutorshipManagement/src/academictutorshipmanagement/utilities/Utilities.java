@@ -13,7 +13,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Base64;
-import java.sql.Date;
+import java.util.Date;
 import javafx.scene.control.Alert;
 
 public class Utilities {
@@ -40,11 +40,15 @@ public class Utilities {
         return registrationNumberLenght == Constants.REGISTRATION_NUMBER_LENGTH;
     }
     
-    public static Date convertLocalDateToDate(LocalDate localDate) {
-        Date date = (Date) Date.from(Instant.from(localDate.atStartOfDay(ZoneId.systemDefault())));
-        return date;
+    public static String convertLocalDateToDate(LocalDate localDate) {
+        Date date = Date.from(Instant.from(localDate.atStartOfDay(ZoneId.systemDefault())));
+        return new SimpleDateFormat("yyyy-MM-DD").format(date);
     }
-
+    public static Date convertDate(LocalDate localDate){
+       Date date = Date.from(Instant.from(localDate.atStartOfDay(ZoneId.systemDefault())));
+       return date;
+    }
+    
     public static void showAlert(String message, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setTitle(null);

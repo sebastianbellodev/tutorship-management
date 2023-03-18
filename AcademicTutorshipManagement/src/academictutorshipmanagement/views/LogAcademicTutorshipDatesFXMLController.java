@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package academictutorshipmanagement.views;
 
 import academictutorshipmanagement.model.dao.AcademicTutorshipSessionDAO;
@@ -23,6 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -30,9 +27,9 @@ import javafx.stage.Stage;
 
 public class LogAcademicTutorshipDatesFXMLController implements Initializable {
 
-    SchoolPeriod usablePeriod;
+    private SchoolPeriod usablePeriod;
     
-    boolean OperationResult;
+    private boolean OperationResult;
     
     @FXML
     private Button btn_save;
@@ -51,7 +48,7 @@ public class LogAcademicTutorshipDatesFXMLController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
+       try {
             setSchoolPeriod();
         } catch (SQLException ex) {
             Logger.getLogger(LogAcademicTutorshipDatesFXMLController.class.getName()).log(Level.SEVERE, null, ex);
@@ -60,15 +57,17 @@ public class LogAcademicTutorshipDatesFXMLController implements Initializable {
     
     private void setSchoolPeriod() throws SQLException{        
         SchoolPeriodDAO schoolPeriodDAO = new SchoolPeriodDAO();
-        SchoolPeriod schoolPeriod = new SchoolPeriod();
         ObservableList<SchoolPeriod> periodOptions = schoolPeriodDAO.getAllPeriods();
-        
-        cbb_schoolPeriod.setItems(periodOptions);
-        cbb_schoolPeriod.valueProperty().addListener((ov, oldValue, newValue) -> {
-                usablePeriod = (SchoolPeriod) newValue;
-                setSessions();
-                verifyTutorships(usablePeriod);                                 
-        });            
+        if(periodOptions.isEmpty()){
+            alerts(0);
+        }else{
+            this.cbb_schoolPeriod.setItems(periodOptions);
+            cbb_schoolPeriod.valueProperty().addListener((ov, oldValue, newValue) -> {
+                    usablePeriod = (SchoolPeriod) newValue;      
+                    setSessions();
+                    verifyTutorships();
+            });       
+        }
     }
     
     private void setSessions(){
@@ -77,28 +76,28 @@ public class LogAcademicTutorshipDatesFXMLController implements Initializable {
        cbb_tutorshipSession.setItems(sessions);
     }
     
-    private void verifyTutorships(SchoolPeriod usableSchoolPeriod){
-        AcademicTutorshipSessionDAO TutorshipSession = new AcademicTutorshipSessionDAO();
-        ObservableList <AcademicTutorshipSession> response = TutorshipSession.verifyTutorships(usableSchoolPeriod.getIdSchoolPeriod());
-        if(response.isEmpty()){
-            OperationResult = false;
-        }else{
+    private void verifyTutorships(){
+        AcademicTutorshipSessionDAO tutorshipSession = new AcademicTutorshipSessionDAO();
+        ObservableList<AcademicTutorshipSession> response = tutorshipSession.verifyTutorships(usablePeriod.getIdSchoolPeriod());          
+        if(response.size() == 0 || response == null){
             OperationResult = true;
-            setTutorships(response);
-        }     
-        
-    }
-    
-    private void setTutorships(ObservableList<AcademicTutorshipSession> response){        
-        
+        }else{
+            OperationResult = false;
+            alerts(3);
+        }
     }
     
     private void clear(){
-        cbb_schoolPeriod.valueProperty().set(null);
-        cbb_tutorshipSession.valueProperty().set(null);
-        dp_startDate.setValue(null);
-        dp_endDate.setValue(null);
-        dp_reportDate.setValue(null);
+        try{
+            cbb_schoolPeriod.valueProperty().set(null);
+        }catch(NullPointerException exception){
+            System.err.println("Reinicio de valores");
+        }
+            cbb_tutorshipSession.valueProperty().set(null);
+            dp_startDate.setValue(null);
+            dp_endDate.setValue(null);
+            dp_reportDate.setValue(null);
+        
     }
 
     @FXML
@@ -107,44 +106,42 @@ public class LogAcademicTutorshipDatesFXMLController implements Initializable {
         Utilities utilities = new Utilities();
      
         if(usablePeriod == null){
-            //Periodo no seleccionado
+            alerts(2);
         }else{
             if(dp_startDate.getValue() == null || dp_endDate.getValue() == null || dp_reportDate.getValue() == null){
-                //Seleccionar todas las fehcas
+                alerts(1);
             }
         }
         
-        int session = cbb_tutorshipSession.getSelectionModel().getSelectedIndex();
-        Date parseStartDate = utilities.convertLocalDateToDate(dp_startDate.getValue());
-        Date parseEndDate = utilities.convertLocalDateToDate(dp_endDate.getValue());
-        Date parseReportDate = utilities.convertLocalDateToDate(dp_reportDate.getValue());
-        
-        if(parseStartDate.after(usablePeriod.getStartDate()) && parseStartDate.before(usablePeriod.getEndDate())){
-            if(parseEndDate.after(usablePeriod.getStartDate()) && parseEndDate.before(usablePeriod.getEndDate())){
-                if(parseReportDate.after(usablePeriod.getStartDate()) && parseReportDate.before(usablePeriod.getEndDate())){
-                    if(parseStartDate.after(parseEndDate)){
-                        //Fecha de inicio no puede ser despues de la de cierre
+        int session = ((cbb_tutorshipSession.getSelectionModel().getSelectedIndex()) - 1) ;  
+        Date starDateSession = Date.valueOf(dp_startDate.getValue());
+        Date endDateSession = Date.valueOf(dp_endDate.getValue());
+        Date reportDate = Date.valueOf(dp_reportDate.getValue());
+ 
+        if(starDateSession.after(usablePeriod.getStartDate()) && starDateSession.before(usablePeriod.getEndDate())){
+            if(endDateSession.after(usablePeriod.getStartDate()) && endDateSession.before(usablePeriod.getEndDate())){
+                if(reportDate.after(usablePeriod.getStartDate()) && reportDate.before(usablePeriod.getEndDate())){
+                    if(starDateSession.after(endDateSession)){
+                        alerts(6);
                     }else{
-                        if(OperationResult == true){
-                            tutorshipSessionDAO.saveDates(parseStartDate, parseEndDate, parseReportDate, session, usablePeriod.getIdSchoolPeriod());
-                            //Mensaje de exito
-                            System.out.println("EXITO");
+                        if(OperationResult == true){                               
+                            tutorshipSessionDAO.saveNewDates(starDateSession, endDateSession, reportDate, session, usablePeriod.getIdSchoolPeriod());
+                            alerts(4);
                             clear();
                         }else{
-                            tutorshipSessionDAO.updateDates(parseStartDate, parseEndDate, parseReportDate, session, usablePeriod.getIdSchoolPeriod());
-                            //Mensaje de exito
-                            System.out.println("EXITO");
+                            tutorshipSessionDAO.updateDates(starDateSession, endDateSession, reportDate, session, usablePeriod.getIdSchoolPeriod());
+                            alerts(4);
                             clear();
                         }
                     }
                 }else{
-                //Fecha fuera del periodo
+                alerts(5);
                 }
             }else{
-                //Fecha fuera del periodo
+                alerts(5);
             }
         }else{
-            //Fecha fuera del periodo
+            alerts(5);
         }
     }
 
@@ -159,19 +156,86 @@ public class LogAcademicTutorshipDatesFXMLController implements Initializable {
     @FXML
     private void getStartDates(ActionEvent event) {
         LocalDate myDate = dp_startDate.getValue();
-        String formatoDate = myDate.format(DateTimeFormatter.ofPattern("MM-dd-yyyy"));
+        try{
+            String formatoDate = myDate.format(DateTimeFormatter.ofPattern("MM-dd-yyyy"));
+        }catch(NullPointerException exception){
+            System.err.println("Valores reiniciados");
+        }
     }
 
     @FXML
     private void getEndDates(ActionEvent event) {
         LocalDate myDate = dp_endDate.getValue();
-        String formatoDate = myDate.format(DateTimeFormatter.ofPattern("MM-dd-yyyy"));
+        try{
+            String formatoDate = myDate.format(DateTimeFormatter.ofPattern("MM-dd-yyyy"));
+        }catch(NullPointerException exception){
+            System.err.println("Valores reiniciados");
+        }
     }
 
     @FXML
     private void getReportDates(ActionEvent event) {
         LocalDate myDate = dp_reportDate.getValue();
-        String formatoDate = myDate.format(DateTimeFormatter.ofPattern("MM-dd-yyyy"));
+        try{
+            String formatoDate = myDate.format(DateTimeFormatter.ofPattern("MM-dd-yyyy"));
+        }catch(NullPointerException exception){
+            System.err.println("Valores reiniciados");
+        }
     }
     
+     private void alerts(int alerta){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        switch(alerta){
+            case 0: 
+                alert.setTitle("Sin periodos");
+                alert.setHeaderText("No hay periodos registrados");
+                alert.setContentText("Intentelo mas tarde");
+                alert.showAndWait();
+                Stage stage = (Stage)btn_cancel.getScene().getWindow();
+                stage.close();
+                break;
+            case 1:
+                alert.setTitle("Atencion");
+                alert.setHeaderText("Fecha no elegida");
+                alert.setContentText("Debe de introducir las tres fechas de sesion para poder guardar");
+                alert.showAndWait();              
+                break;
+            case 2: 
+                alert.setTitle("Atencion");
+                alert.setHeaderText("Periodo no seleccionado");
+                alert.setContentText("Debe de seleccionar un periodo para registrar las fechas");
+                alert.showAndWait();          
+                break;
+            case 3:
+                alert.setTitle("Atencion");
+                alert.setHeaderText("Fechas ya registradas");
+                alert.setContentText("Ya se registraron las fechas del periodo seleccionado, asi que se actualizaran estas");
+                alert.showAndWait();    
+                break;
+            case 4:
+                alert.setTitle("Fecha registrada");
+                alert.setHeaderText("Fecha valida");
+                alert.setContentText("La fecha ha sido registrada");
+                alert.showAndWait();
+                break;
+            case 5:
+                alert.setTitle("Error");
+                alert.setHeaderText("Año o mes ingresado incorrecto");
+                alert.setContentText("El año o mes que ingreso no se encuentra en el periodo");
+                alert.showAndWait();
+                break;
+            case 6:
+                alert.setTitle("Error");
+                alert.setHeaderText("Fecha de cierre invalida");
+                alert.setContentText("La fecha de inicio es despues de la fecha de cierre");
+                alert.showAndWait();
+                break;
+            }    
+        }
+        
+    /*
+    private validateDates() throws EXception{} //DEfine excepcion que manda si las fehcas no son validas
+    
+    private logDates(){}; // Pasa las fechas y aqui es donde genera la lógica para ver si guarda y update
+    */
 }
