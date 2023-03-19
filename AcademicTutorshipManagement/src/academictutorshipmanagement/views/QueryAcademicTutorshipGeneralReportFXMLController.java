@@ -146,7 +146,6 @@ public class QueryAcademicTutorshipGeneralReportFXMLController implements Initia
                     Alert.AlertType.ERROR);
         } else {
             LocalDate today = LocalDate.now();
-            LocalDate endDate;
             for (AcademicTutorshipSession academicTutorshipSession : academicTutorshipSessionResultSet) {
                 if(today.isAfter(today.parse(academicTutorshipSession.getStartDate().toString()))) {
                     academicTutorshipSessions.add(academicTutorshipSession.getSessionNumber());
