@@ -5,6 +5,7 @@ import academictutorshipmanagement.model.dao.SchoolPeriodDAO;
 import academictutorshipmanagement.model.pojo.AcademicTutorshipSession;
 import academictutorshipmanagement.model.pojo.SchoolPeriod;
 import academictutorshipmanagement.utilities.Utilities;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -17,8 +18,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -148,9 +152,16 @@ public class LogAcademicTutorshipDatesFXMLController implements Initializable {
    
     @FXML
     private void cancel(ActionEvent event) {
-        Node source = (Node) event.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("TutorialSessionAdministrationMenuFXML.fxml"));
+        try{
+            Parent root = loader.load();
+            Scene queryFollowUpOnAcademicProblemsList = new Scene(root);
+            Stage stage = (Stage) this.btn_cancel.getScene().getWindow();
+            stage.setScene(queryFollowUpOnAcademicProblemsList);
+            stage.show();
+        }catch(IOException ioException){
+            
+        }
     }
 
     @FXML
