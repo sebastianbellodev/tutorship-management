@@ -159,13 +159,13 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
                     students.clear();
                     idAcademicPersonnel = newValue.getIdAcademicPersonnel();
                     clearTextField();
-                    loadacademicTutorshipSessions(idAcademicPersonnel, idSchoolPeriod);
+                    loadacademicTutorshipReports(idAcademicPersonnel, idSchoolPeriod);
                 }
             });
         }
     }
     
-    private void loadacademicTutorshipSessions(int idAcademicPersonnel, int idSchoolPeriod) {
+    private void loadacademicTutorshipReports(int idAcademicPersonnel, int idSchoolPeriod) {
         ArrayList<AcademicTutorshipReport> academicTutorshipReportsResultSet = AcademicTutorshipReportDAO.getAcademicTutorshipReports(idAcademicPersonnel, idSchoolPeriod);
         if (academicTutorshipReportsResultSet.isEmpty()) {
             Utilities.showAlert("No hay conexión con la base de datos.\n\n"
@@ -198,6 +198,7 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
     
     private void loadStudentsByAcademicTutorshipReport(AcademicTutorshipReport academicTutorshipReport) {
         ArrayList<Student> studentsResultSet = StudentDAO.getStudentsByAcademicTutorshipReport(academicTutorshipReport.getIdAcademicTutorshipReport());
+        students.clear();
         students.addAll(studentsResultSet);
         configureTableViewCheckBoxes();
         studentsTableView.setItems(students);
