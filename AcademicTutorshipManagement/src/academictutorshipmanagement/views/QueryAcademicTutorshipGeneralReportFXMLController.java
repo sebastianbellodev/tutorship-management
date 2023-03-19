@@ -147,10 +147,9 @@ public class QueryAcademicTutorshipGeneralReportFXMLController implements Initia
         } else {
             LocalDate today = LocalDate.now();
             LocalDate endDate;
-            int index = 0;
             for (AcademicTutorshipSession academicTutorshipSession : academicTutorshipSessionResultSet) {
                 if(today.isAfter(today.parse(academicTutorshipSession.getStartDate().toString()))) {
-                    academicTutorshipSessions.add(++index);
+                    academicTutorshipSessions.add(academicTutorshipSession.getSessionNumber());
                 }
             }
             academicTutorshipSessionComboBox.setItems(academicTutorshipSessions);
