@@ -113,7 +113,7 @@ public class LogAcademicTutorshipDatesFXMLController implements Initializable {
             }
         }
         
-        int session = ((cbb_tutorshipSession.getSelectionModel().getSelectedIndex()) - 1) ;  
+        int session = ((cbb_tutorshipSession.getSelectionModel().getSelectedIndex()) + 1) ;  
         Date starDateSession = Date.valueOf(dp_startDate.getValue());
         Date endDateSession = Date.valueOf(dp_endDate.getValue());
         Date reportDate = Date.valueOf(dp_reportDate.getValue());
