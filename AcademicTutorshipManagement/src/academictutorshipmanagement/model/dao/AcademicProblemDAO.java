@@ -6,7 +6,10 @@
 package academictutorshipmanagement.model.dao;
 
 import academictutorshipmanagement.model.DatabaseConnection;
+import academictutorshipmanagement.model.pojo.AcademicOffering;
+import academictutorshipmanagement.model.pojo.AcademicPersonnel;
 import academictutorshipmanagement.model.pojo.AcademicProblem;
+import academictutorshipmanagement.model.pojo.EducationalExperience;
 import academictutorshipmanagement.utilities.Constants;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -191,6 +194,50 @@ public class AcademicProblemDAO {
                 academicProblem.setDescription(resultSet.getString("description"));
                 academicProblem.setNumberOfStudents(resultSet.getInt("numberOfStudents"));
                 academicProblem.setIdAcademicOffering(resultSet.getInt("idAcademicOffering"));
+                academicProblems.add(academicProblem);
+            }
+        } catch (SQLException exception) {
+            academicProblems = null;
+        } finally {
+            databaseConnection.close();
+        }
+         return academicProblems;
+    }
+    
+    public static ArrayList<AcademicProblem> loadAcademicProblemsByAcademicTutorshipGeneralReport(int idAcademicTutorshipReport) {
+        ArrayList<AcademicProblem> academicProblems = new ArrayList<>();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String query = "SELECT academicProblem.*, educationalexperience.name as educationalExperience, academicpersonnel.name,\n"
+                + "academicpersonnel.paternalSurname, academicpersonnel.maternalSurname\n"
+                + "FROM academicProblem\n"
+                + "INNER JOIN academicOffering\n"
+                + "ON academicoffering.idAcademicOffering = academicproblem.idAcademicOffering\n"
+                + "INNER JOIN educationalExperience\n"
+                + "ON educationalExperience.idEducationalExperience = academicOffering.idEducationalExperience\n"
+                + "INNER JOIN academicPersonnel\n"
+                + "ON academicPersonnel.idAcademicPersonnel = academicOffering.idAcademicPersonnel\n"
+                + "WHERE idAcademicTutorshipReport = ?";
+         try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idAcademicTutorshipReport);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                AcademicProblem academicProblem = new AcademicProblem();
+                academicProblem.setIdAcademicProblem(resultSet.getInt("idAcademicProblem"));
+                academicProblem.setTitle(resultSet.getString("title"));
+                academicProblem.setDescription(resultSet.getString("description"));
+                academicProblem.setNumberOfStudents(resultSet.getInt("numberOfStudents"));
+                academicProblem.setIdAcademicOffering(resultSet.getInt("idAcademicOffering"));
+                AcademicOffering academicOffering = new AcademicOffering();
+                EducationalExperience educationalExperience = new EducationalExperience();
+                educationalExperience.setName(resultSet.getString("educationalExperience"));
+                AcademicPersonnel academicPersonnel = new AcademicPersonnel();
+                academicPersonnel.setName(resultSet.getString("name"));
+                academicPersonnel.setPaternalSurname(resultSet.getString("paternalSurname"));
+                academicPersonnel.setMaternalSurname(resultSet.getString("maternalSurname"));
+                academicOffering.setEducationalExperience(educationalExperience);
+                academicOffering.setAcademicPersonnel(academicPersonnel);
+                academicProblem.setAcademicOffering(academicOffering);
                 academicProblems.add(academicProblem);
             }
         } catch (SQLException exception) {
