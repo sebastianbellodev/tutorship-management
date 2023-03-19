@@ -100,7 +100,7 @@ public class Student {
     public boolean isAtRisk() {
         return atRisk;
     }
-
+    
     public void setAtRisk(boolean atRisk) {
         this.atRisk = atRisk;
     }

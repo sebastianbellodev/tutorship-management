@@ -95,12 +95,10 @@
       <TextArea fx:id="generalCommentTextArea" editable="false" layoutX="652.0" layoutY="296.0" prefHeight="245.0" prefWidth="265.0" wrapText="true" />
       <TableView fx:id="studentsTableView" layoutX="44.0" layoutY="296.0" prefHeight="245.0" prefWidth="600.0" style="-fx-font: 12px &quot;Arial&quot;;">
          <columns>
-            <TableColumn fx:id="registrationNumberTableColumn" prefWidth="100.0" text="Matrícula" />
-            <TableColumn fx:id="nameTableColumn" prefWidth="142.0" text="Nombre" />
-            <TableColumn fx:id="paternalSurnameTableColumn" prefWidth="114.0" text="Apellido paterno" />
-            <TableColumn fx:id="maternalSurnameTableColumn" prefWidth="115.0" text="Apellido materno" />
-            <TableColumn fx:id="attendedByTableColumn" minWidth="0.0" prefWidth="58.0" style="-fx-alignment: CENTER;" text="Asistió" />
-            <TableColumn fx:id="atRiskTableColumn" prefWidth="70.0" style="-fx-alignment: CENTER;" text="En riesgo" />
+            <TableColumn fx:id="registrationNumberTableColumn" prefWidth="149.0" text="Matrícula" />
+            <TableColumn fx:id="studentTableColumn" prefWidth="247.0" text="Nombre" />
+            <TableColumn fx:id="attendedByTableColumn" minWidth="0.0" prefWidth="102.0" style="-fx-alignment: CENTER;" text="Asistió" />
+            <TableColumn fx:id="atRiskTableColumn" prefWidth="101.0" style="-fx-alignment: CENTER;" text="En riesgo" />
          </columns>
       </TableView>
    </children>
