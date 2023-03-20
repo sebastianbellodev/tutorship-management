@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="academictutorshipmanagement.views.ModifyAcademicProblemFollowUpFXMLController">
+   <children>
+      <Label layoutX="35.0" layoutY="43.0" text="Titulo">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="titleAcademicProblemLabel" layoutX="87.0" layoutY="43.0" prefHeight="27.0" prefWidth="826.0" style="-fx-background-color: #F4F4F4;" wrapText="true">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="35.0" layoutY="97.0" text="Experiencia Educativa">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="337.0" layoutY="99.0" text="Personal Academico">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="659.0" layoutY="99.0" text="Numero de Estudiantes">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="nameEducationalExperienceLabel" layoutX="35.0" layoutY="135.0" prefHeight="17.0" prefWidth="290.0" style="-fx-background-color: #F4F4F4;" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="nameAcademicPersonnelLabel" layoutX="337.0" layoutY="135.0" prefHeight="17.0" prefWidth="290.0" style="-fx-background-color: #F4F4F4;" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="numberStudentsLabel" layoutX="659.0" layoutY="135.0" prefHeight="20.0" prefWidth="252.0" style="-fx-background-color: #F4F4F4;" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="34.0" layoutY="168.0" text="Descripción">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="descriptionAcademicProblemLabel" alignment="TOP_LEFT" layoutX="35.0" layoutY="195.0" prefHeight="122.0" prefWidth="877.0" style="-fx-background-color: #F4F4F4;" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="descriptionFollowUpTextArea" layoutX="35.0" layoutY="353.0" prefHeight="189.0" prefWidth="877.0" wrapText="true" />
+      <Label layoutX="35.0" layoutY="320.0" text="Descripción Seguimiento">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="backButton" layoutX="818.0" layoutY="550.0" mnemonicParsing="false" onAction="#backButtonClick" prefHeight="25.0" prefWidth="93.0" text="Regresar" />
+      <Button fx:id="saveButton" layoutX="694.0" layoutY="550.0" mnemonicParsing="false" onAction="#saveButtonClick" prefHeight="25.0" prefWidth="110.0" text="Guardar" />
+   </children>
+</AnchorPane>

@@ -242,11 +242,5 @@ public class LogAcademicTutorshipDatesFXMLController implements Initializable {
                 alert.showAndWait();
                 break;
             }    
-        }
-        
-    /*
-    private validateDates() throws EXception{} //DEfine excepcion que manda si las fehcas no son validas
-    
-    private logDates(){}; // Pasa las fechas y aqui es donde genera la lógica para ver si guarda y update
-    */
+        }        
 }
