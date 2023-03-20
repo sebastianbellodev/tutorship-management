@@ -77,7 +77,7 @@ public class QueryFollowUpOnAcademicProblemsListFXMLController implements Initia
     
     private void loadGUI(){
       try{
-          this.academicProblemList = this.getAcademicProblem();
+          this.academicProblemList = this.getAcademicProblemList();
           this.academicProblemTableView.setItems(this.academicProblemList);
           this.initializeFilter();
       }catch(SQLException sqlException){
@@ -85,7 +85,7 @@ public class QueryFollowUpOnAcademicProblemsListFXMLController implements Initia
       }
     }
     
-    private ObservableList<InnerAcademicProblem> getAcademicProblem() throws SQLException{
+    private ObservableList<InnerAcademicProblem> getAcademicProblemList() throws SQLException{
         SessionInformation sessionInformation = getSessionInformation();
         ObservableList<InnerAcademicProblem> academicProblemList = FXCollections.observableArrayList();
         ArrayList<AcademicProblem> academicProblemQuery = 
