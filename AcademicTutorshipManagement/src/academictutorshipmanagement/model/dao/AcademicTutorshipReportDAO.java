@@ -6,6 +6,7 @@
 package academictutorshipmanagement.model.dao;
 
 import academictutorshipmanagement.model.DatabaseConnection;
+import academictutorshipmanagement.model.pojo.AcademicPersonnel;
 import academictutorshipmanagement.model.pojo.AcademicTutorship;
 import academictutorshipmanagement.model.pojo.AcademicTutorshipReport;
 import academictutorshipmanagement.model.pojo.AcademicTutorshipSession;
@@ -73,6 +74,44 @@ public class AcademicTutorshipReportDAO {
                 academicTutorshipSession.setClosingDateReportSubmission(resultSet.getDate("closingDateReportSubmission"));
                 academicTutorship.setAcademicTutorshipSession(academicTutorshipSession);
                 academicTutorshipReport.setAcademicTutorship(academicTutorship);
+                academicTutorshipReports.add(academicTutorshipReport);
+            }
+        } catch (SQLException exception) {
+            academicTutorshipReports = null;
+        } finally {
+            databaseConnection.close();
+        }
+        return academicTutorshipReports;
+    }
+    
+    public static ArrayList<AcademicTutorshipReport> getAcademicTutorshipReportsForGeneral(int sessionNumber, int idSchoolPeriod) {
+        ArrayList<AcademicTutorshipReport> academicTutorshipReports = new ArrayList<>();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String query = "SELECT academictutorshipreport.*, academicpersonnel.*\n"
+                + "FROM academictutorshipreport\n"
+                + "INNER JOIN academictutorship\n"
+                + "ON academictutorshipreport.idAcademicTutorship = academictutorship.idAcademicTutorship\n"
+                + "INNER JOIN academictutorshipsession\n"
+                + "ON academictutorship.idAcademicTutorshipSession = academictutorshipsession.idAcademicTutorshipSession\n"
+                + "INNER JOIN academicpersonnel\n"
+                + "ON academictutorshipreport.idAcademicPersonnel = academicpersonnel.idAcademicPersonnel\n"
+                + "WHERE sessionNumber = ? AND idSchoolPeriod = ?";
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, sessionNumber);
+            preparedStatement.setInt(2, idSchoolPeriod);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                AcademicTutorshipReport academicTutorshipReport = new AcademicTutorshipReport();
+                academicTutorshipReport.setIdAcademicTutorshipReport(resultSet.getInt("idAcademicTutorshipReport"));
+                academicTutorshipReport.setGeneralComment(resultSet.getString("generalComment"));
+                academicTutorshipReport.setNumberOfStudentsAttending(resultSet.getInt("numberOfStudentsAttending"));
+                academicTutorshipReport.setNumberOfStudentsAtRisk(resultSet.getInt("numberOfStudentsAtRisk"));             
+                AcademicPersonnel academicPersonnel = new AcademicPersonnel();
+                academicPersonnel.setName(resultSet.getString("name"));
+                academicPersonnel.setPaternalSurname(resultSet.getString("paternalSurname"));
+                academicPersonnel.setMaternalSurname(resultSet.getString("maternalSurname"));
+                academicTutorshipReport.setAcademicPersonnel(academicPersonnel);
                 academicTutorshipReports.add(academicTutorshipReport);
             }
         } catch (SQLException exception) {

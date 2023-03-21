@@ -1,7 +1,6 @@
-/**
- * Name(s) of the programmer(s): María José Torres Igartua.
- * Date of creation: March 04, 2023.
- * Date of update: March 05, 2023.
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 package academictutorshipmanagement.views;
 
@@ -34,7 +33,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class LogAcademicProblemFXMLController implements Initializable {
+/**
+ * FXML Controller class
+ *
+ * @author oband
+ */
+public class ModifyAcademicProblemFXMLController implements Initializable {
 
     @FXML
     private TextField titleTextField;
@@ -54,7 +58,8 @@ public class LogAcademicProblemFXMLController implements Initializable {
     private ObservableList<AcademicOffering> academicOfferings;
 
     private IAcademicProblem academicProblemInterface;
-
+    
+    private AcademicProblem academicProblem;
     private int idEducationalProgram;
     private int idSchoolPeriod;
     private int idEducationalExperience;
@@ -66,14 +71,37 @@ public class LogAcademicProblemFXMLController implements Initializable {
         academicOfferings = FXCollections.observableArrayList();
     }
 
-    public void configureView(IAcademicProblem academicProblemInterface, SchoolPeriod schoolPeriod, EducationalProgram educationalProgram, int numberOfStudentsByAcademicPersonnel) {
+    public void configureView(IAcademicProblem academicProblemInterface, int idSchoolPeriod, int idEducationalProgram, int numberOfStudentsByAcademicPersonnel,AcademicProblem academicProblem) {
         this.academicProblemInterface = academicProblemInterface;
-        idSchoolPeriod = schoolPeriod.getIdSchoolPeriod();
-        idEducationalProgram = educationalProgram.getIdEducationalProgram();
+        idSchoolPeriod = idSchoolPeriod;
+        idEducationalProgram = idEducationalProgram;
         configureAcademicPersonnelInformation(numberOfStudentsByAcademicPersonnel);
         loadCurrentEducationalExperiencesByEducationalProgram();
     }
 
+    
+    public void loadAcademicProblemData(){
+        this.titleTextField.setText(this.academicProblem.getTitle());
+        this.titleTextField.setText(this.academicProblem.getDescription());
+        this.numberOfStudentsSpinner.getValueFactory().setValue(this.academicProblem.getNumberOfStudents());
+        this.academicPersonnelComboBox.selectionModelProperty().get().select(this.getIndexAcademicPersonnel());
+        //Pendiente seleccion combobox
+        //
+    }
+    
+    private int getIndexAcademicPersonnel(){
+        int indexReturn = 1;
+        int iterator = 0;
+        for(AcademicPersonnel academicPersonnel: this.academicPersonnel){
+            
+            if(this.academicProblem.getAcademicOffering().getAcademicPersonnel().getFullName().matches(academicPersonnel.getFullName())){
+                indexReturn = iterator; 
+            }
+            iterator++;
+        }
+        return indexReturn;
+    }
+    
     private void configureAcademicPersonnelInformation(int numberOfStudentsByAcademicPersonnel) {
         SpinnerValueFactory spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(Constants.MINIUM_NUMBER_OF_STUDENTS_PER_ACADEMIC_PROBLEM, numberOfStudentsByAcademicPersonnel);
         numberOfStudentsSpinner.setValueFactory(spinnerValueFactory);
@@ -126,11 +154,10 @@ public class LogAcademicProblemFXMLController implements Initializable {
             String description = descriptionTextArea.getText();
             int numberOfStudents = numberOfStudentsSpinner.getValue();
             AcademicProblem academicProblem = new AcademicProblem(title, description, numberOfStudents);
-            academicProblem.setIdAcademicProblem(Constants.PRIMARY_KEY_OF_NON_EXISTENT_RECORD_IN_DATABASE);
             AcademicOffering academicOffering = nrcComboBox.getValue();
             academicProblem.setAcademicOffering(academicOffering);
             academicProblemInterface.configureAcademicProblem(academicProblem);
-            Utilities.showAlert("La problemática académica se asignó correctamente al Reporte de Tutorías Académicas.\n",
+            Utilities.showAlert("La problemática académica se actualizó correctamente en el Reporte de Tutorías Académicas.\n",
                     Alert.AlertType.INFORMATION);
             closePopUpWindow();
         } else {
@@ -140,6 +167,8 @@ public class LogAcademicProblemFXMLController implements Initializable {
         }
     }
 
+    
+    
     private boolean validateEmptyFields() {
         return titleTextField.getText().isEmpty()
                 || nrcComboBox.getSelectionModel().isEmpty()
@@ -155,5 +184,4 @@ public class LogAcademicProblemFXMLController implements Initializable {
     private void cancelButtonClick(ActionEvent event) {
         closePopUpWindow();
     }
-
 }

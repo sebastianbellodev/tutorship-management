@@ -84,8 +84,10 @@ public class QueryAcademicProblemFollowUpFXMLController implements Initializable
                 if(sessionInformation.getAcademicPersonnel().getUser().getRole().getIdRole() == Roles.CAREER_HEAD_ID_ROLE){
                     this.callWindowRegisterAcademicProblemFollowUp();
                 }
-            }  
+            }
+            this.checkButtons();
         }catch(SQLException sqlException){
+            System.out.print(sqlException.getMessage());
             MessagesAlerts.showDataBaseLostConnectionAlert();
         }
     }
@@ -118,6 +120,7 @@ public class QueryAcademicProblemFollowUpFXMLController implements Initializable
         }catch (IOException exception){
             System.err.println("The 'ModifyAcademicProblemFollowUpFXML.fxml' file could not be open. Please try again later.");
         }
+
     
     }
 

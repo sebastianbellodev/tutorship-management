@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.sql.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import java.util.ArrayList;
 
 public class AcademicTutorshipSessionDAO {
 
@@ -43,6 +44,34 @@ public class AcademicTutorshipSessionDAO {
             databaseConnection.close();
         }
         return academicTutorshipSession;
+    }
+    
+    public static ArrayList<AcademicTutorshipSession> getAcademicTutorshipSessions(int idSchoolPeriod) {
+        ArrayList<AcademicTutorshipSession> academicTutorshipSessions = new ArrayList<>();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String query = "SELECT *\n"
+                + "FROM academicTutorshipSession\n"
+                + "WHERE idSchoolPeriod = ?";
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idSchoolPeriod);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                AcademicTutorshipSession academicTutorshipSession = new AcademicTutorshipSession();
+                academicTutorshipSession.setIdAcademicTutorshipSession(resultSet.getInt("idAcademicTutorshipSession"));
+                academicTutorshipSession.setStartDate(resultSet.getDate("startDate"));
+                academicTutorshipSession.setEndDate(resultSet.getDate("endDate"));
+                academicTutorshipSession.setClosingDateReportSubmission(resultSet.getDate("closingDateReportSubmission"));
+                academicTutorshipSession.setSessionNumber(resultSet.getInt("sessionNumber"));
+                academicTutorshipSession.setResponseCode(Constants.CORRECT_OPERATION_CODE);
+                academicTutorshipSessions.add(academicTutorshipSession);
+            }
+        } catch (SQLException exception) {
+            academicTutorshipSessions = null;
+        } finally {
+            databaseConnection.close();
+        }
+        return academicTutorshipSessions;
     }
 
     public ObservableList<AcademicTutorshipSession> verifyTutorships(int schoolPeriod) {

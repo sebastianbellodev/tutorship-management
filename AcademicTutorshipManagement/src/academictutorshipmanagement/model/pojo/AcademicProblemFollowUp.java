@@ -5,13 +5,14 @@
  */
 package academictutorshipmanagement.model.pojo;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class AcademicProblemFollowUp {
     
+    private int idAcademicProblemFollowUp;
     private String description;
     private Date date;
-    private AcademicProblem academicProblem;
+    
 
     public AcademicProblemFollowUp() {
     }
@@ -21,6 +22,14 @@ public class AcademicProblemFollowUp {
         this.date = date;
     }
 
+    public int getIdAcademicProblemFollowUp() {
+        return idAcademicProblemFollowUp;
+    }
+
+    public void setIdAcademicProblemFollowUp(int idAcademicProblemFollowUp) {
+        this.idAcademicProblemFollowUp = idAcademicProblemFollowUp;
+    }
+    
     public String getDescription() {
         return description;
     }
@@ -35,14 +44,6 @@ public class AcademicProblemFollowUp {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public AcademicProblem getAcademicProblem() {
-        return academicProblem;
-    }
-
-    public void setAcademicProblem(AcademicProblem academicProblem) {
-        this.academicProblem = academicProblem;
     }
     
 }

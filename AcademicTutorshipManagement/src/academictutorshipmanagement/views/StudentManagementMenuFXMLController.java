@@ -8,6 +8,8 @@ package academictutorshipmanagement.views;
 import academictutorshipmanagement.model.pojo.AcademicPersonnel;
 import academictutorshipmanagement.model.pojo.SchoolPeriod;
 import academictutorshipmanagement.model.pojo.User;
+import academictutorshipmanagement.utilities.Constants;
+import academictutorshipmanagement.utilities.Utilities;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,6 +19,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
@@ -27,6 +30,8 @@ public class StudentManagementMenuFXMLController implements Initializable {
 
     private SchoolPeriod schoolPeriod;
     private AcademicPersonnel academicPersonnel;
+    
+    private int idRol;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -35,6 +40,7 @@ public class StudentManagementMenuFXMLController implements Initializable {
     public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
         this.schoolPeriod = schoolPeriod;
         this.academicPersonnel = academicPersonnel;
+        idRol = academicPersonnel.getUser().getRole().getIdRole();
     }
 
     @FXML
@@ -57,6 +63,16 @@ public class StudentManagementMenuFXMLController implements Initializable {
 
     @FXML
     private void logStudenttButtonClick(ActionEvent event) {
+        if (idRol == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE) {
+            goToLogStudent();
+        } else {
+            Utilities.showAlert("No tiene los permisos necesarios para realizar esta acción.\n\n"
+                    + "Por favor, vuelva a iniciar sesión e inténtelo nuevamente.\n",
+                    Alert.AlertType.INFORMATION);
+        }
+    }
+    
+    public void goToLogStudent() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("LogStudentFXML.fxml"));
         try {
             Parent root = loader.load();
