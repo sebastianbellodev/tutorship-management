@@ -44,7 +44,11 @@ public class Utilities {
         Date date = Date.from(Instant.from(localDate.atStartOfDay(ZoneId.systemDefault())));
         return new SimpleDateFormat("yyyy-MM-DD").format(date);
     }
-
+    public static Date convertDate(LocalDate localDate){
+       Date date = Date.from(Instant.from(localDate.atStartOfDay(ZoneId.systemDefault())));
+       return date;
+    }
+    
     public static void showAlert(String message, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setTitle(null);

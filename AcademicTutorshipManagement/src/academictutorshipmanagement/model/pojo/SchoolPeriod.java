@@ -7,7 +7,7 @@ package academictutorshipmanagement.model.pojo;
 
 import academictutorshipmanagement.utilities.Utilities;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 
 public class SchoolPeriod {
 
@@ -25,6 +25,13 @@ public class SchoolPeriod {
         this.endDate = endDate;
     }
 
+    public SchoolPeriod(int idSchoolPeriod, Date startDate, Date endDate) {
+        this.idSchoolPeriod = idSchoolPeriod;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    
     public int getIdSchoolPeriod() {
         return idSchoolPeriod;
     }

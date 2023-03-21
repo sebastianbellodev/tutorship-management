@@ -12,6 +12,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Date;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import java.util.ArrayList;
 
 public class AcademicTutorshipSessionDAO {
@@ -71,4 +74,73 @@ public class AcademicTutorshipSessionDAO {
         return academicTutorshipSessions;
     }
 
+    public ObservableList<AcademicTutorshipSession> verifyTutorships(int schoolPeriod) {
+        ObservableList<AcademicTutorshipSession> tutorshipSessions = FXCollections.observableArrayList();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        try (Connection connection = databaseConnection.open()) {
+            String query = "SELECT * FROM academictutorshipsession WHERE idSchoolPeriod = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, schoolPeriod);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+           while (resultSet.next()){
+                Date startDate = resultSet.getDate("startDate");
+                Date endDate = resultSet.getDate("endDate");
+                Date reportDate = resultSet.getDate("closingDateReportSubmission");
+                
+                AcademicTutorshipSession academicTutorshipSession = new AcademicTutorshipSession(startDate, endDate, reportDate);
+                tutorshipSessions.add(academicTutorshipSession);
+            } 
+           
+        } catch (SQLException exception) {
+            System.out.print(exception.getMessage());
+        } finally {
+            databaseConnection.close();
+        }
+        return tutorshipSessions;
+    }
+
+    public int saveNewDates(Date starDate, Date endDate, Date reportDate, int session, int schoolPeriod) {
+        int responseCode;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String query = "INSERT INTO academicTutorshipSession\n"
+                + "(startDate, endDate, closingDateReportSubmission, idSchoolPeriod, sessionNumber)\n"
+                + "VALUES(?, ?, ?, ?, ?)";
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setDate(1, starDate);
+            preparedStatement.setDate(2, endDate);
+            preparedStatement.setDate(3, reportDate);
+            preparedStatement.setInt(4, schoolPeriod);
+            preparedStatement.setInt(5, session);
+            int numberOfRowsAffected = preparedStatement.executeUpdate();
+            responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
+        } catch (SQLException exception) {
+            responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
+        } finally {
+            databaseConnection.close();
+        }
+        return responseCode;
+    }
+
+    public int updateDates(Date starDate, Date endDate, Date reportDate, int session, int schoolPeriod) {
+        int responseCode;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String query = "UPDATE academicTutorshipSession SET startDate = ?, endDate = ?, closingDateReportSubmission = ? WHERE idSchoolPeriod = ? AND sessionNumber = ?";
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setDate(1, starDate);
+            preparedStatement.setDate(2, endDate);
+            preparedStatement.setDate(3, reportDate);
+            preparedStatement.setInt(4, schoolPeriod);
+            preparedStatement.setInt(5, session);
+            int numberOfRowsAffected = preparedStatement.executeUpdate();
+            responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
+        } catch (SQLException exception) {
+            responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
+        } finally {
+            databaseConnection.close();
+        }
+        return responseCode;
+    }
 }

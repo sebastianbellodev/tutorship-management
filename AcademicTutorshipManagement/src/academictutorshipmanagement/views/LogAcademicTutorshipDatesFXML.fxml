@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="academictutorshipmanagement.views.LogAcademicTutorshipDatesFXMLController">
+     <children>
+      <Button fx:id="btn_save" layoutX="410.0" layoutY="348.0" mnemonicParsing="false" onAction="#saveDates" text="Guardar" />
+      <Button fx:id="btn_cancel" layoutX="505.0" layoutY="348.0" mnemonicParsing="false" onAction="#cancel" text="Cancelar" />
+      <ComboBox fx:id="cbb_schoolPeriod" layoutX="144.0" layoutY="85.0" prefWidth="150.0" promptText="Periodo escolar" />
+      <Label layoutX="32.0" layoutY="89.0" text="Periodo escolar" />
+      <Label layoutX="329.0" layoutY="89.0" text="Sesion de tutoria" />
+      <ComboBox fx:id="cbb_tutorshipSession" layoutX="440.0" layoutY="85.0" prefHeight="25.0" prefWidth="90.0" promptText="Sesion" />
+      <Label layoutX="122.0" layoutY="37.0" text="Seleccione el periodo del que desea de registrar las fechas de tutorias" />
+      <DatePicker fx:id="dp_startDate" layoutX="104.0" layoutY="163.0" onAction="#getStartDates" />
+      <Label layoutX="14.0" layoutY="167.0" text="Fecha de inicio" />
+      <DatePicker fx:id="dp_endDate" layoutX="404.0" layoutY="163.0" onAction="#getEndDates" />
+      <Label layoutX="306.0" layoutY="167.0" text="Fecha de cierre" />
+      <DatePicker fx:id="dp_reportDate" layoutX="259.0" layoutY="241.0" onAction="#getReportDates" />
+      <Label layoutX="151.0" layoutY="245.0" text="Cierre de reporte" />
+   </children>
+    
+</AnchorPane>

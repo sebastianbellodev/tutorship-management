@@ -65,6 +65,7 @@ public class QueryAcademicProblemFollowUpFXMLController implements Initializable
     public void configureView(AcademicProblem academicProblem) {
         this.queryAcademicProblem = academicProblem;
         this.loadGUI();
+        this.checkButtons();
     }
     
     private void loadGUI(){
@@ -107,8 +108,19 @@ public class QueryAcademicProblemFollowUpFXMLController implements Initializable
     }
     
     @FXML
-    private void modifyButtonClick(ActionEvent event) {
-        //Mandar a Llamar la otra ventana
+    private void modifyButtonClick(ActionEvent event) {        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ModifyAcademicProblemFollowUpFXML.fxml"));
+        try{
+            Parent root = loader.load();                   
+            Scene logAcademicTutorshipDatesView = new Scene(root);
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.setScene(logAcademicTutorshipDatesView);
+            stage.setTitle("Editar seguimiento a problemática académica");
+            stage.show();          
+        }catch (IOException exception){
+            System.err.println("The 'ModifyAcademicProblemFollowUpFXML.fxml' file could not be open. Please try again later.");
+        }
+
     
     }
 

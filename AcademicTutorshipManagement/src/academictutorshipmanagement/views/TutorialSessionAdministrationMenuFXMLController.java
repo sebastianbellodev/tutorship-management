@@ -55,4 +55,20 @@ public class TutorialSessionAdministrationMenuFXMLController implements Initiali
         }
     }
 
+    @FXML
+    private void LogAcademicTutorshipDates(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("LogAcademicTutorshipDatesFXML.fxml"));
+        try{
+            Parent root = loader.load();                   
+            Scene logAcademicTutorshipDatesView = new Scene(root);
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.setScene(logAcademicTutorshipDatesView);
+            stage.setTitle("Fecha de sesión de tutoría académica");
+            stage.show();
+          
+        }catch (IOException exception){
+            System.err.println("The 'LogAcademicTutorshipDatesFXML.fxml' file could not be open. Please try again later.");
+        }
+    }
+
 }

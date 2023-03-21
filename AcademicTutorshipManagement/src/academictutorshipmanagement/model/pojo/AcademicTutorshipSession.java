@@ -6,7 +6,7 @@
 package academictutorshipmanagement.model.pojo;
 
 import academictutorshipmanagement.utilities.Utilities;
-import java.util.Date;
+import java.sql.Date;
 
 public class AcademicTutorshipSession {
 
@@ -20,11 +20,10 @@ public class AcademicTutorshipSession {
     public AcademicTutorshipSession() {
     }
 
-    public AcademicTutorshipSession(Date startDate, Date endDate, Date closingDateReportSubmission, int sessionNumber) {
+    public AcademicTutorshipSession(Date startDate, Date endDate, Date closingDateReportSubmission) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.closingDateReportSubmission = closingDateReportSubmission;
-        this.sessionNumber = sessionNumber;
     }
 
     public int getIdAcademicTutorshipSession() {
@@ -77,7 +76,7 @@ public class AcademicTutorshipSession {
 
     @Override
     public String toString() {
-        return Utilities.changeDateFormat(getStartDate()) + " - " + Utilities.changeDateFormat(getEndDate());
+        return Utilities.changeDateFormat( getStartDate()) + " - " + Utilities.changeDateFormat(getEndDate());
     }
 
 }

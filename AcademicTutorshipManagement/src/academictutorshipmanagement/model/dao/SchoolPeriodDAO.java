@@ -13,6 +13,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.Date;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class SchoolPeriodDAO {
 
@@ -60,6 +63,31 @@ public class SchoolPeriodDAO {
             databaseConnection.close();
         }
         return schoolPeriods;
+    }
+    
+     public ObservableList <SchoolPeriod> getAllPeriods() throws SQLException{
+        ObservableList<SchoolPeriod> schoolPeriod  = FXCollections.observableArrayList(); 
+        DatabaseConnection databaseConnection = new DatabaseConnection();        
+        try(Connection connection = databaseConnection.open()){
+            String query = "SELECT  idSchoolPeriod, startDate, endDate FROM schoolPeriod";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();     
+            
+                while(resultSet.next()){
+                    int idSchoolPeriod = resultSet.getInt("idSchoolPeriod");
+                    Date startDate = resultSet.getDate("startDate");
+                    Date endDate = resultSet.getDate("endDate");                    
+                    
+                    SchoolPeriod schoolPeriods = new SchoolPeriod(idSchoolPeriod, startDate, endDate);
+                    schoolPeriod.add(schoolPeriods);
+                }
+           
+        }catch(SQLException exception){
+             
+        } finally{
+            databaseConnection.close();
+        }
+        return schoolPeriod;
     }
     
 }
