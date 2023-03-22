@@ -109,10 +109,12 @@ public class QueryAcademicProblemFollowUpFXMLController implements Initializable
     private void modifyButtonClick(ActionEvent event) {        
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ModifyAcademicProblemFollowUpFXML.fxml"));
         try{
-            Parent root = loader.load();                   
+            Parent root = loader.load();       
+            ModifyAcademicProblemFollowUpFXMLController controller = loader.getController();
             Scene logAcademicTutorshipDatesView = new Scene(root);
             Stage stage = (Stage) backButton.getScene().getWindow();
             stage.setScene(logAcademicTutorshipDatesView);
+            controller.configureView(this.queryAcademicProblem);
             stage.setTitle("Editar seguimiento a problemática académica");
             stage.show();          
         }catch (IOException exception){
