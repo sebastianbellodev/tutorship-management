@@ -93,8 +93,12 @@ public class RegisterAcademicProblemFollowUpFXMLController implements Initializa
         try{
             Parent root = loader.load();
             Scene queryFollowUpOnAcademicProblemsList = new Scene(root);
+            QueryFollowUpOnAcademicProblemsListFXMLController controller = 
+                    loader.getController();
             Stage stage = (Stage) this.backButton.getScene().getWindow();
             stage.setScene(queryFollowUpOnAcademicProblemsList);
+            controller.configureView();
+            stage.setTitle("Lista de Problemáticas Académicas");
             stage.show();
         }catch(IOException ioException){
             MessagesAlerts.showFailureLoadWindow();

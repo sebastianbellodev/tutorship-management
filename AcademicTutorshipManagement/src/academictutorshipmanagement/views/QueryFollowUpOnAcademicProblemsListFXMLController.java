@@ -20,6 +20,7 @@ import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -65,7 +66,6 @@ public class QueryFollowUpOnAcademicProblemsListFXMLController implements Initia
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.initializeColums();
-        this.loadGUI();
     }    
     
     private void initializeColums(){
@@ -77,12 +77,30 @@ public class QueryFollowUpOnAcademicProblemsListFXMLController implements Initia
     
     private void loadGUI(){
       try{
-          this.academicProblemList = this.getAcademicProblemList();
-          this.academicProblemTableView.setItems(this.academicProblemList);
-          this.initializeFilter();
+        this.academicProblemList = this.getAcademicProblemList();
+        this.academicProblemTableView.setItems(this.academicProblemList);
+        this.initializeFilter();
       }catch(SQLException sqlException){
           MessagesAlerts.showDataBaseLostConnectionAlert();
       }
+    }
+    
+    public void configureView(ArrayList<AcademicProblem> academicProblems){
+        this.academicProblemList = this.getAcademicProblemList(academicProblems);
+        this.academicProblemTableView.setItems(this.academicProblemList);
+        this.initializeFilter();
+    }
+    
+    public void configureView(){
+        this.loadGUI();
+    }
+    
+    private ObservableList<InnerAcademicProblem> getAcademicProblemList(ArrayList<AcademicProblem> academicProblems){
+        ObservableList<InnerAcademicProblem> academicProblemList = FXCollections.observableArrayList();
+        for(AcademicProblem academicProblem : academicProblems){
+            academicProblemList.add(new InnerAcademicProblem(academicProblem));           
+        }
+        return academicProblemList;  
     }
     
     private ObservableList<InnerAcademicProblem> getAcademicProblemList() throws SQLException{
@@ -118,6 +136,10 @@ public class QueryFollowUpOnAcademicProblemsListFXMLController implements Initia
             }
         });
     });
+        SortedList<InnerAcademicProblem> problematicOrderList =
+                new SortedList<>(problematicFilteredList);
+        problematicOrderList.comparatorProperty().bind(this.academicProblemTableView.comparatorProperty());
+        this.academicProblemTableView.setItems(problematicOrderList);
     }
 
     @FXML
@@ -155,6 +177,7 @@ public class QueryFollowUpOnAcademicProblemsListFXMLController implements Initia
             Stage stage = (Stage) this.backButton.getScene().getWindow();
             stage.setScene(queryAcademicProblemFollowUpView);
             controller.configureView(academicProblemSelected);
+            stage.setTitle("Consulta Seguimiento a Problemática Académica");
             stage.show();
         }catch(IOException ioException){
            MessagesAlerts.showFailureLoadWindow();
@@ -178,8 +201,9 @@ public class QueryFollowUpOnAcademicProblemsListFXMLController implements Initia
             return this.getAcademicOffering().getEducationalExperience().getName();
         }
         
-        public String getInnerSchoolPeriod(){ //Ajustar conforme a un parseador.
-            return this.getAcademicOffering().getSchoolPeriod().getStartDate().toString() + " " + this.getAcademicOffering().getSchoolPeriod().getEndDate().toString();
+        public String getInnerSchoolPeriod(){
+            return this.getAcademicOffering().getSchoolPeriod().getStartDate().toString() + 
+                    " - " + this.getAcademicOffering().getSchoolPeriod().getEndDate().toString();
         } 
         public String getInnerNumberOfReports(){
             return Integer.toString(this.getNumberOfStudents());
