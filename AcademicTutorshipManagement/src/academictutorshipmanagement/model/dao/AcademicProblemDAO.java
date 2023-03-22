@@ -72,7 +72,7 @@ public class AcademicProblemDAO {
                     academicProblem.setNumberOfStudents(result.getInt("numberOfStudents"));
                     academicProblem.getAcademicOffering().setIdAcademicOffering(result.getInt("idAcademicOffering"));
                     academicProblem.getAcademicOffering().getEducationalExperience().setIdEducationalExperience(result.getInt("idEducationalExperience"));
-                    academicProblem.getAcademicOffering().getEducationalExperience().setName(result.getString("name"));
+                    academicProblem.getAcademicOffering().getEducationalExperience().setName(result.getString("educationalexperience.name"));
                     academicProblem.getAcademicOffering().getSchoolPeriod().setIdSchoolPeriod(result.getInt("idSchoolPeriod"));
                     academicProblem.getAcademicOffering().getSchoolPeriod().setStartDate(result.getDate("startDate"));
                     academicProblem.getAcademicOffering().getSchoolPeriod().setEndDate(result.getDate("endDate"));
@@ -112,7 +112,7 @@ public class AcademicProblemDAO {
                     academicProblem.setNumberOfStudents(result.getInt("numberOfStudents"));
                     academicProblem.getAcademicOffering().setIdAcademicOffering(result.getInt("idAcademicOffering"));
                     academicProblem.getAcademicOffering().getEducationalExperience().setIdEducationalExperience(result.getInt("idEducationalExperience"));
-                    academicProblem.getAcademicOffering().getEducationalExperience().setName(result.getString("name"));
+                    academicProblem.getAcademicOffering().getEducationalExperience().setName(result.getString("educationalexperience.name"));
                     academicProblem.getAcademicOffering().getSchoolPeriod().setIdSchoolPeriod(result.getInt("idSchoolPeriod"));
                     academicProblem.getAcademicOffering().getSchoolPeriod().setStartDate(result.getDate("startDate"));
                     academicProblem.getAcademicOffering().getSchoolPeriod().setEndDate(result.getDate("endDate")); 

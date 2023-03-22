@@ -22,6 +22,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -34,6 +35,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 
 /**
  * FXML Controller class
@@ -88,10 +90,12 @@ public class QueryFollowUpOnAcademicProblemsListFXMLController implements Initia
     public void configureView(ArrayList<AcademicProblem> academicProblems){
         this.academicProblemList = this.getAcademicProblemList(academicProblems);
         this.academicProblemTableView.setItems(this.academicProblemList);
+        this.backButton.setOnAction(event -> this.closeWindow());
         this.initializeFilter();
     }
     
     public void configureView(){
+        this.backButton.setOnAction(event -> this.backButtonClick());
         this.loadGUI();
     }
     
@@ -150,8 +154,7 @@ public class QueryFollowUpOnAcademicProblemsListFXMLController implements Initia
         }
     }
 
-    @FXML
-    private void backButtonClick(ActionEvent event) {
+    private void backButtonClick() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainMenuFXML.fxml"));
         try {
             Parent root = loader.load();
@@ -165,7 +168,10 @@ public class QueryFollowUpOnAcademicProblemsListFXMLController implements Initia
         } catch (IOException exception) {
             MessagesAlerts.showFailureLoadWindow();
         }
-        
+    }
+    
+    private void closeWindow(){
+        ((Stage) backButton.getScene().getWindow()).close();
     }
     
     private void callWindowQueryConsultFollowUpAcademicProblem(AcademicProblem academicProblemSelected){

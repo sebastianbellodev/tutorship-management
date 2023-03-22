@@ -24,6 +24,6 @@
         </columns>
       </TableView>
       <Button fx:id="consultButton" layoutX="720.0" layoutY="548.0" mnemonicParsing="false" onAction="#consultButtonClick" prefHeight="25.0" prefWidth="90.0" text="Consultar" />
-      <Button fx:id="backButton" layoutX="827.0" layoutY="548.0" mnemonicParsing="false" onAction="#backButtonClick" prefHeight="25.0" prefWidth="90.0" text="Regresar" />
+      <Button fx:id="backButton" layoutX="827.0" layoutY="548.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Regresar" />
    </children>
 </AnchorPane>
