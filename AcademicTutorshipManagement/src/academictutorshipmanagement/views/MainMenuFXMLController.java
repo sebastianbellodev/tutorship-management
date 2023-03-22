@@ -13,6 +13,7 @@ import academictutorshipmanagement.model.pojo.SessionInformation;
 import static academictutorshipmanagement.model.pojo.SessionInformation.getSessionInformation;
 import academictutorshipmanagement.model.pojo.User;
 import academictutorshipmanagement.utilities.Constants;
+import academictutorshipmanagement.utilities.MessagesAlerts;
 import academictutorshipmanagement.utilities.Utilities;
 import java.io.IOException;
 import java.net.URL;
@@ -95,12 +96,15 @@ public class MainMenuFXMLController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("QueryFollowUpOnAcademicProblemsListFXML.fxml"));
         try{
             Parent root = loader.load();
-            Scene queryFollowUpOnAcademicProblemsListView = new Scene(root);
-            Stage stage = (Stage) academicPersonnelLabel.getScene().getWindow();
-            stage.setScene(queryFollowUpOnAcademicProblemsListView);
+            QueryFollowUpOnAcademicProblemsListFXMLController controller = loader.getController();
+            Scene queryFollowUpOnAcademicProblemsList = new Scene(root);
+            Stage stage = (Stage) this.academicPersonnelLabel.getScene().getWindow();
+            stage.setScene(queryFollowUpOnAcademicProblemsList);
+            controller.configureView();
+            stage.setTitle("Lista de Problemáticas Académicas");
             stage.show();
         }catch(IOException ioException){
-            System.out.println(ioException.getMessage());
+            MessagesAlerts.showFailureLoadWindow();
         }
     }
 
