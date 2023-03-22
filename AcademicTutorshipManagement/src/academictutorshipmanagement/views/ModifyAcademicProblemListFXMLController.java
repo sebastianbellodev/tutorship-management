@@ -8,6 +8,8 @@ import academictutorshipmanagement.interfaces.IAcademicProblem;
 import academictutorshipmanagement.model.pojo.AcademicProblem;
 import academictutorshipmanagement.model.pojo.EducationalProgram;
 import academictutorshipmanagement.model.pojo.SchoolPeriod;
+import academictutorshipmanagement.utilities.MessagesAlerts;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -15,11 +17,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -44,11 +50,10 @@ public class ModifyAcademicProblemListFXMLController implements Initializable {
 
     private int idEducationalProgram;
     private int idSchoolPeriod;
-    private int idEducationalExperience;
     private int numberOfStudentsByAcademicPersonnel;
     
     private ObservableList<AcademicProblem> academicProblemList = FXCollections.observableArrayList();
-
+    private ArrayList<AcademicProblem> academicProblems;
     /**
      * Initializes the controller class.
      */
@@ -72,18 +77,35 @@ public class ModifyAcademicProblemListFXMLController implements Initializable {
         this.idSchoolPeriod = schoolPeriod.getIdSchoolPeriod();
         this.idEducationalProgram = educationalProgram.getIdEducationalProgram();
         this.numberOfStudentsByAcademicPersonnel = numberOfStudentsByAcademicPersonnel;
+        this.academicProblems = academicProblems;
         this.academicProblemList.addAll(academicProblems);
+        this.loadGUI();
     }
-    
     
     @FXML
     private void editButtonClick(ActionEvent event) {
-        
-        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ModifyAcademicProblemFXML.fxml"));
+        AcademicProblem academicProblemSelected = this.academiProblemListTableView.getSelectionModel().getSelectedItem();
+        int academicProblemIndex = this.academiProblemListTableView.getSelectionModel().getSelectedIndex();
+        try{
+            Parent root = loader.load();
+            ModifyAcademicProblemFXMLController modifyAcademicProblemFXMLController = loader.getController();
+            Scene modifyAcademicProblemView = new Scene(root);
+            Stage stage = (Stage) this.cancelButton.getScene().getWindow();
+            stage.setScene(modifyAcademicProblemView);
+            modifyAcademicProblemFXMLController.configureView(
+                    academicProblemInterface, idSchoolPeriod, idEducationalProgram, 
+                    numberOfStudentsByAcademicPersonnel, this.academicProblems,
+                    academicProblemIndex);
+            stage.show();
+        }catch(IOException exception){
+            MessagesAlerts.showFailureLoadWindow();
+        }
     }
 
     @FXML
     private void cancelButtonClick(ActionEvent event) {
+        ((Stage)this.cancelButton.getScene().getWindow()).close();
     }
     
 }

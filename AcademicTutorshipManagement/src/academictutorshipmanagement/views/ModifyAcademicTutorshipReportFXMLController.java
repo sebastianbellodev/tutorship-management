@@ -122,7 +122,9 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
     }
 
     private void loadAcademicProblemsByAcademicTutorshipReport() {
-        academicProblems = AcademicProblemDAO.loadAcademicProblemsByAcademicTutorshipReport(idAcademicTutorshipReport);
+        academicProblems = 
+                AcademicProblemDAO.loadAcademicProblemsByAcademicTutorshipReport(
+                        academicTutorshipReport.getIdAcademicTutorshipReport());
     }
 
     private void loadStudentsByAcademicTutorshipReport() {
@@ -198,6 +200,8 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
         academicProblems.forEach(academicProblem -> {
             if (academicProblem.getIdAcademicOffering() == Constants.PRIMARY_KEY_OF_NON_EXISTENT_RECORD_IN_DATABASE) {
                 AcademicProblemDAO.logAcademicProblemByAcademicTutorshipReport(academicProblem, idAcademicTutorshipReport);
+            }else{
+                AcademicProblemDAO.updatedAcademicProblemByAcademicTutorshipReport(academicProblem);
             }
         });
     }
@@ -245,6 +249,21 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
 
     @FXML
     private void viewAcademicProblemsButtonClick(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ModifyAcademicProblemListFXML.fxml"));
+        try {
+            Parent root = loader.load();
+            ModifyAcademicProblemListFXMLController modifyAcademicProblemFXMLController = loader.getController();
+            int numberOfStudentsByAcademicPersonnel = students.size();
+            modifyAcademicProblemFXMLController.configureView(this, schoolPeriod, educationalProgram, numberOfStudentsByAcademicPersonnel,this.academicProblems);
+            Stage stage = new Stage();
+            Scene logAcademicProblemView = new Scene(root);
+            stage.setScene(logAcademicProblemView);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Modificar Problemática Académica.");
+            stage.showAndWait();
+        } catch (IOException exception) {
+            System.err.println("The LogAcademicProblemFXML.fxml' file could not be open. Please try again later.");
+        }
     }
 
     @FXML
