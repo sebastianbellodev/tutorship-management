@@ -84,7 +84,18 @@ public class ModifyAcademicProblemListFXMLController implements Initializable {
     
     @FXML
     private void editButtonClick(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("ModifyAcademicProblemFXML.fxml"));
+        if(this.academiProblemListTableView.getSelectionModel().getSelectedItem()!=null){
+            this.callWindowModifyAcademicProblem();
+        }
+    }
+
+    @FXML
+    private void cancelButtonClick(ActionEvent event) {
+        ((Stage)this.cancelButton.getScene().getWindow()).close();
+    }
+    
+    private void callWindowModifyAcademicProblem(){
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("ModifyAcademicProblemFXML.fxml"));
         AcademicProblem academicProblemSelected = this.academiProblemListTableView.getSelectionModel().getSelectedItem();
         int academicProblemIndex = this.academiProblemListTableView.getSelectionModel().getSelectedIndex();
         try{
@@ -101,11 +112,6 @@ public class ModifyAcademicProblemListFXMLController implements Initializable {
         }catch(IOException exception){
             MessagesAlerts.showFailureLoadWindow();
         }
-    }
-
-    @FXML
-    private void cancelButtonClick(ActionEvent event) {
-        ((Stage)this.cancelButton.getScene().getWindow()).close();
     }
     
 }
