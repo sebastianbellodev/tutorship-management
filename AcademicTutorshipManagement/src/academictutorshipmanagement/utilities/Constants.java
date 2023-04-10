@@ -21,6 +21,7 @@ public class Constants {
     public static final int PRIMARY_KEY_OF_NON_EXISTENT_RECORD_IN_DATABASE = 0;
     public static final int MINIUM_NUMBER_OF_DAYS_FOR_ACADEMIC_TUTORSHIP_REPORT_SUBMISSION = 0;
     public static final int MINIUM_NUMBER_OF_ROWS_RETURNED_PER_DATABASE_SELECT = 1;
+    public static final int NUMBER_OF_ROWS_NOT_AFFECTED_PER_DATABASE_UPDATE = 0;
     public static final int MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE = 1;
     public static final int MINIUM_NUMBER_OF_STUDENTS_PER_ACADEMIC_PROBLEM = 1;
 

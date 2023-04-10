@@ -10,7 +10,6 @@ import academictutorshipmanagement.model.pojo.AcademicPersonnel;
 import academictutorshipmanagement.model.pojo.EducationalProgram;
 import academictutorshipmanagement.model.pojo.SchoolPeriod;
 import academictutorshipmanagement.model.pojo.Student;
-import academictutorshipmanagement.model.pojo.User;
 import academictutorshipmanagement.utilities.Constants;
 import academictutorshipmanagement.utilities.Utilities;
 import java.io.IOException;
@@ -61,7 +60,6 @@ public class LogStudentFXMLController implements Initializable {
         this.schoolPeriod = schoolPeriod;
         this.academicPersonnel = academicPersonnel;
         educationalProgramTextField.setText(academicPersonnel.getUser().getEducationalProgram().getName());
-        educationalProgramTextField.setDisable(true);
     }
     
     @FXML
@@ -151,7 +149,7 @@ public class LogStudentFXMLController implements Initializable {
         int responseCode = StudentDAO.logStudent(student);
         switch(responseCode) {
             case Constants.CORRECT_OPERATION_CODE:
-                Utilities.showAlert("El estudiante se registró correctamente en el sistema.",
+                Utilities.showAlert("La información se registró correctamente en el sistema.",
                         Alert.AlertType.WARNING);
                 clearTextField();
                 break;
