@@ -15,7 +15,22 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Button>
-      <Button layoutX="45.0" layoutY="110.0" mnemonicParsing="false" onAction="#logStudenttButtonClick" prefHeight="100.0" prefWidth="425.0" text="Registrar estudiante">
+      <Button layoutX="45.0" layoutY="110.0" mnemonicParsing="false" onAction="#logStudentButtonClick" prefHeight="100.0" prefWidth="425.0" text="Registrar estudiante">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="498.0" layoutY="110.0" mnemonicParsing="false" onAction="#queryStudentButtonClick" prefHeight="100.0" prefWidth="425.0" text="Consultar estudiante">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="45.0" layoutY="250.0" mnemonicParsing="false" onAction="#modifyStudentButtonClick" prefHeight="100.0" prefWidth="425.0" text="Editar estudiante">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="498.0" layoutY="250.0" mnemonicParsing="false" onAction="#assignStudentButtonClick" prefHeight="100.0" prefWidth="425.0" text="Asignar tutor académico a estudiante">
          <font>
             <Font name="Arial" size="14.0" />
          </font>

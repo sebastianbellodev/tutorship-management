@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="academictutorshipmanagement.views.ModifyStudentFXMLController">
+   <children>
+      <Label layoutX="36.0" layoutY="108.0" prefHeight="40.0" prefWidth="489.0" text="Ingrese la matrícula del estudiante, y dé clic en el botón de &quot;Consultar&quot;." wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="36.0" layoutY="242.0" prefHeight="20.0" prefWidth="72.0" text="Nombre:" wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="nameTextField" layoutX="166.0" layoutY="239.0" prefHeight="26.0" prefWidth="258.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="paternalSurnameTextField" layoutX="166.0" layoutY="281.0" prefHeight="26.0" prefWidth="258.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <Label layoutX="36.0" layoutY="284.0" prefHeight="20.0" prefWidth="115.0" text="Apellido paterno:" wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="36.0" layoutY="330.0" prefHeight="20.0" prefWidth="128.0" text="Apellido materno:" wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="maternalSurnameTextField" layoutX="164.0" layoutY="327.0" prefHeight="26.0" prefWidth="258.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <Label layoutX="448.0" layoutY="240.0" prefHeight="20.0" prefWidth="80.0" text="Matrícula:" wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="registrationNumberTextField" editable="false" layoutX="665.0" layoutY="236.0" prefHeight="26.0" prefWidth="258.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <Label layoutX="448.0" layoutY="282.0" prefHeight="20.0" prefWidth="149.0" text="Programa educativo:" wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="educationalProgramTextField" editable="false" layoutX="665.0" layoutY="278.0" prefHeight="26.0" prefWidth="258.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <Label layoutX="448.0" layoutY="328.0" prefHeight="20.0" prefWidth="217.0" text="Correo electrónico institucional:" wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="emailAddressTextField" editable="false" layoutX="665.0" layoutY="326.0" prefHeight="26.0" prefWidth="258.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <Button layoutX="773.0" layoutY="422.0" mnemonicParsing="false" onAction="#cancelButtonClick" prefHeight="20.0" prefWidth="150.0" text="Cancelar">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="acceptButton" layoutX="38.0" layoutY="422.0" mnemonicParsing="false" onAction="#acceptButtonClick" prefHeight="20.0" prefWidth="150.0" text="Aceptar">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <TextField fx:id="queryTextField" layoutX="166.0" layoutY="165.0" prefHeight="26.0" prefWidth="258.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <Label layoutX="36.0" layoutY="168.0" prefHeight="20.0" prefWidth="72.0" text="Matrícula:" wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Button layoutX="466.0" layoutY="165.0" mnemonicParsing="false" onAction="#queryButtonClick" prefHeight="20.0" prefWidth="150.0" text="Consultar">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="deleteButton" layoutX="206.0" layoutY="422.0" mnemonicParsing="false" onAction="#deleteButtonClick" prefHeight="20.0" prefWidth="150.0" text="Eliminar">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
