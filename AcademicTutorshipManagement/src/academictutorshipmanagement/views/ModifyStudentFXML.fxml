@@ -49,7 +49,7 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="registrationNumberTextField" editable="false" layoutX="665.0" layoutY="236.0" prefHeight="26.0" prefWidth="258.0">
+      <TextField fx:id="registrationNumberTextField" layoutX="665.0" layoutY="236.0" prefHeight="26.0" prefWidth="258.0">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
@@ -69,7 +69,7 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="emailAddressTextField" editable="false" layoutX="665.0" layoutY="326.0" prefHeight="26.0" prefWidth="258.0">
+      <TextField fx:id="emailAddressTextField" layoutX="665.0" layoutY="326.0" prefHeight="26.0" prefWidth="258.0">
          <font>
             <Font name="Arial" size="14.0" />
          </font>

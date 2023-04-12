@@ -209,18 +209,20 @@ public class StudentDAO {
         return responseCode;
     }
 
-    public static int updateStudent(Student student) {
+    public static int updateStudent(Student student, String registrationNumber) {
         int responseCode;
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String sentence = "UPDATE student\n"
-                + "SET name = ?, paternalSurname = ?, maternalSurname = ?\n"
+                + "SET registrationNumber = ?, name = ?, paternalSurname = ?, maternalSurname = ?, emailAddress = ?\n"
                 + "WHERE registrationNumber = ?";
         try (Connection connection = databaseConnection.open()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sentence);
-            preparedStatement.setString(1, student.getName());
-            preparedStatement.setString(2, student.getPaternalSurname());
-            preparedStatement.setString(3, student.getMaternalSurname());
-            preparedStatement.setString(4, student.getRegistrationNumber());
+            preparedStatement.setString(1, student.getRegistrationNumber());
+            preparedStatement.setString(2, student.getName());
+            preparedStatement.setString(3, student.getPaternalSurname());
+            preparedStatement.setString(4, student.getMaternalSurname());
+            preparedStatement.setString(5, student.getEmailAddress());
+            preparedStatement.setString(6, registrationNumber);
             int numberOfRowsAffected = preparedStatement.executeUpdate();
             responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
         } catch (SQLException exception) {
@@ -292,25 +294,6 @@ public class StudentDAO {
             preparedStatement.setString(1, registrationNumber);
             ResultSet resultSet = preparedStatement.executeQuery();
             responseCode = (resultSet.next()) ? Constants.MINIUM_NUMBER_OF_ROWS_RETURNED_PER_DATABASE_SELECT : Constants.NO_DATABASE_CONNECTION_CODE;
-        } catch (SQLException exception) {
-            responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
-        } finally {
-            databaseConnection.close();
-        }
-        return responseCode;
-    }
-
-    public static int deleteAcademicTutorshipReportStudent(String registrationNumber) {
-        int responseCode;
-        DatabaseConnection databaseConnection = new DatabaseConnection();
-        String sentence = "DELETE "
-                + "FROM academictutorshipreportstudent\n"
-                + "WHERE registrationNumber = ?";
-        try (Connection connection = databaseConnection.open()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(sentence);
-            preparedStatement.setString(1, registrationNumber);
-            int numberOfRowsAffected = preparedStatement.executeUpdate();
-            responseCode = (numberOfRowsAffected >= Constants.NUMBER_OF_ROWS_NOT_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
         } catch (SQLException exception) {
             responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
         } finally {
