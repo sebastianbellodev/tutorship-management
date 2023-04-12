@@ -54,6 +54,8 @@ public class ModifyStudentFXMLController implements Initializable {
 
     private AcademicPersonnel academicPersonnel;
     private SchoolPeriod schoolPeriod;
+    private String registrationNumber;
+    
     @FXML
     private Button acceptButton;
     @FXML
@@ -64,9 +66,11 @@ public class ModifyStudentFXMLController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        registrationNumberTextField.editableProperty().bind(registrationNumberTextField.textProperty().isNotEmpty());
         nameTextField.editableProperty().bind(registrationNumberTextField.textProperty().isNotEmpty());
         paternalSurnameTextField.editableProperty().bind(registrationNumberTextField.textProperty().isNotEmpty());
         maternalSurnameTextField.editableProperty().bind(registrationNumberTextField.textProperty().isNotEmpty());
+        emailAddressTextField.editableProperty().bind(registrationNumberTextField.textProperty().isNotEmpty());
     }
 
     public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
@@ -95,7 +99,35 @@ public class ModifyStudentFXMLController implements Initializable {
     private boolean validateEmptyField() {
         return nameTextField.getText().isEmpty()
                 || paternalSurnameTextField.getText().isEmpty()
-                || maternalSurnameTextField.getText().isEmpty();
+                || maternalSurnameTextField.getText().isEmpty()
+                || registrationNumberTextField.getText().isEmpty()
+                || emailAddressTextField.getText().isEmpty();
+    }
+    
+    private boolean validateInvalidData() {
+        Integer registrationNumber = registrationNumberTextField.getText().length();
+        Integer emailAddress = emailAddressTextField.getText().length();
+        Integer name = nameTextField.getText().length();
+        Integer paternalSurname = paternalSurnameTextField.getText().length();
+        Integer maternalSurname = maternalSurnameTextField.getText().length();
+        
+        return registrationNumberTextField.getText().startsWith("S")
+                && emailAddressTextField.getText().startsWith("zs")
+                && emailAddressTextField.getText().endsWith(registrationNumberTextField.getText().replace("S", "") + "@estudiantes.uv.mx")
+                && Utilities.compareStudentEmailAddressLength(emailAddress)
+                && Utilities.compareRegistrationNumberLength(registrationNumber)
+                && Utilities.compareGeneralFieldLength(name)
+                && Utilities.compareGeneralFieldLength(paternalSurname)
+                && Utilities.compareGeneralFieldLength(maternalSurname);
+    }
+    
+    private boolean checkStudent() {
+        if(registrationNumber.equalsIgnoreCase(registrationNumberTextField.getText())) {
+            return false;
+        } else {
+            Integer responseCode = StudentDAO.checkStudent(registrationNumberTextField.getText());
+            return responseCode.equals(Constants.MINIUM_NUMBER_OF_ROWS_RETURNED_PER_DATABASE_SELECT);
+        }
     }
 
     @FXML
@@ -110,16 +142,22 @@ public class ModifyStudentFXMLController implements Initializable {
             Utilities.showAlert("No se puede dejar ningún campo vacío.\n\n"
                     + "Por favor, compruebe la información ingresada e inténtelo nuevamente.\n",
                     Alert.AlertType.WARNING);
+        } else if (!validateInvalidData()) {
+            Utilities.showAlert("Los datos ingresados son inválidos.\n\n"
+                        + "Por favor, compruebe la información ingresada e inténtelo nuevamente.\n",
+                        Alert.AlertType.WARNING);
+        } else if (checkStudent()) {
+            Utilities.showAlert("La información ingresada corresponde a un estudiante que ya se encuentra registrado en el sistema.\n\n"
+                        + "Por favor, compruebe la información ingresada e inténtelo nuevamente.\n",
+                        Alert.AlertType.WARNING);
         } else {
             String registrationNumber = registrationNumberTextField.getText();
             String name = nameTextField.getText();
             String paternalSurname = paternalSurnameTextField.getText();
             String maternalSurname = maternalSurnameTextField.getText();
             String emailAddress = emailAddressTextField.getText();
-            EducationalProgram educationalProgram = academicPersonnel.getUser().getEducationalProgram();
             Student student = new Student(name, paternalSurname, maternalSurname, emailAddress);
             student.setRegistrationNumber(registrationNumber);
-            student.setEducationalProgram(educationalProgram);
             updateStudent(student);
             queryTextField.clear();
             students.clear();
@@ -128,10 +166,10 @@ public class ModifyStudentFXMLController implements Initializable {
     }
     
     private void updateStudent(Student student) {
-        int responseCode = StudentDAO.updateStudent(student);
+        int responseCode = StudentDAO.updateStudent(student, registrationNumber);
         switch (responseCode) {
             case Constants.CORRECT_OPERATION_CODE:
-                Utilities.showAlert("La información se registró correctamente en el sistema.",
+                Utilities.showAlert("La información se actualizó correctamente en el sistema.",
                         Alert.AlertType.WARNING);
                 clearTextField();
                 break;
@@ -144,6 +182,7 @@ public class ModifyStudentFXMLController implements Initializable {
                 Utilities.showAlert("No hay conexión con la base de datos.\n\n"
                         + "Por favor, inténtelo más tarde.\n",
                         Alert.AlertType.ERROR);
+                clearTextField();
                 break;
         }
     }
@@ -165,6 +204,7 @@ public class ModifyStudentFXMLController implements Initializable {
         paternalSurnameTextField.setText(student.getPaternalSurname());
         maternalSurnameTextField.setText(student.getMaternalSurname());
         educationalProgramTextField.setText(academicPersonnel.getUser().getEducationalProgram().getName());
+        registrationNumber = student.getRegistrationNumber();
     }
 
     private void clearTextField() {
@@ -190,18 +230,19 @@ public class ModifyStudentFXMLController implements Initializable {
         alert.setContentText("¿Desea eliminar la información del sistema?\n\n Esta acción no podrá revertirse.\n");
         Optional<ButtonType> button = alert.showAndWait();
         if(button.get() == ButtonType.OK) {
-            deleteAcademicTutorshipReportStudent(registrationNumberTextField.getText());
+            deleteStudent(registrationNumberTextField.getText());
             queryTextField.clear();
             students.clear();
             students = StudentDAO.getStudentsByEducationalProgram(academicPersonnel.getUser().getEducationalProgram().getIdEducationalProgram());
         }
     }
     
-    private void deleteAcademicTutorshipReportStudent(String registrationNumber) {
-        int responseCode = StudentDAO.deleteAcademicTutorshipReportStudent(registrationNumber);
+    private void deleteStudent(String registrationNumber) {
+        int responseCode = StudentDAO.deleteStudent(registrationNumber);
         switch (responseCode) {
             case Constants.CORRECT_OPERATION_CODE:
-                deleteStudent(registrationNumber);
+                Utilities.showAlert("La información se eliminó correctamente en el sistema.",
+                        Alert.AlertType.WARNING);
                 clearTextField();
                 break;
             case Constants.INVALID_DATA_ENTERED_CODE:
@@ -213,26 +254,7 @@ public class ModifyStudentFXMLController implements Initializable {
                 Utilities.showAlert("No hay conexión con la base de datos.\n\n"
                         + "Por favor, inténtelo más tarde.\n",
                         Alert.AlertType.ERROR);
-                break;
-        }
-    }
-    
-    private void deleteStudent(String registrationNumber) {
-        int responseCode = StudentDAO.deleteStudent(registrationNumber);
-        switch (responseCode) {
-            case Constants.CORRECT_OPERATION_CODE:
-                Utilities.showAlert("La información se eliminó correctamente en el sistema.",
-                        Alert.AlertType.WARNING);
-                break;
-            case Constants.INVALID_DATA_ENTERED_CODE:
-                Utilities.showAlert("Los datos ingresados son inválidos.\n\n"
-                        + "Por favor, compruebe la información ingresada e inténtelo nuevamente.\n",
-                        Alert.AlertType.WARNING);
-                break;
-            default:
-                Utilities.showAlert("No hay conexión con la base de datos.\n\n"
-                        + "Por favor, inténtelo más tarde.\n",
-                        Alert.AlertType.ERROR);
+                clearTextField();
                 break;
         }
     }
