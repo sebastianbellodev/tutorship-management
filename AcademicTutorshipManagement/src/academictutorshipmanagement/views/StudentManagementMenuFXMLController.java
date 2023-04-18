@@ -34,7 +34,7 @@ public class StudentManagementMenuFXMLController implements Initializable {
     private int idRol;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle resourceBundle) {
     }
 
     public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
@@ -44,7 +44,7 @@ public class StudentManagementMenuFXMLController implements Initializable {
     }
 
     @FXML
-    private void backButtonClick(ActionEvent event) {
+    private void backButtonClick(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainMenuFXML.fxml"));
         try {
             Parent root = loader.load();
@@ -62,7 +62,7 @@ public class StudentManagementMenuFXMLController implements Initializable {
     }
 
     @FXML
-    private void logStudentButtonClick(ActionEvent event) {
+    private void logStudentButtonClick(ActionEvent actionEvent) {
         if (idRol == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE) {
             goToLogStudent();
         } else {
@@ -89,7 +89,7 @@ public class StudentManagementMenuFXMLController implements Initializable {
     }
 
     @FXML
-    private void queryStudentButtonClick(ActionEvent event) {
+    private void queryStudentButtonClick(ActionEvent actionEvent) {
         if (idRol == Constants.CAREER_HEAD_ID_ROLE) {
             goToQueryStudent();
         } else {
@@ -116,7 +116,7 @@ public class StudentManagementMenuFXMLController implements Initializable {
     }
 
     @FXML
-    private void modifyStudentButtonClick(ActionEvent event) {
+    private void modifyStudentButtonClick(ActionEvent actionEvent) {
         if (idRol == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE) {
             goToModifyStudent();
         } else {
@@ -143,7 +143,7 @@ public class StudentManagementMenuFXMLController implements Initializable {
     }
 
     @FXML
-    private void assignStudentButtonClick(ActionEvent event) {
+    private void assignStudentButtonClick(ActionEvent actionEvent) {
         if (idRol == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE) {
             goToAssignStudentToAcademicTutor();
         } else {

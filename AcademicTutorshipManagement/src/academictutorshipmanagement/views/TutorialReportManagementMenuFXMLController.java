@@ -46,7 +46,7 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
     private int idRol;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         academicTutorships = new ArrayList<>();
     }
 
@@ -57,7 +57,7 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
     }
 
     @FXML
-    private void logAcademicTutorshipReportButtonClick(ActionEvent event) {
+    private void logAcademicTutorshipReportButtonClick(ActionEvent actionEvent) {
         if (idRol == Constants.ACADEMIC_TUTOR_ID_ROLE) {
             academicTutorshipSession = AcademicTutorshipSessionDAO.getCurrentAcademicTutorshipSession();
             int responseCode = academicTutorshipSession.getResponseCode();
@@ -151,7 +151,7 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
     }
 
     @FXML
-    private void backButtonClick(ActionEvent event) {
+    private void backButtonClick(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainMenuFXML.fxml"));
         try {
             Parent root = loader.load();
@@ -169,7 +169,7 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
     }
 
     @FXML
-    private void queryAcademicTutorshipReportByAcademicTutorButtonClick(ActionEvent event) {
+    private void queryAcademicTutorshipReportByAcademicTutorButtonClick(ActionEvent actionEvent) {
         if (idRol == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE || idRol == Constants.CAREER_HEAD_ID_ROLE) {
             goToQueryAcademicTutorshipReportByAcademicTutor();
         } else {
@@ -196,7 +196,7 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
     }
 
     @FXML
-    private void queryAcademicTutorshipGeneralReportButtonClick(ActionEvent event) {
+    private void queryAcademicTutorshipGeneralReportButtonClick(ActionEvent actionEvent) {
         if (idRol == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE || idRol == Constants.CAREER_HEAD_ID_ROLE) {
             goToQueryAcademicTutorshipGeneralReport();
         } else {

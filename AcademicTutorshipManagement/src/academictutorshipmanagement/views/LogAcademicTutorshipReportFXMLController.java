@@ -85,7 +85,7 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
     private int idAcademicTutorshipReport;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         academicProblems = new ArrayList<>();
         students = FXCollections.observableArrayList();
         configureStudentsTableViewColumns();
@@ -210,7 +210,7 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
     }
 
     @FXML
-    private void logAcademicProblemButtonClick(ActionEvent event) {
+    private void logAcademicProblemButtonClick(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("LogAcademicProblemFXML.fxml"));
         try {
             Parent root = loader.load();
@@ -229,11 +229,11 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
     }
 
     @FXML
-    private void viewAcademicProblemsButtonClick(ActionEvent event) {
+    private void viewAcademicProblemsButtonClick(ActionEvent actionEvent) {
     }
 
     @FXML
-    private void cancelButtonClick(ActionEvent event) {
+    private void cancelButtonClick(ActionEvent actionEvent) {
         goToTutorialReportManagementMenu();
     }
 

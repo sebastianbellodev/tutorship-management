@@ -29,7 +29,7 @@ public class EducationalProgramAdministrationMenuFXMLController implements Initi
     private AcademicPersonnel academicPersonnel;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle resourceBundle) {
     }
 
     public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
@@ -38,7 +38,7 @@ public class EducationalProgramAdministrationMenuFXMLController implements Initi
     }
 
     @FXML
-    private void backButtonClick(ActionEvent event) {
+    private void backButtonClick(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainMenuFXML.fxml"));
         try {
             Parent root = loader.load();

@@ -84,7 +84,7 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
     private int idAcademicTutorshipReport;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         academicProblems = new ArrayList<>();
         students = FXCollections.observableArrayList();
         configureStudentsTableViewColumns();
@@ -143,7 +143,7 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
     }
 
     @FXML
-    private void acceptButtonClick(ActionEvent event) {
+    private void acceptButtonClick(ActionEvent actionEvent) {
         String generalComment = generalCommentTextArea.getText();
         int numberOfStudentsAttending = calculateNumberOfStudentsAttending();
         int numberOfStudentsAtRisk = calculateNumberOfStudentsAtRisk();
@@ -229,7 +229,7 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
     }
 
     @FXML
-    private void logAcademicProblemButtonClick(ActionEvent event) {
+    private void logAcademicProblemButtonClick(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("LogAcademicProblemFXML.fxml"));
         try {
             Parent root = loader.load();
@@ -248,7 +248,7 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
     }
 
     @FXML
-    private void viewAcademicProblemsButtonClick(ActionEvent event) {
+    private void viewAcademicProblemsButtonClick(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ModifyAcademicProblemListFXML.fxml"));
         try {
             Parent root = loader.load();
@@ -267,7 +267,7 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
     }
 
     @FXML
-    private void cancelButtonClick(ActionEvent event) {
+    private void cancelButtonClick(ActionEvent actionEvent) {
         goToTutorialReportManagementMenu();
     }
 

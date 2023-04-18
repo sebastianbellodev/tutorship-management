@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package academictutorshipmanagement.model.pojo;
 
-/**
- *
- * @author oband
- */
 public class SessionInformation {
     
     AcademicPersonnel academicPersonnel = new AcademicPersonnel();
@@ -30,10 +22,6 @@ public class SessionInformation {
     }
     
     private SessionInformation(){
-        
     }
-
-
-    
     
 }
