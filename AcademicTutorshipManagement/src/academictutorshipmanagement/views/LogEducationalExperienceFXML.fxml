@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="450.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="academictutorshipmanagement.views.LogEducationalExperienceFXMLController">
+   <children>
+      <Label layoutX="30.0" layoutY="30.0" prefHeight="40.0" prefWidth="700.0" text="Ingrese la información de la experiencia educativa, seleccione al o los programas educativos asociados a la experiencia educativa y dé clic en el botón de &quot;Aceptar&quot;." wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="30.0" layoutY="95.0" prefHeight="20.0" prefWidth="70.0" text="Nombre:" wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="nameTextField" layoutX="110.0" layoutY="92.0" prefHeight="26.0" prefWidth="620.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <Button layoutX="30.0" layoutY="400.0" mnemonicParsing="false" onAction="#acceptButtonClick" prefHeight="26.0" prefWidth="125.0" text="Aceptar">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="605.0" layoutY="400.0" mnemonicParsing="false" onAction="#cancelButtonClick" prefHeight="26.0" prefWidth="125.0" text="Cancelar">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <TableView fx:id="educationalProgramsTableView" layoutX="30.0" layoutY="146.0" prefHeight="230.0" prefWidth="700.0" style="-fx-font: 12px &quot;Arial&quot;;">
+         <columns>
+            <TableColumn fx:id="educationalProgramTableColumn" prefWidth="595.0" style="-fx-alignment: CENTER-RIGHT;" text="Programa educativo" />
+            <TableColumn fx:id="associatedToTableColumn" minWidth="0.0" prefWidth="103.0" style="-fx-alignment: CENTER;" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

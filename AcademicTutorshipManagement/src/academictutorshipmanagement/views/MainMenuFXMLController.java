@@ -37,7 +37,7 @@ public class MainMenuFXMLController implements Initializable {
     private AcademicPersonnel academicPersonnel;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         schoolPeriod = SchoolPeriodDAO.getCurrentSchoolPeriod();
         int responseCode = schoolPeriod.getResponseCode();
         if (responseCode == Constants.NO_DATABASE_CONNECTION_CODE) {
@@ -58,7 +58,7 @@ public class MainMenuFXMLController implements Initializable {
     }
 
     @FXML
-    private void tutorialReportManagementButtonClick(ActionEvent event) {
+    private void tutorialReportManagementButtonClick(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("TutorialReportManagementMenuFXML.fxml"));
         try {
             Parent root = loader.load();
@@ -75,7 +75,7 @@ public class MainMenuFXMLController implements Initializable {
     }
 
     @FXML
-    private void tutorialSessionAdministrationButtonClick(ActionEvent event) {
+    private void tutorialSessionAdministrationButtonClick(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("TutorialSessionAdministrationMenuFXML.fxml"));
         try {
             Parent root = loader.load();
@@ -92,7 +92,7 @@ public class MainMenuFXMLController implements Initializable {
     }
 
     @FXML
-    private void followUpOnAcademicProblemsButtonClick(ActionEvent event) {
+    private void followUpOnAcademicProblemsButtonClick(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("QueryFollowUpOnAcademicProblemsListFXML.fxml"));
         try{
             Parent root = loader.load();
@@ -109,7 +109,7 @@ public class MainMenuFXMLController implements Initializable {
     }
 
     @FXML
-    private void studentManagementButtonClick(ActionEvent event) {
+    private void studentManagementButtonClick(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentManagementMenuFXML.fxml"));
         try {
             Parent root = loader.load();
@@ -126,7 +126,7 @@ public class MainMenuFXMLController implements Initializable {
     }
 
     @FXML
-    private void educationalProgramAdministrationButtonClick(ActionEvent event) {
+    private void educationalProgramAdministrationButtonClick(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("EducationalProgramAdministrationMenuFXML.fxml"));
         try {
             Parent root = loader.load();
@@ -143,7 +143,7 @@ public class MainMenuFXMLController implements Initializable {
     }
 
     @FXML
-    private void specificFormatGenerationButtonClick(ActionEvent event) {
+    private void specificFormatGenerationButtonClick(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("SpecificFormatGenerationMenuFXML.fxml"));
         try {
             Parent root = loader.load();
@@ -160,7 +160,7 @@ public class MainMenuFXMLController implements Initializable {
     }
 
     @FXML
-    private void logOutButtonClick(ActionEvent event) {
+    private void logOutButtonClick(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginFXML.fxml"));
         try {
             Parent root = loader.load();
