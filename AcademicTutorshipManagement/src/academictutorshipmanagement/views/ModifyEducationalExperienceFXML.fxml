@@ -16,13 +16,13 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <ComboBox layoutX="180.0" layoutY="25.0" prefHeight="26.0" prefWidth="250.0" style="-fx-font: 14px &quot;Arial&quot;;" />
+      <ComboBox fx:id="educationalProgramComboBox" layoutX="180.0" layoutY="25.0" prefHeight="26.0" prefWidth="250.0" style="-fx-font: 14px &quot;Arial&quot;;" />
       <Label layoutX="465.0" layoutY="30.0" prefHeight="16.0" prefWidth="150.0" text="Experiencia educativa:">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <ComboBox layoutX="629.0" layoutY="25.0" prefHeight="26.0" prefWidth="300.0" style="-fx-font: 14px &quot;Arial&quot;;" />
+      <ComboBox fx:id="educationalExperienceComboBox" layoutX="629.0" layoutY="25.0" prefHeight="26.0" prefWidth="300.0" style="-fx-font: 14px &quot;Arial&quot;;" />
       <Label layoutX="30.0" layoutY="70.0" prefHeight="40.0" prefWidth="900.0" text="Ingrese la información de la experiencia educativa, seleccione al o los programas educativos y al personal académico asociados a la experiencia educativa, y dé clic en el botón de &quot;Aceptar&quot;." wrapText="true">
          <font>
             <Font name="Arial" size="14.0" />
@@ -40,8 +40,8 @@
       </TextField>
       <TableView fx:id="educationalProgramsTableView" layoutX="30.0" layoutY="175.0" prefHeight="185.0" prefWidth="900.0" style="-fx-font: 12px &quot;Arial&quot;;">
          <columns>
-            <TableColumn fx:id="educationalProgramTableColumn" prefWidth="800.0" style="-fx-alignment: CENTER-RIGHT;" text="Programa educativo" />
-            <TableColumn fx:id="associatedToTableColumn" minWidth="0.0" prefWidth="100.0" style="-fx-alignment: CENTER;" />
+            <TableColumn fx:id="educationalProgramNameTableColumn" prefWidth="800.0" style="-fx-alignment: CENTER-RIGHT;" text="Nombre del programa educativo" />
+            <TableColumn fx:id="associatedToEducationalProgramTableColumn" minWidth="0.0" prefWidth="100.0" style="-fx-alignment: CENTER;" />
          </columns>
       </TableView>
       <TableView fx:id="academicPersonnelTableView" layoutX="30.0" layoutY="380.0" prefHeight="215.0" prefWidth="900.0" style="-fx-font: 12px &quot;Arial&quot;;">
@@ -54,12 +54,17 @@
             <TableColumn fx:id="associatedToTableColumn" minWidth="0.0" prefWidth="100.0" />
          </columns>
       </TableView>
-      <Button layoutX="30.0" layoutY="619.0" mnemonicParsing="false" onAction="#acceptButtonClick" prefHeight="26.0" prefWidth="125.0" text="Aceptar">
+      <Button layoutX="30.0" layoutY="620.0" mnemonicParsing="false" onAction="#acceptButtonClick" prefHeight="26.0" prefWidth="125.0" text="Aceptar">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </Button>
-      <Button layoutX="805.0" layoutY="619.0" mnemonicParsing="false" onAction="#cancelButtonClick" prefHeight="26.0" prefWidth="125.0" text="Cancelar">
+      <Button layoutX="180.0" layoutY="620.0" mnemonicParsing="false" onAction="#deleteEducationalExperienceButtonClick" prefHeight="26.0" prefWidth="250.0" text="Eliminar experiencia educativa">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="805.0" layoutY="620.0" mnemonicParsing="false" onAction="#cancelButtonClick" prefHeight="26.0" prefWidth="125.0" text="Cancelar">
          <font>
             <Font name="Arial" size="14.0" />
          </font>

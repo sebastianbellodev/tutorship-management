@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 01, 2023.
- * Date of update: March 05, 2023.
+ * Date of update: April 19, 2023.
  */
 package academictutorshipmanagement.model.pojo;
 
@@ -17,8 +17,8 @@ public class Student {
     private EducationalProgram educationalProgram;
     private AcademicPersonnel academicPersonnel;
     private boolean attendedBy;
-    private boolean atRisk;
     private CheckBox attendedByCheckBox;
+    private boolean atRisk;
     private CheckBox atRiskCheckBox;
 
     public Student() {
@@ -96,21 +96,21 @@ public class Student {
     public void setAttendedBy(boolean attendedBy) {
         this.attendedBy = attendedBy;
     }
-
-    public boolean isAtRisk() {
-        return atRisk;
-    }
     
-    public void setAtRisk(boolean atRisk) {
-        this.atRisk = atRisk;
-    }
-
     public CheckBox getAttendedByCheckBox() {
         return attendedByCheckBox;
     }
 
     public void setAttendedByCheckBox(CheckBox attendedByCheckBox) {
         this.attendedByCheckBox = attendedByCheckBox;
+    }
+
+    public boolean isAtRisk() {
+        return atRisk;
+    }
+
+    public void setAtRisk(boolean atRisk) {
+        this.atRisk = atRisk;
     }
 
     public CheckBox getAtRiskCheckBox() {
@@ -120,5 +120,5 @@ public class Student {
     public void setAtRiskCheckBox(CheckBox atRiskCheckBox) {
         this.atRiskCheckBox = atRiskCheckBox;
     }
-    
+
 }

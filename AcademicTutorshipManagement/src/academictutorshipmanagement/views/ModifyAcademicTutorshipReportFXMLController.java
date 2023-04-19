@@ -252,17 +252,17 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ModifyAcademicProblemListFXML.fxml"));
         try {
             Parent root = loader.load();
-            ModifyAcademicProblemListFXMLController modifyAcademicProblemFXMLController = loader.getController();
+            ModifyAcademicProblemListFXMLController modifyAcademicProblemListFXMLController = loader.getController();
             int numberOfStudentsByAcademicPersonnel = students.size();
-            modifyAcademicProblemFXMLController.configureView(this, schoolPeriod, educationalProgram, numberOfStudentsByAcademicPersonnel,this.academicProblems);
+            modifyAcademicProblemListFXMLController.configureView(this, schoolPeriod, educationalProgram, numberOfStudentsByAcademicPersonnel, academicProblems);
             Stage stage = new Stage();
             Scene logAcademicProblemView = new Scene(root);
             stage.setScene(logAcademicProblemView);
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Modificar Problemática Académica.");
+            stage.setTitle("Modificar problemática académica.");
             stage.showAndWait();
         } catch (IOException exception) {
-            System.err.println("The LogAcademicProblemFXML.fxml' file could not be open. Please try again later.");
+            System.err.println("The ModifyAcademicProblemListFXML.fxml' file could not be open. Please try again later.");
         }
     }
 
