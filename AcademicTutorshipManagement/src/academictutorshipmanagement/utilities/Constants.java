@@ -28,5 +28,8 @@ public class Constants {
     public static final int REGISTRATION_NUMBER_LENGTH = 9;
     public static final int STUDENT_EMAIL_ADDRESS_LENGTH = 28;
     public static final int GENERAL_FIELD_LENGTH = 28;
+    
+    public static final boolean AVAILABLE = true;
+    public static final boolean NOT_AVAILABLE = false;
 
 }
