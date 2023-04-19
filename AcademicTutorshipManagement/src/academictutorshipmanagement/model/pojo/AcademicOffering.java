@@ -14,10 +14,16 @@ public class AcademicOffering {
     private SchoolPeriod schoolPeriod;
 
     public AcademicOffering() {
+        this.academicPersonnel = new AcademicPersonnel();
+        this.educationalExperience = new EducationalExperience();
+        this.schoolPeriod = new SchoolPeriod();
     }
 
     public AcademicOffering(int nrc) {
         this.nrc = nrc;
+        this.academicPersonnel = new AcademicPersonnel();
+        this.educationalExperience = new EducationalExperience();
+        this.schoolPeriod = new SchoolPeriod();
     }
 
     public int getIdAcademicOffering() {

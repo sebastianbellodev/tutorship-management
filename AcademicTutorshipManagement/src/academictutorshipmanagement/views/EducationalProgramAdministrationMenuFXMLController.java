@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class EducationalProgramAdministrationMenuFXMLController implements Initializable {
@@ -27,6 +28,8 @@ public class EducationalProgramAdministrationMenuFXMLController implements Initi
 
     private SchoolPeriod schoolPeriod;
     private AcademicPersonnel academicPersonnel;
+    @FXML
+    private Button LogAcademicPersonnelButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -55,4 +58,16 @@ public class EducationalProgramAdministrationMenuFXMLController implements Initi
         }
     }
 
+    @FXML
+    private void LogAcademicPersonnelClic(ActionEvent event) throws IOException {
+        Stage stageMenu = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        Parent root = loader.load(getClass().getResource("/academictutorshipmanagement/views/LogAcademicPersonnelFXML.fxml").openStream());
+        Scene scene = new Scene(root);
+        stageMenu.setScene(scene);
+        stageMenu.setTitle("Registrar Personal academico");
+        stageMenu.alwaysOnTopProperty();        
+        stageMenu.initModality(Modality.APPLICATION_MODAL);
+        stageMenu.show();
+    }
 }

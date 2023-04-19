@@ -47,7 +47,7 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
     @FXML
     private TableView<Student> studentsTableView;
     @FXML
-    private TableColumn<?, ?> registrationNumberTableColumn;
+    private TableColumn registrationNumberTableColumn;
     @FXML
     private TableColumn nameTableColumn;
     @FXML
@@ -87,7 +87,6 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
 
     private int idSchoolPeriod;
     private int idAcademicPersonnel;
-    private int idAcademicTutorshipSession;
 
     /**
      * Initializes the controller class.

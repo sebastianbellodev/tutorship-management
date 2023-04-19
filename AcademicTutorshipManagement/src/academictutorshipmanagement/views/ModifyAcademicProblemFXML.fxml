@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="960.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="academictutorshipmanagement.views.ModifyAcademicProblemFXMLController">
+       <children>
+      <Label layoutX="35.0" layoutY="35.0" prefHeight="20.0" prefWidth="885.0" text="Modifique la información de la problemática académica y dé clic en el botón de &quot;Aceptar&quot;.">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="35.0" layoutY="80.0" prefHeight="20.0" prefWidth="150.0" text="Título:">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="titleTextField" layoutX="110.0" layoutY="77.0" prefHeight="20.0" prefWidth="815.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <Label layoutX="35.0" layoutY="130.0" prefHeight="20.0" prefWidth="150.0" text="Experiencia educativa:">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="educationalExperienceComboBox" layoutX="205.0" layoutY="127.0" prefHeight="26.0" prefWidth="395.0" style="-fx-font: 14px &quot;Arial&quot;;" />
+      <Label layoutX="625.0" layoutY="130.0" prefHeight="20.0" prefWidth="165.0" text="Número de estudiantes:">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Spinner fx:id="numberOfStudentsSpinner" layoutX="800.0" layoutY="127.0" prefHeight="26.0" prefWidth="125.0" style="-fx-font: 14px &quot;Arial&quot;;" />
+      <Label layoutX="35.0" layoutY="180.0" prefHeight="20.0" prefWidth="150.0" text="Personal académico:">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="academicPersonnelComboBox" layoutX="205.0" layoutY="177.0" prefHeight="26.0" prefWidth="395.0" style="-fx-font: 14px &quot;Arial&quot;;" />
+      <Label layoutX="35.0" layoutY="230.0" prefHeight="20.0" prefWidth="150.0" text="Descripción:">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="descriptionTextArea" layoutX="35.0" layoutY="270.0" prefHeight="265.0" prefWidth="890.0" wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font></TextArea>
+      <Button layoutX="35.0" layoutY="552.0" mnemonicParsing="false" onAction="#acceptButtonClick" prefHeight="25.0" prefWidth="125.0" text="Aceptar">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="800.0" layoutY="552.0" mnemonicParsing="false" onAction="#cancelButtonClick" prefHeight="25.0" prefWidth="125.0" text="Cancelar">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <Label layoutX="625.0" layoutY="180.0" prefHeight="20.0" prefWidth="55.0" text="NRC:">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="nrcComboBox" layoutX="690.0" layoutY="177.0" prefHeight="26.0" prefWidth="235.0" style="-fx-font: 14px &quot;Arial&quot;;" />
+   </children>
+</AnchorPane>

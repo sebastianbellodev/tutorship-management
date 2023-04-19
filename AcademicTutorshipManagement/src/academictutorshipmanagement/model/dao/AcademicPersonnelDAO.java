@@ -8,6 +8,7 @@ package academictutorshipmanagement.model.dao;
 import academictutorshipmanagement.model.DatabaseConnection;
 import academictutorshipmanagement.model.pojo.AcademicPersonnel;
 import academictutorshipmanagement.model.pojo.ContractType;
+import academictutorshipmanagement.model.pojo.EducationalProgram;
 import academictutorshipmanagement.model.pojo.User;
 import academictutorshipmanagement.utilities.Constants;
 import java.sql.Connection;
@@ -15,6 +16,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class AcademicPersonnelDAO {
 
@@ -109,4 +112,53 @@ public class AcademicPersonnelDAO {
         }
         return academicPersonnels;
     }
+    
+    public static int checkAcademicPersonnel(String username) {
+        int responseCode;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String sentence = "SELECT * FROM academicPersonnel\n"
+                + "WHERE username = ?";
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sentence);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            responseCode = (resultSet.next()) ? Constants.MINIUM_NUMBER_OF_ROWS_RETURNED_PER_DATABASE_SELECT : Constants.NO_DATABASE_CONNECTION_CODE;
+        } catch (SQLException exception) {
+            responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
+        } finally {
+            databaseConnection.close();
+        }
+        return responseCode;
+    }
+    
+    public static int logAcademicPersonnel(AcademicPersonnel academicPersonnel, User user) {
+        int responseCode;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String sentence = "INSERT INTO academicpersonnel\n"
+                + "(name, paternalSurname, maternalSurname, emailAddress, idContractType, username)\n"
+                + "VALUES(?, ?, ?, ?, ?, ?)";
+        try (Connection connection = databaseConnection.open()) {
+            String name = academicPersonnel.getName();
+            String paternalSurname = academicPersonnel.getPaternalSurname();
+            String maternalSurname = academicPersonnel.getMaternalSurname();
+            String emailAddress = academicPersonnel.getEmailAddress();
+            int idContractType = academicPersonnel.getContractType().getIdContractType();
+            String username = user.getUsername();
+            PreparedStatement preparedStatement = connection.prepareStatement(sentence);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, paternalSurname);
+            preparedStatement.setString(3, maternalSurname);
+            preparedStatement.setString(4, emailAddress);
+            preparedStatement.setInt(5, idContractType);
+            preparedStatement.setString(6, username);
+            int numberOfRowsAffected = preparedStatement.executeUpdate();
+            responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
+        } catch (SQLException exception) {
+            responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
+        } finally {
+            databaseConnection.close();
+        }
+        return responseCode;
+    }
+    
 }
