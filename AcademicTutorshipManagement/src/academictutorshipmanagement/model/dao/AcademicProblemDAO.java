@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 05, 2023.
- * Date of update: March 15, 2023.
+ * Date of update: April 19, 2023.
  */
 package academictutorshipmanagement.model.dao;
 
@@ -16,7 +16,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.sql.Date;
 
 public class AcademicProblemDAO {
 
@@ -163,7 +162,7 @@ public class AcademicProblemDAO {
 
     
     
-    public static int registerAcademicProblemFollowUp(AcademicProblem academicProblem) throws SQLException{
+    public static int registerAcademicProblemFollowUp(AcademicProblem academicProblem) throws SQLException {
         int response;
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String sentence = "INSERT INTO `academictutorshipmanagement`.`academicproblemfollowup`"

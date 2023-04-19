@@ -18,6 +18,7 @@ public class Constants {
     public static final int INVALID_CURRENT_DATE_CODE = 3;
 
     public static final int FIRST_ACADEMIC_TUTORSHIP_SESSION_INDEX = 0;
+    public static final int FIRST_CONTROL_STRUCTURE_INDEX = 0;
     public static final int PRIMARY_KEY_OF_NON_EXISTENT_RECORD_IN_DATABASE = 0;
     public static final int MINIUM_NUMBER_OF_DAYS_FOR_ACADEMIC_TUTORSHIP_REPORT_SUBMISSION = 0;
     public static final int MINIUM_NUMBER_OF_ROWS_RETURNED_PER_DATABASE_SELECT = 1;

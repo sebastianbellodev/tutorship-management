@@ -81,12 +81,7 @@ public class LogAcademicProblemFXMLController implements Initializable {
 
     private void loadCurrentEducationalExperiencesByEducationalProgram() {
         ArrayList<EducationalExperience> educationalExperiencesResultSet = EducationalExperienceDAO.getEducationalExperiencesByEducationalProgram(idSchoolPeriod, idEducationalProgram);
-        if (educationalExperiencesResultSet.isEmpty()) {
-            Utilities.showAlert("No hay conexión con la base de datos.\n\n"
-                    + "Por favor, inténtelo más tarde.\n",
-                    Alert.AlertType.ERROR);
-            closePopUpWindow();
-        } else {
+        if (!educationalExperiencesResultSet.isEmpty()) {
             educationalExperiences.addAll(educationalExperiencesResultSet);
             educationalExperienceComboBox.setItems(educationalExperiences);
             educationalExperienceComboBox.valueProperty().addListener((ObservableValue<? extends EducationalExperience> observable, EducationalExperience oldValue, EducationalExperience newValue) -> {
@@ -97,6 +92,11 @@ public class LogAcademicProblemFXMLController implements Initializable {
                     loadAcademicPersonnelByEducationalExperience(idEducationalExperience);
                 }
             });
+        } else {
+            Utilities.showAlert("No hay conexión con la base de datos.\n\n"
+                    + "Por favor, inténtelo más tarde.\n",
+                    Alert.AlertType.ERROR);
+            closePopUpWindow();
         }
     }
 
@@ -125,7 +125,10 @@ public class LogAcademicProblemFXMLController implements Initializable {
             String title = titleTextField.getText();
             String description = descriptionTextArea.getText();
             int numberOfStudents = numberOfStudentsSpinner.getValue();
-            AcademicProblem academicProblem = new AcademicProblem(title, description, numberOfStudents);
+            AcademicProblem academicProblem = new AcademicProblem();
+            academicProblem.setTitle(title);
+            academicProblem.setDescription(description);
+            academicProblem.setNumberOfStudents(numberOfStudents);
             academicProblem.setIdAcademicProblem(Constants.PRIMARY_KEY_OF_NON_EXISTENT_RECORD_IN_DATABASE);
             AcademicOffering academicOffering = nrcComboBox.getValue();
             academicProblem.setAcademicOffering(academicOffering);

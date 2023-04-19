@@ -7,6 +7,7 @@ package academictutorshipmanagement.model.dao;
 
 import academictutorshipmanagement.model.DatabaseConnection;
 import academictutorshipmanagement.model.pojo.EducationalProgram;
+import academictutorshipmanagement.utilities.Constants;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +16,26 @@ import java.util.ArrayList;
 
 public class EducationalProgramDAO {
 
+    public static int assignEducationalExperieceToEducationalProgram(int idEducationalProgram, int idEducationalExperience) {
+        int responseCode;
+                DatabaseConnection databaseConnection = new DatabaseConnection();
+        String sentence = "INSERT INTO syllabus\n"
+                + "(idEducationalProgram, idEducationalExperience)\n"
+                + "VALUES(?, ?)";
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sentence);
+            preparedStatement.setInt(1, idEducationalProgram);
+            preparedStatement.setInt(2, idEducationalExperience);
+            int numberOfRowsAffected = preparedStatement.executeUpdate();
+            responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
+        } catch (SQLException exception) {
+            responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
+        } finally {
+            databaseConnection.close();
+        }
+        return responseCode;
+    }
+            
     public static ArrayList<EducationalProgram> getEducationalPrograms() {
         ArrayList<EducationalProgram> educationalPrograms = new ArrayList<>();
         DatabaseConnection databaseConnection = new DatabaseConnection();

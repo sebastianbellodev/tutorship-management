@@ -37,8 +37,8 @@
       </Button>
       <TableView fx:id="educationalProgramsTableView" layoutX="30.0" layoutY="146.0" prefHeight="230.0" prefWidth="700.0" style="-fx-font: 12px &quot;Arial&quot;;">
          <columns>
-            <TableColumn fx:id="educationalProgramTableColumn" prefWidth="595.0" style="-fx-alignment: CENTER-RIGHT;" text="Nombre del programa educativo" />
-            <TableColumn fx:id="associatedToTableColumn" minWidth="0.0" prefWidth="103.0" style="-fx-alignment: CENTER;" />
+            <TableColumn fx:id="nameTableColumn" prefWidth="595.0" style="-fx-font: 12px &quot;Arial&quot;;" text="Nombre del programa educativo" />
+            <TableColumn fx:id="associatedToTableColumn" minWidth="0.0" prefWidth="104.0" style="-fx-alignment: CENTER;" />
          </columns>
       </TableView>
    </children>
