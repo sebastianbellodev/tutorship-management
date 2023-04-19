@@ -162,11 +162,11 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
     private int calculateNumberOfStudentsAttending() {
         int numberOfStudentsAttending = 0;
         for (Student student : students) {
-            boolean attendedBy = student.getAttendedByCheckBox().isSelected();
-            if (attendedBy) {
+            boolean isAttendedBy = student.getAttendedByCheckBox().isSelected();
+            if (isAttendedBy) {
                 numberOfStudentsAttending++;
             }
-            student.setAttendedBy(attendedBy);
+            student.setAttendedBy(isAttendedBy);
         }
         return numberOfStudentsAttending;
     }
@@ -174,11 +174,11 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
     private int calculateNumberOfStudentsAtRisk() {
         int numberOfStudentsAtRisk = 0;
         for (Student student : students) {
-            boolean atRisk = student.getAtRiskCheckBox().isSelected();
-            if (atRisk) {
+            boolean isAtRisk = student.getAtRiskCheckBox().isSelected();
+            if (isAtRisk) {
                 numberOfStudentsAtRisk++;
             }
-            student.setAtRisk(atRisk);
+            student.setAtRisk(isAtRisk);
         }
         return numberOfStudentsAtRisk;
     }
