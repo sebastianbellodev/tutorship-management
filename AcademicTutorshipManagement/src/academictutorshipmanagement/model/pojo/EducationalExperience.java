@@ -9,6 +9,7 @@ public class EducationalExperience {
 
     private int idEducationalExperience;
     private String name;
+    private boolean available;
     private int responseCode;
 
     public EducationalExperience() {
@@ -32,6 +33,14 @@ public class EducationalExperience {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
     public int getResponseCode() {

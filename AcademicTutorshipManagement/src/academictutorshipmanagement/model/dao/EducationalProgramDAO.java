@@ -18,14 +18,15 @@ public class EducationalProgramDAO {
 
     public static int assignEducationalExperieceToEducationalProgram(int idEducationalProgram, int idEducationalExperience) {
         int responseCode;
-                DatabaseConnection databaseConnection = new DatabaseConnection();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
         String sentence = "INSERT INTO syllabus\n"
-                + "(idEducationalProgram, idEducationalExperience)\n"
-                + "VALUES(?, ?)";
+                + "(idEducationalProgram, idEducationalExperience, available)\n"
+                + "VALUES(?, ?, ?)";
         try (Connection connection = databaseConnection.open()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sentence);
             preparedStatement.setInt(1, idEducationalProgram);
             preparedStatement.setInt(2, idEducationalExperience);
+            preparedStatement.setBoolean(3, Constants.AVAILABLE);
             int numberOfRowsAffected = preparedStatement.executeUpdate();
             responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
         } catch (SQLException exception) {
@@ -35,7 +36,28 @@ public class EducationalProgramDAO {
         }
         return responseCode;
     }
-            
+
+    public static int assignEducationalExperieceToEducationalProgram(int idEducationalProgram, int idEducationalExperience, boolean isAvailable) {
+        int responseCode;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String sentence = "UPDATE syllabus\n"
+                + "SET available = ?\n"
+                + "WHERE idEducationalProgram = ? AND idEducationalExperience = ?";
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sentence);
+            preparedStatement.setBoolean(1, isAvailable);
+            preparedStatement.setInt(2, idEducationalProgram);
+            preparedStatement.setInt(3, idEducationalExperience);
+            int numberOfRowsAffected = preparedStatement.executeUpdate();
+            responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
+        } catch (SQLException exception) {
+            responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
+        } finally {
+            databaseConnection.close();
+        }
+        return responseCode;
+    }
+
     public static ArrayList<EducationalProgram> getEducationalPrograms() {
         ArrayList<EducationalProgram> educationalPrograms = new ArrayList<>();
         DatabaseConnection databaseConnection = new DatabaseConnection();
@@ -57,7 +79,7 @@ public class EducationalProgramDAO {
         }
         return educationalPrograms;
     }
-    
+
     public static ArrayList<EducationalProgram> getEducationalProgramsByUser(String username) {
         ArrayList<EducationalProgram> educationalPrograms = new ArrayList<>();
         DatabaseConnection databaseConnection = new DatabaseConnection();

@@ -30,6 +30,7 @@ public class EducationalExperienceDAO {
             if (resultSet.next()) {
                 educationalExperience.setIdEducationalExperience(resultSet.getInt("idEducationalExperience"));
                 educationalExperience.setName(resultSet.getString("name"));
+                educationalExperience.setAvailable(resultSet.getBoolean("available"));
             } else {
                 educationalExperience = null;
             }
@@ -104,6 +105,30 @@ public class EducationalExperienceDAO {
             String name = educationalExperience.getName();
             PreparedStatement preparedStatement = connection.prepareStatement(sentence);
             preparedStatement.setString(1, name);
+            int numberOfRowsAffected = preparedStatement.executeUpdate();
+            responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
+        } catch (SQLException exception) {
+            responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
+        } finally {
+            databaseConnection.close();
+        }
+        return responseCode;
+    }
+
+    public static int updateEducationalExperience(EducationalExperience educationalExperience) {
+        int responseCode;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String sentence = "UPDATE educationalExperience\n"
+                + "SET name = ?, available = ?\n"
+                + "WHERE idEducationalExperience = ?";
+        try (Connection connection = databaseConnection.open()) {
+            int idEducationalExperience = educationalExperience.getIdEducationalExperience();
+            String name = educationalExperience.getName();
+            boolean available = educationalExperience.isAvailable();
+            PreparedStatement preparedStatement = connection.prepareStatement(sentence);
+            preparedStatement.setString(1, name);
+            preparedStatement.setBoolean(2, available);
+            preparedStatement.setInt(3, idEducationalExperience);
             int numberOfRowsAffected = preparedStatement.executeUpdate();
             responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
         } catch (SQLException exception) {

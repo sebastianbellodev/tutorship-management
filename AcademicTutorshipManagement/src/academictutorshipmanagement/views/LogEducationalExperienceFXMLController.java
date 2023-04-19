@@ -87,11 +87,18 @@ public class LogEducationalExperienceFXMLController implements Initializable {
             boolean isRegistered = educationalExperience != null;
             if (!isRegistered) {
                 educationalExperience.setName(name);
+                educationalExperience.setAvailable(Constants.AVAILABLE);
                 logEducationalExperience(educationalExperience);
             } else {
-                Utilities.showAlert("La información ingresada corresponde a una experiencia educativa que ya se encuentra registrada en el sistema.\n\n"
-                        + "Por favor, compruebe la información ingresada e inténtelo nuevamente.\n",
-                        Alert.AlertType.WARNING);
+                boolean isAvailable = educationalExperience.isAvailable();
+                if (!isAvailable) {
+                    educationalExperience.setAvailable(Constants.AVAILABLE);
+                    updateEducationalExperience(educationalExperience);
+                } else {
+                    Utilities.showAlert("La información ingresada corresponde a una experiencia educativa que ya se encuentra registrada en el sistema.\n\n"
+                            + "Por favor, compruebe la información ingresada e inténtelo nuevamente.\n",
+                            Alert.AlertType.WARNING);
+                }
             }
         } else {
             Utilities.showAlert("No se puede dejar ningún campo vacío.\n\n"
@@ -105,7 +112,7 @@ public class LogEducationalExperienceFXMLController implements Initializable {
         if (responseCode == Constants.CORRECT_OPERATION_CODE) {
             String name = educationalExperience.getName();
             idEducationalExperience = EducationalExperienceDAO.getEducationalExperience(name).getIdEducationalExperience();
-            assignEducationalExperienceToEducationalPrograms();
+            assignEducationalExperienceToEducationalPrograms(false);
             Utilities.showAlert("La información se registró correctamente en el sistema.\n",
                     Alert.AlertType.INFORMATION);
         } else {
@@ -116,14 +123,33 @@ public class LogEducationalExperienceFXMLController implements Initializable {
         goToEducationalProgramAdministrationMenu();
     }
 
-    private void assignEducationalExperienceToEducationalPrograms() {
+    private void assignEducationalExperienceToEducationalPrograms(boolean isUpdate) {
         educationalPrograms.forEach(educationalProgram -> {
             boolean associatedTo = educationalProgram.getAssociatedToCheckBox().isSelected();
-            if (associatedTo) {
-                int idEducationalProgram = educationalProgram.getIdEducationalProgram();
-                EducationalProgramDAO.assignEducationalExperieceToEducationalProgram(idEducationalProgram, idEducationalExperience);
+            int idEducationalProgram = educationalProgram.getIdEducationalProgram();
+            if (isUpdate) {
+                EducationalProgramDAO.assignEducationalExperieceToEducationalProgram(idEducationalProgram, idEducationalExperience, associatedTo);
+            } else {
+                if (associatedTo) {
+                    EducationalProgramDAO.assignEducationalExperieceToEducationalProgram(idEducationalProgram, idEducationalExperience);
+                }
             }
         });
+    }
+
+    private void updateEducationalExperience(EducationalExperience educationalExperience) {
+        int responseCode = EducationalExperienceDAO.updateEducationalExperience(educationalExperience);
+        if (responseCode == Constants.CORRECT_OPERATION_CODE) {
+            idEducationalExperience = educationalExperience.getIdEducationalExperience();
+            assignEducationalExperienceToEducationalPrograms(true);
+            Utilities.showAlert("La información se registró correctamente en el sistema.\n",
+                    Alert.AlertType.INFORMATION);
+        } else {
+            Utilities.showAlert("No hay conexión con la base de datos.\n\n"
+                    + "Por favor, inténtelo más tarde.\n",
+                    Alert.AlertType.ERROR);
+        }
+        goToEducationalProgramAdministrationMenu();
     }
 
     private void goToEducationalProgramAdministrationMenu() {
