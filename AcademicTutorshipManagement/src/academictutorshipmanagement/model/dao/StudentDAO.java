@@ -77,11 +77,12 @@ public class StudentDAO {
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String query = "SELECT *\n"
                 + "FROM student\n"
-                + "WHERE idEducationalProgram = ?\n"
+                + "WHERE idEducationalProgram = ? AND available = ?\n"
                 + "ORDER BY paternalSurname ASC";
         try (Connection connection = databaseConnection.open()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, idEducationalProgram);
+            preparedStatement.setBoolean(2, Constants.AVAILABLE);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Student student = new Student();
@@ -257,8 +258,8 @@ public class StudentDAO {
         int responseCode;
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String sentence = "INSERT INTO student\n"
-                + "(registrationNumber, name, paternalSurname, maternalSurname, emailAddress, idEducationalProgram)\n"
-                + "VALUES(?, ?, ?, ?, ?, ?)";
+                + "(registrationNumber, name, paternalSurname, maternalSurname, emailAddress, available, idEducationalProgram)\n"
+                + "VALUES(?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = databaseConnection.open()) {
             String registrationNumber = student.getRegistrationNumber();
             String name = student.getName();
@@ -272,7 +273,8 @@ public class StudentDAO {
             preparedStatement.setString(3, paternalSurname);
             preparedStatement.setString(4, maternalSurname);
             preparedStatement.setString(5, emailAddress);
-            preparedStatement.setInt(6, idEducationalProgram);
+            preparedStatement.setBoolean(6, Constants.AVAILABLE);
+            preparedStatement.setInt(7, idEducationalProgram);
             int numberOfRowsAffected = preparedStatement.executeUpdate();
             responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
         } catch (SQLException exception) {
@@ -305,12 +307,13 @@ public class StudentDAO {
     public static int deleteStudent(String registrationNumber) {
         int responseCode;
         DatabaseConnection databaseConnection = new DatabaseConnection();
-        String sentence = "DELETE "
-                + "FROM student\n"
+        String sentence = "UPDATE student\n"
+                + "SET available = ?\n"
                 + "WHERE registrationNumber = ?";
         try (Connection connection = databaseConnection.open()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sentence);
-            preparedStatement.setString(1, registrationNumber);
+            preparedStatement.setBoolean(1, Constants.NOT_AVAILABLE);
+            preparedStatement.setString(2, registrationNumber);
             int numberOfRowsAffected = preparedStatement.executeUpdate();
             responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
         } catch (SQLException exception) {
