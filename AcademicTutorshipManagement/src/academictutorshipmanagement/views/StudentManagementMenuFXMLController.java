@@ -31,7 +31,7 @@ public class StudentManagementMenuFXMLController implements Initializable {
     private SchoolPeriod schoolPeriod;
     private AcademicPersonnel academicPersonnel;
     
-    private int idRol;
+    private int idRole;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -40,7 +40,7 @@ public class StudentManagementMenuFXMLController implements Initializable {
     public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
         this.schoolPeriod = schoolPeriod;
         this.academicPersonnel = academicPersonnel;
-        idRol = academicPersonnel.getUser().getRole().getIdRole();
+        idRole = academicPersonnel.getUser().getRole().getIdRole();
     }
 
     @FXML
@@ -63,7 +63,7 @@ public class StudentManagementMenuFXMLController implements Initializable {
 
     @FXML
     private void logStudentButtonClick(ActionEvent actionEvent) {
-        if (idRol == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE) {
+        if (idRole == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE) {
             goToLogStudent();
         } else {
             Utilities.showAlert("No tiene los permisos necesarios para realizar esta acción.\n\n"
@@ -90,7 +90,7 @@ public class StudentManagementMenuFXMLController implements Initializable {
 
     @FXML
     private void queryStudentButtonClick(ActionEvent actionEvent) {
-        if (idRol == Constants.CAREER_HEAD_ID_ROLE) {
+        if (idRole == Constants.CAREER_HEAD_ID_ROLE) {
             goToQueryStudent();
         } else {
             Utilities.showAlert("No tiene los permisos necesarios para realizar esta acción.\n\n"
@@ -117,7 +117,7 @@ public class StudentManagementMenuFXMLController implements Initializable {
 
     @FXML
     private void modifyStudentButtonClick(ActionEvent actionEvent) {
-        if (idRol == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE) {
+        if (idRole == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE) {
             goToModifyStudent();
         } else {
             Utilities.showAlert("No tiene los permisos necesarios para realizar esta acción.\n\n"
@@ -144,7 +144,7 @@ public class StudentManagementMenuFXMLController implements Initializable {
 
     @FXML
     private void assignStudentButtonClick(ActionEvent actionEvent) {
-        if (idRol == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE) {
+        if (idRole == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE) {
             goToAssignStudentToAcademicTutor();
         } else {
             Utilities.showAlert("No tiene los permisos necesarios para realizar esta acción.\n\n"
