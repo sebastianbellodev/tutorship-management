@@ -191,7 +191,34 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
             stage.setTitle("Consultar Reporte de Tutorías Académicas por tutor académico.");
             stage.show();
         } catch (IOException exception) {
-            System.err.println("The 'LogAcademicTutorshipReport.fxml' file could not be open. Please try again later.");
+            System.err.println("The 'QueryAcademicTutorshipReportByAcademicTutor.fxml' file could not be open. Please try again later.");
+        }
+    }
+
+    @FXML
+    private void queryAcademicTutorshipGeneralReportButtonClick(ActionEvent event) {
+        if (idRol == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE || idRol == Constants.CAREER_HEAD_ID_ROLE) {
+            goToQueryAcademicTutorshipGeneralReport();
+        } else {
+            Utilities.showAlert("No tiene los permisos necesarios para realizar esta acción.\n\n"
+                    + "Por favor, vuelva a iniciar sesión e inténtelo nuevamente.\n",
+                    Alert.AlertType.INFORMATION);
+        }
+    }
+    
+    private void goToQueryAcademicTutorshipGeneralReport() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("QueryAcademicTutorshipGeneralReportFXML.fxml"));
+        try {
+            Parent root = loader.load();
+            QueryAcademicTutorshipGeneralReportFXMLController queryAcademicTutorshipGeneralReportFXMLController = loader.getController();
+            queryAcademicTutorshipGeneralReportFXMLController.configureView(schoolPeriod, academicPersonnel);
+            Scene logAcademicTutorshipReportView = new Scene(root);
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.setScene(logAcademicTutorshipReportView);
+            stage.setTitle("Consultar Reporte General de Tutorías Académicas.");
+            stage.show();
+        } catch (IOException exception) {
+            System.err.println("The 'QueryAcademicTutorshipGeneralReport.fxml' file could not be open. Please try again later.");
         }
     }
     

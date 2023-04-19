@@ -45,15 +45,11 @@ import javafx.stage.Stage;
 public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implements Initializable {
 
     @FXML
-    private TableView<Student> studentsTableView;
+    private TableView<InnerStudent> studentsTableView;
     @FXML
     private TableColumn registrationNumberTableColumn;
     @FXML
-    private TableColumn nameTableColumn;
-    @FXML
-    private TableColumn paternalSurnameTableColumn;
-    @FXML
-    private TableColumn maternalSurnameTableColumn;
+    private TableColumn studentTableColumn;
     @FXML
     private TableColumn attendedByTableColumn;
     @FXML
@@ -78,7 +74,7 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
     private ObservableList<SchoolPeriod> schoolPeriods;
     private ObservableList<AcademicPersonnel> academicPersonnels;
     private ObservableList<Integer> academicTutorshipSessions;
-    private ObservableList<Student> students;
+    private ObservableList<InnerStudent> students;
 
     private ArrayList<AcademicTutorshipReport> academicTutorshipReports;
     
@@ -111,9 +107,7 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
     
     private void configureStudentsTableViewColumns() {
         registrationNumberTableColumn.setCellValueFactory(new PropertyValueFactory("registrationNumber"));
-        nameTableColumn.setCellValueFactory(new PropertyValueFactory("name"));
-        paternalSurnameTableColumn.setCellValueFactory(new PropertyValueFactory("paternalSurname"));
-        maternalSurnameTableColumn.setCellValueFactory(new PropertyValueFactory("maternalSurname"));
+        studentTableColumn.setCellValueFactory(new PropertyValueFactory("innerStudent"));
         attendedByTableColumn.setCellValueFactory(new PropertyValueFactory("attendedByCheckBox"));
         atRiskTableColumn.setCellValueFactory(new PropertyValueFactory("atRiskCheckBox"));
     }
@@ -159,13 +153,13 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
                     students.clear();
                     idAcademicPersonnel = newValue.getIdAcademicPersonnel();
                     clearTextField();
-                    loadacademicTutorshipSessions(idAcademicPersonnel, idSchoolPeriod);
+                    loadacademicTutorshipReports(idAcademicPersonnel, idSchoolPeriod);
                 }
             });
         }
     }
     
-    private void loadacademicTutorshipSessions(int idAcademicPersonnel, int idSchoolPeriod) {
+    private void loadacademicTutorshipReports(int idAcademicPersonnel, int idSchoolPeriod) {
         ArrayList<AcademicTutorshipReport> academicTutorshipReportsResultSet = AcademicTutorshipReportDAO.getAcademicTutorshipReports(idAcademicPersonnel, idSchoolPeriod);
         if (academicTutorshipReportsResultSet.isEmpty()) {
             Utilities.showAlert("No hay conexión con la base de datos.\n\n"
@@ -198,7 +192,10 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
     
     private void loadStudentsByAcademicTutorshipReport(AcademicTutorshipReport academicTutorshipReport) {
         ArrayList<Student> studentsResultSet = StudentDAO.getStudentsByAcademicTutorshipReport(academicTutorshipReport.getIdAcademicTutorshipReport());
-        students.addAll(studentsResultSet);
+        students.clear();
+        for (Student student : studentsResultSet) {
+                students.add(new InnerStudent (student));
+        }
         configureTableViewCheckBoxes();
         studentsTableView.setItems(students);
     }
@@ -247,4 +244,21 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
     private void queryAcademicProblemButtonClick(ActionEvent event) {
     }
 
+    public class InnerStudent extends Student {
+        private InnerStudent(Student student) {
+            this.setName(student.getName());
+            this.setPaternalSurname(student.getPaternalSurname());
+            this.setMaternalSurname(student.getMaternalSurname());
+            this.setRegistrationNumber(student.getRegistrationNumber());
+            this.setAtRisk(student.isAtRisk());
+            this.setAtRiskCheckBox(student.getAtRiskCheckBox());
+            this.setAttendedBy(student.isAttendedBy());
+            this.setAttendedByCheckBox(student.getAttendedByCheckBox());
+        }
+        
+        public String getInnerStudent() {
+            return this.getName() + " " + this.getPaternalSurname() + " " + this.getMaternalSurname();
+        }
+    }
+    
 }
