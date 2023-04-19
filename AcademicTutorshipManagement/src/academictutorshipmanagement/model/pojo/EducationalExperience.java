@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 01, 2023.
- * Date of update: March 04, 2023.
+ * Date of update: April 19, 2023.
  */
 package academictutorshipmanagement.model.pojo;
 
@@ -9,6 +9,7 @@ public class EducationalExperience {
 
     private int idEducationalExperience;
     private String name;
+    private int responseCode;
 
     public EducationalExperience() {
     }
@@ -31,6 +32,14 @@ public class EducationalExperience {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getResponseCode() {
+        return responseCode;
+    }
+
+    public void setResponseCode(int responseCode) {
+        this.responseCode = responseCode;
     }
     
     @Override

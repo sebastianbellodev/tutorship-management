@@ -135,7 +135,7 @@ public class MainMenuFXMLController implements Initializable {
             Scene mainMenuView = new Scene(root);
             Stage stage = (Stage) academicPersonnelLabel.getScene().getWindow();
             stage.setScene(mainMenuView);
-            stage.setTitle("Admnistración del programa educativo.");
+            stage.setTitle("Administración del programa educativo.");
             stage.show();
         } catch (IOException exception) {
             System.err.println("The EducationalProgramAdministrationMenuFXML.fxml' file could not be open. Please try again later.");

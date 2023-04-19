@@ -57,8 +57,7 @@ public class LoginFXMLController implements Initializable, IEducationalProgram, 
     }
 
     private boolean validateEmptyFields() {
-        return usernameTextField.getText().isEmpty()
-                || passwordField.getText().isEmpty();
+        return usernameTextField.getText().isEmpty() || passwordField.getText().isEmpty();
     }
 
     private void logIn(String username, String password) {

@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 05, 2023.
- * Date of update: March 15, 2023.
+ * Date of update: April 19, 2023.
  */
 package academictutorshipmanagement.views;
 
@@ -106,8 +106,8 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
         educationalProgram = academicPersonnel.getUser().getEducationalProgram();
         this.academicTutorshipReport = academicTutorshipReport;
         configureAcademicTutorshipReportInformation();
-        loadAcademicProblemsByAcademicTutorshipReport();
         loadStudentsByAcademicTutorshipReport();
+        loadAcademicProblemsByAcademicTutorshipReport();
     }
 
     private void configureAcademicTutorshipReportInformation() {
@@ -122,17 +122,21 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
     }
 
     private void loadAcademicProblemsByAcademicTutorshipReport() {
-        academicProblems = 
-                AcademicProblemDAO.loadAcademicProblemsByAcademicTutorshipReport(
-                        academicTutorshipReport.getIdAcademicTutorshipReport());
+        academicProblems = AcademicProblemDAO.loadAcademicProblemsByAcademicTutorshipReport(academicTutorshipReport.getIdAcademicTutorshipReport());
     }
 
     private void loadStudentsByAcademicTutorshipReport() {
         idAcademicTutorshipReport = academicTutorshipReport.getIdAcademicTutorshipReport();
         ArrayList<Student> studentsResultSet = StudentDAO.getStudentsByAcademicTutorshipReport(idAcademicTutorshipReport);
-        students.addAll(studentsResultSet);
-        configureTableViewCheckBoxes();
-        studentsTableView.setItems(students);
+        if (!studentsResultSet.isEmpty()) {
+            students.addAll(studentsResultSet);
+            configureTableViewCheckBoxes();
+            studentsTableView.setItems(students);
+        } else {
+            Utilities.showAlert("No hay conexión con la base de datos.\n\n"
+                    + "Por favor, inténtelo más tarde.\n",
+                    Alert.AlertType.ERROR);
+        }
     }
 
     private void configureTableViewCheckBoxes() {
@@ -187,11 +191,9 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
             Utilities.showAlert("La información se registró correctamente en el sistema.\n",
                     Alert.AlertType.INFORMATION);
         } else {
-            if (responseCode == Constants.NO_DATABASE_CONNECTION_CODE) {
-                Utilities.showAlert("No hay conexión con la base de datos.\n\n"
-                        + "Por favor, inténtelo más tarde.\n",
-                        Alert.AlertType.ERROR);
-            }
+            Utilities.showAlert("No hay conexión con la base de datos.\n\n"
+                    + "Por favor, inténtelo más tarde.\n",
+                    Alert.AlertType.ERROR);
         }
         goToTutorialReportManagementMenu();
     }
@@ -200,7 +202,7 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
         academicProblems.forEach(academicProblem -> {
             if (academicProblem.getIdAcademicOffering() == Constants.PRIMARY_KEY_OF_NON_EXISTENT_RECORD_IN_DATABASE) {
                 AcademicProblemDAO.logAcademicProblemByAcademicTutorshipReport(academicProblem, idAcademicTutorshipReport);
-            }else{
+            } else {
                 AcademicProblemDAO.updatedAcademicProblemByAcademicTutorshipReport(academicProblem);
             }
         });

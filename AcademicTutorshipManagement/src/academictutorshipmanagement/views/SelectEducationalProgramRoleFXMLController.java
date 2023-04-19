@@ -23,7 +23,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
-import java.sql.SQLException;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
@@ -52,26 +51,25 @@ public class SelectEducationalProgramRoleFXMLController implements Initializable
         this.educationalProgramInterface = educationalProgramInterface;
         this.roleInterface = roleInterface;
         this.user = user;
-        try {
-            loadEducationalPrograms();
-        } catch (SQLException exception) {
+        loadEducationalProgramsByUser();
+    }
+
+    private void loadEducationalProgramsByUser() {
+        String username = user.getUsername();
+        ArrayList<EducationalProgram> educationalProgramsResultSet = EducationalProgramDAO.getEducationalProgramsByUser(username);
+        if (!educationalProgramsResultSet.isEmpty()) {
+            educationalPrograms.addAll(educationalProgramsResultSet);
+            educationalProgramComboBox.setItems(educationalPrograms);
+            educationalProgramComboBox.valueProperty().addListener((ObservableValue<? extends EducationalProgram> observable, EducationalProgram oldValue, EducationalProgram newValue) -> {
+                roles.clear();
+                int idEducationalProgram = newValue.getIdEducationalProgram();
+                loadRolesByEducationalProgram(idEducationalProgram, username);
+            });
+        } else {
             Utilities.showAlert("No hay conexión con la base de datos.\n\n"
                     + "Por favor, inténtelo más tarde.\n",
                     Alert.AlertType.ERROR);
-            closePopUpWindow();
         }
-    }
-
-    private void loadEducationalPrograms() throws SQLException {
-        String username = user.getUsername();
-        ArrayList<EducationalProgram> educationalProgramsResultSet = EducationalProgramDAO.getEducationalProgramsByUser(username);
-        educationalPrograms.addAll(educationalProgramsResultSet);
-        educationalProgramComboBox.setItems(educationalPrograms);
-        educationalProgramComboBox.valueProperty().addListener((ObservableValue<? extends EducationalProgram> observable, EducationalProgram oldValue, EducationalProgram newValue) -> {
-            roles.clear();
-            int idEducationalProgram = newValue.getIdEducationalProgram();
-            loadRolesByEducationalProgram(idEducationalProgram, username);
-        });
     }
 
     private void loadRolesByEducationalProgram(int idEducationalProgram, String username) {

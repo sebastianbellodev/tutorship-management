@@ -1,14 +1,18 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: April 18, 2023.
- * Date of update: April 18, 2023.
+ * Date of update: April 19, 2023.
  */
 package academictutorshipmanagement.views;
 
+import academictutorshipmanagement.model.dao.EducationalExperienceDAO;
 import academictutorshipmanagement.model.dao.EducationalProgramDAO;
 import academictutorshipmanagement.model.pojo.AcademicPersonnel;
+import academictutorshipmanagement.model.pojo.EducationalExperience;
 import academictutorshipmanagement.model.pojo.EducationalProgram;
 import academictutorshipmanagement.model.pojo.SchoolPeriod;
+import academictutorshipmanagement.utilities.Constants;
+import academictutorshipmanagement.utilities.Utilities;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -21,6 +25,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -43,6 +48,8 @@ public class LogEducationalExperienceFXMLController implements Initializable {
     private SchoolPeriod schoolPeriod;
     private AcademicPersonnel academicPersonnel;
 
+    private int idEducationalExperience;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         educationalPrograms = FXCollections.observableArrayList();
@@ -57,8 +64,14 @@ public class LogEducationalExperienceFXMLController implements Initializable {
 
     private void loadEducationalPrograms() {
         ArrayList<EducationalProgram> educationalProgramsResultSet = EducationalProgramDAO.getEducationalPrograms();
-        educationalPrograms.addAll(educationalProgramsResultSet);
-        educationalProgramsTableView.setItems(educationalPrograms);
+        if (!educationalProgramsResultSet.isEmpty()) {
+            educationalPrograms.addAll(educationalProgramsResultSet);
+            educationalProgramsTableView.setItems(educationalPrograms);
+        } else {
+            Utilities.showAlert("No hay conexión con la base de datos.\n\n"
+                    + "Por favor, inténtelo más tarde.\n",
+                    Alert.AlertType.ERROR);
+        }
     }
 
     public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
@@ -68,6 +81,49 @@ public class LogEducationalExperienceFXMLController implements Initializable {
 
     @FXML
     private void acceptButtonClick(ActionEvent actionEvent) {
+        String name = nameTextField.getText();
+        if (!name.isEmpty()) {
+            EducationalExperience educationalExperience = EducationalExperienceDAO.checkEducationalExperienceExistence(name);
+            boolean isRegistered = educationalExperience != null;
+            if (!isRegistered) {
+                educationalExperience.setName(name);
+                logEducationalExperience(educationalExperience);
+            } else {
+                Utilities.showAlert("La información ingresada corresponde a una experiencia educativa que ya se encuentra registrada en el sistema.\n\n"
+                        + "Por favor, compruebe la información ingresada e inténtelo nuevamente.\n",
+                        Alert.AlertType.WARNING);
+            }
+        } else {
+            Utilities.showAlert("No se puede dejar ningún campo vacío.\n\n"
+                    + "Por favor, compruebe la información ingresada e inténtelo nuevamente.\n",
+                    Alert.AlertType.WARNING);
+        }
+    }
+
+    private void logEducationalExperience(EducationalExperience educationalExperience) {
+        int responseCode = EducationalExperienceDAO.logEducationalExperience(educationalExperience);
+        if (responseCode == Constants.CORRECT_OPERATION_CODE) {
+            String name = educationalExperience.getName();
+            idEducationalExperience = EducationalExperienceDAO.getEducationalExperience(name).getIdEducationalExperience();
+            assignEducationalExperienceToEducationalPrograms();
+            Utilities.showAlert("La información se registró correctamente en el sistema.\n",
+                    Alert.AlertType.INFORMATION);
+        } else {
+            Utilities.showAlert("No hay conexión con la base de datos.\n\n"
+                    + "Por favor, inténtelo más tarde.\n",
+                    Alert.AlertType.ERROR);
+        }
+        goToEducationalProgramAdministrationMenu();
+    }
+
+    private void assignEducationalExperienceToEducationalPrograms() {
+        educationalPrograms.forEach(educationalProgram -> {
+            boolean associatedTo = educationalProgram.getAssociatedToCheckBox().isSelected();
+            if (associatedTo) {
+                int idEducationalProgram = educationalProgram.getIdEducationalProgram();
+                EducationalProgramDAO.assignEducationalExperieceToEducationalProgram(idEducationalProgram, idEducationalExperience);
+            }
+        });
     }
 
     private void goToEducationalProgramAdministrationMenu() {
