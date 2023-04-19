@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 02, 2023.
- * Date of update: March 06, 2023.
+ * Date of update: April 18, 2023.
  */
 package academictutorshipmanagement.views;
 
@@ -43,22 +43,22 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
     private AcademicTutorshipSession academicTutorshipSession;
     private AcademicTutorship academicTutorship;
 
-    private int idRol;
+    private int idRole;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         academicTutorships = new ArrayList<>();
     }
 
     public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
         this.schoolPeriod = schoolPeriod;
         this.academicPersonnel = academicPersonnel;
-        idRol = academicPersonnel.getUser().getRole().getIdRole();
+        idRole = academicPersonnel.getUser().getRole().getIdRole();
     }
 
     @FXML
-    private void logAcademicTutorshipReportButtonClick(ActionEvent event) {
-        if (idRol == Constants.ACADEMIC_TUTOR_ID_ROLE) {
+    private void logAcademicTutorshipReportButtonClick(ActionEvent actionEvent) {
+        if (idRole == Constants.ACADEMIC_TUTOR_ID_ROLE) {
             academicTutorshipSession = AcademicTutorshipSessionDAO.getCurrentAcademicTutorshipSession();
             int responseCode = academicTutorshipSession.getResponseCode();
             switch (responseCode) {
@@ -130,7 +130,7 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
             stage.setTitle("Registrar Reporte de Tutorías Académicas.");
             stage.show();
         } catch (IOException exception) {
-            System.err.println("The 'LogAcademicTutorshipReport.fxml' file could not be open. Please try again later.");
+            System.err.println("The 'LogAcademicTutorshipReportFXML.fxml' file could not be open. Please try again later.");
         }
     }
 
@@ -146,12 +146,12 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
             stage.setTitle("Editar Reporte de Tutorías Académicas.");
             stage.show();
         } catch (IOException exception) {
-            System.err.println("The 'ModifyAcademicTutorshipReport.fxml' file could not be open. Please try again later.");
+            System.err.println("The 'ModifyAcademicTutorshipReportFXML.fxml' file could not be open. Please try again later.");
         }
     }
 
     @FXML
-    private void backButtonClick(ActionEvent event) {
+    private void backButtonClick(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainMenuFXML.fxml"));
         try {
             Parent root = loader.load();
@@ -169,8 +169,8 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
     }
 
     @FXML
-    private void queryAcademicTutorshipReportByAcademicTutorButtonClick(ActionEvent event) {
-        if (idRol == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE || idRol == Constants.CAREER_HEAD_ID_ROLE) {
+    private void queryAcademicTutorshipReportByAcademicTutorButtonClick(ActionEvent actionEvent) {
+        if (idRole == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE || idRole == Constants.CAREER_HEAD_ID_ROLE) {
             goToQueryAcademicTutorshipReportByAcademicTutor();
         } else {
             Utilities.showAlert("No tiene los permisos necesarios para realizar esta acción.\n\n"
@@ -191,13 +191,13 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
             stage.setTitle("Consultar Reporte de Tutorías Académicas por tutor académico.");
             stage.show();
         } catch (IOException exception) {
-            System.err.println("The 'QueryAcademicTutorshipReportByAcademicTutor.fxml' file could not be open. Please try again later.");
+            System.err.println("The 'QueryAcademicTutorshipReportByAcademicTutorFXML.fxml' file could not be open. Please try again later.");
         }
     }
 
     @FXML
-    private void queryAcademicTutorshipGeneralReportButtonClick(ActionEvent event) {
-        if (idRol == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE || idRol == Constants.CAREER_HEAD_ID_ROLE) {
+    private void queryAcademicTutorshipGeneralReportButtonClick(ActionEvent actionEvent) {
+        if (idRole == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE || idRole == Constants.CAREER_HEAD_ID_ROLE) {
             goToQueryAcademicTutorshipGeneralReport();
         } else {
             Utilities.showAlert("No tiene los permisos necesarios para realizar esta acción.\n\n"
@@ -218,7 +218,7 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
             stage.setTitle("Consultar Reporte General de Tutorías Académicas.");
             stage.show();
         } catch (IOException exception) {
-            System.err.println("The 'QueryAcademicTutorshipGeneralReport.fxml' file could not be open. Please try again later.");
+            System.err.println("The 'QueryAcademicTutorshipGeneralReportFXML.fxml' file could not be open. Please try again later.");
         }
     }
     

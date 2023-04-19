@@ -87,7 +87,6 @@ public class QueryAcademicProblemFollowUpFXMLController implements Initializable
             }
             this.checkButtons();
         }catch(SQLException sqlException){
-            System.out.print(sqlException.getMessage());
             MessagesAlerts.showDataBaseLostConnectionAlert();
         }
     }
@@ -96,7 +95,6 @@ public class QueryAcademicProblemFollowUpFXMLController implements Initializable
         AcademicProblem queryAcademicProblemFollowUp = new AcademicProblem();
         queryAcademicProblemFollowUp = 
             AcademicProblemDAO.queryAcademicProblemWithFollowUp(this.queryAcademicProblem.getIdAcademicProblem());
-        
         return queryAcademicProblemFollowUp.getIdAcademicProblem() == 0 ? this.queryAcademicProblem: queryAcademicProblemFollowUp;
     }
     
@@ -111,14 +109,16 @@ public class QueryAcademicProblemFollowUpFXMLController implements Initializable
     private void modifyButtonClick(ActionEvent event) {        
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ModifyAcademicProblemFollowUpFXML.fxml"));
         try{
-            Parent root = loader.load();                   
+            Parent root = loader.load();       
+            ModifyAcademicProblemFollowUpFXMLController controller = loader.getController();
             Scene logAcademicTutorshipDatesView = new Scene(root);
             Stage stage = (Stage) backButton.getScene().getWindow();
             stage.setScene(logAcademicTutorshipDatesView);
+            controller.configureView(this.queryAcademicProblem);
             stage.setTitle("Editar seguimiento a problemática académica");
             stage.show();          
         }catch (IOException exception){
-            System.err.println("The 'ModifyAcademicProblemFollowUpFXML.fxml' file could not be open. Please try again later.");
+            MessagesAlerts.showFailureLoadWindow();
         }
 
     
@@ -130,8 +130,12 @@ public class QueryAcademicProblemFollowUpFXMLController implements Initializable
         try{
             Parent root = loader.load();
             Scene queryFollowUpOnAcademicProblemsList = new Scene(root);
+            QueryFollowUpOnAcademicProblemsListFXMLController controller = 
+                    loader.getController();
             Stage stage = (Stage) this.backButton.getScene().getWindow();
             stage.setScene(queryFollowUpOnAcademicProblemsList);
+            controller.configureView();
+            stage.setTitle("Lista de Problemáticas Académicas");
             stage.show();
         }catch(IOException ioException){
             MessagesAlerts.showFailureLoadWindow();
@@ -148,6 +152,7 @@ public class QueryAcademicProblemFollowUpFXMLController implements Initializable
             Stage stage = (Stage) this.backButton.getScene().getWindow();
             stage.setScene(queryAcademicProblemFollowUpView);
             controller.configureView(this.queryAcademicProblem);
+            stage.setTitle("Registro de Seguimiento A Problemática Académica");
             stage.show();
         }catch(IOException ioException){
            MessagesAlerts.showFailureLoadWindow();

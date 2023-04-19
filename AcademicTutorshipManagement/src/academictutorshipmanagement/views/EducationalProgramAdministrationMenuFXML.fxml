@@ -15,7 +15,42 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="LogAcademicPersonnelButton" layoutX="35.0" layoutY="60.0" mnemonicParsing="false" onAction="#LogAcademicPersonnelClic" prefHeight="125.0" prefWidth="895.0" text="Registrar personal academico">
+      <Button layoutX="35.0" layoutY="45.0" mnemonicParsing="false" onAction="#queryAcademicOfferingButtonClick" prefHeight="100.0" prefWidth="435.0" text="Consultar oferta académica">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="495.0" layoutY="45.0" mnemonicParsing="false" onAction="#logAcademicPersonnelButtonClick" prefHeight="100.0" prefWidth="435.0" text="Registrar personal académico">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="35.0" layoutY="170.0" mnemonicParsing="false" onAction="#logEducationalExperienceButtonClick" prefHeight="100.0" prefWidth="435.0" text="Registrar experiencia educativa">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="35.0" layoutY="290.0" mnemonicParsing="false" onAction="#queryEducationalExperienceButtonClick" prefHeight="100.0" prefWidth="435.0" text="Consultar experiencia educativa">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="35.0" layoutY="410.0" mnemonicParsing="false" onAction="#modifyEducationalExperienceButtonClick" prefHeight="100.0" prefWidth="435.0" text="Editar experiencia educativa">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="495.0" layoutY="170.0" mnemonicParsing="false" onAction="#queryAcademicPersonnelButtonClick" prefHeight="100.0" prefWidth="435.0" text="Consultar personal académico">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="495.0" layoutY="290.0" mnemonicParsing="false" onAction="#modifyAcademicPersonnelButtonClick" prefHeight="100.0" prefWidth="435.0" text="Editar personal académico">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="495.0" layoutY="410.0" mnemonicParsing="false" onAction="#assignEducationalExperienceToAcademicPersonnelButtonClick" prefHeight="100.0" prefWidth="435.0" text="Asignar experiencia educativa a personal académico">
          <font>
             <Font name="Arial" size="14.0" />
          </font>

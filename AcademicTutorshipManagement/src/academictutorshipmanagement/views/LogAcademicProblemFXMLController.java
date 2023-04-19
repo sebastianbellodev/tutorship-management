@@ -60,7 +60,7 @@ public class LogAcademicProblemFXMLController implements Initializable {
     private int idEducationalExperience;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         educationalExperiences = FXCollections.observableArrayList();
         academicPersonnel = FXCollections.observableArrayList();
         academicOfferings = FXCollections.observableArrayList();
@@ -120,7 +120,7 @@ public class LogAcademicProblemFXMLController implements Initializable {
     }
 
     @FXML
-    private void acceptButtonClick(ActionEvent event) {
+    private void acceptButtonClick(ActionEvent actionEvent) {
         if (!validateEmptyFields()) {
             String title = titleTextField.getText();
             String description = descriptionTextArea.getText();
@@ -152,7 +152,7 @@ public class LogAcademicProblemFXMLController implements Initializable {
     }
 
     @FXML
-    private void cancelButtonClick(ActionEvent event) {
+    private void cancelButtonClick(ActionEvent actionEvent) {
         closePopUpWindow();
     }
 

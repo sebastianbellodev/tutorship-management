@@ -85,23 +85,31 @@ public class RegisterAcademicProblemFollowUpFXMLController implements Initializa
     
     @FXML
     private void backButtonClick(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("QueryFollowUpOnAcademicProblemsListFXML.fxml"));
-        try{
-            Parent root = loader.load();
-            Scene queryFollowUpOnAcademicProblemsList = new Scene(root);
-            Stage stage = (Stage) this.backButton.getScene().getWindow();
-            stage.setScene(queryFollowUpOnAcademicProblemsList);
-            stage.show();
-        }catch(IOException ioException){
-            MessagesAlerts.showFailureLoadWindow();
-        }
+        this.callQueryAcademicProblem();
     }
 
     @FXML
     private void saveButtonClick(ActionEvent event) {
         this.registerFollowUp();
         MessagesAlerts.showAlert("Se ha registrado el seguimiento con exito", Alert.AlertType.CONFIRMATION);
-        this.backButtonClick(event);
+        this.callQueryAcademicProblem();
+    }
+    
+        private void callQueryAcademicProblem(){
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("QueryAcademicProblemFollowUpFXML.fxml"));
+        try{
+            Parent root = loader.load();
+            QueryAcademicProblemFollowUpFXMLController controller = loader.getController();
+
+            Scene queryFollowUpOnAcademicProblemsList = new Scene(root);
+            Stage stage = (Stage) this.backButton.getScene().getWindow();
+            stage.setScene(queryFollowUpOnAcademicProblemsList);
+            controller.configureView(this.academicProblem);
+            stage.show();
+            stage.setTitle("Consulta Seguimiento a Problemática Académica");
+        }catch(IOException ioException){
+            MessagesAlerts.showFailureLoadWindow();
+        }
     }
 
     private void checkEmptyFields() throws DataFormatException{

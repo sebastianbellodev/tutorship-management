@@ -72,7 +72,7 @@ public class AcademicProblemDAO {
                     academicProblem.setNumberOfStudents(result.getInt("numberOfStudents"));
                     academicProblem.getAcademicOffering().setIdAcademicOffering(result.getInt("idAcademicOffering"));
                     academicProblem.getAcademicOffering().getEducationalExperience().setIdEducationalExperience(result.getInt("idEducationalExperience"));
-                    academicProblem.getAcademicOffering().getEducationalExperience().setName(result.getString("name"));
+                    academicProblem.getAcademicOffering().getEducationalExperience().setName(result.getString("educationalexperience.name"));
                     academicProblem.getAcademicOffering().getSchoolPeriod().setIdSchoolPeriod(result.getInt("idSchoolPeriod"));
                     academicProblem.getAcademicOffering().getSchoolPeriod().setStartDate(result.getDate("startDate"));
                     academicProblem.getAcademicOffering().getSchoolPeriod().setEndDate(result.getDate("endDate"));
@@ -90,7 +90,7 @@ public class AcademicProblemDAO {
     
     public static ArrayList<AcademicProblem> queryAcademicProblemForAcademicPersonnel(int idAcademicPersonel) throws SQLException{
         DatabaseConnection databaseConnection = new DatabaseConnection();
-        ArrayList<AcademicProblem> academicProblemQuery = new ArrayList<>();
+        ArrayList<AcademicProblem> academicProblemsQuery = new ArrayList<>();
         String sentence = 
           "select * from academicproblem join academictutorshipreport on academictutorshipreport.idAcademicTutorshipReport = academicproblem.idAcademicTutorshipReport "
                 + "join academicoffering on academicproblem.idAcademicOffering = academicoffering.idAcademicOffering "
@@ -112,27 +112,27 @@ public class AcademicProblemDAO {
                     academicProblem.setNumberOfStudents(result.getInt("numberOfStudents"));
                     academicProblem.getAcademicOffering().setIdAcademicOffering(result.getInt("idAcademicOffering"));
                     academicProblem.getAcademicOffering().getEducationalExperience().setIdEducationalExperience(result.getInt("idEducationalExperience"));
-                    academicProblem.getAcademicOffering().getEducationalExperience().setName(result.getString("name"));
+                    academicProblem.getAcademicOffering().getEducationalExperience().setName(result.getString("educationalexperience.name"));
                     academicProblem.getAcademicOffering().getSchoolPeriod().setIdSchoolPeriod(result.getInt("idSchoolPeriod"));
                     academicProblem.getAcademicOffering().getSchoolPeriod().setStartDate(result.getDate("startDate"));
                     academicProblem.getAcademicOffering().getSchoolPeriod().setEndDate(result.getDate("endDate")); 
                     academicProblem.getAcademicOffering().getAcademicPersonnel().setName(result.getString("academicpersonnel.name"));
                     academicProblem.getAcademicOffering().getAcademicPersonnel().setPaternalSurname(result.getString("academicpersonnel.paternalSurname"));
                     academicProblem.getAcademicOffering().getAcademicPersonnel().setMaternalSurname(result.getString("academicpersonnel.maternalSurname"));
-                    academicProblemQuery.add(academicProblem);
+                    academicProblemsQuery.add(academicProblem);
                 }while(result.next());
             }
         }finally{
             databaseConnection.close();
         }
-        return academicProblemQuery;
+        return academicProblemsQuery;
     }
     
     public static AcademicProblem queryAcademicProblemWithFollowUp(int idAcademicProblem) throws SQLException{
         DatabaseConnection databaseConnection = new DatabaseConnection();
         AcademicProblem queryAcademicProblem = new AcademicProblem();
         String sentence = "SELECT * FROM academicproblem join academicproblemfollowup on academicproblem.idAcademicProblem = academicproblemfollowup.idAcademicProblem "
-                + "join academicoffering on academicproblem.idAcademicOffering = academicoffering.idAcademicOffering" 
+                + "join academicoffering on academicproblem.idAcademicOffering = academicoffering.idAcademicOffering " 
                 + "join educationalexperience on academicoffering.idEducationalExperience = educationalexperience.idEducationalExperience "
                 + "join academicpersonnel on academicoffering.idAcademicPersonnel = academicpersonnel.idAcademicPersonnel where academicproblem.idAcademicProblem = ?";
         try(Connection connection = databaseConnection.open()){
@@ -179,34 +179,6 @@ public class AcademicProblemDAO {
         }
         return response;
     }
-
-
-    public static ArrayList<AcademicProblem> loadAcademicProblemsByAcademicTutorshipReport(int idAcademicTutorshipReport) {
-        ArrayList<AcademicProblem> academicProblems = new ArrayList<>();
-        DatabaseConnection databaseConnection = new DatabaseConnection();
-        String query = "SELECT *\n"
-                + "FROM academicProblem\n"
-                + "WHERE idAcademicTutorshipReport = ?";
-         try (Connection connection = databaseConnection.open()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, idAcademicTutorshipReport);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                AcademicProblem academicProblem = new AcademicProblem();
-                academicProblem.setIdAcademicProblem(resultSet.getInt("idAcademicProblem"));
-                academicProblem.setTitle(resultSet.getString("title"));
-                academicProblem.setDescription(resultSet.getString("description"));
-                academicProblem.setNumberOfStudents(resultSet.getInt("numberOfStudents"));
-                academicProblem.setIdAcademicOffering(resultSet.getInt("idAcademicOffering"));
-                academicProblems.add(academicProblem);
-            }
-        } catch (SQLException exception) {
-            academicProblems = null;
-        } finally {
-            databaseConnection.close();
-        }
-         return academicProblems;
-    }
     
     public static int ModifyAcademicProblemFollowUp(AcademicProblem academicProblem, int academicProblemFollowUp) throws SQLException{
         int response;
@@ -225,6 +197,73 @@ public class AcademicProblemDAO {
         return response;
     }
 
+    public static int updatedAcademicProblemByAcademicTutorshipReport(AcademicProblem academicProblem){
+        int responseCode;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String sentence = "UPDATE academicProblem "
+                + "SET title = ?, description = ?, numberOfStudents = ?, idAcademicOffering = ? "
+                + "WHERE idAcademicProblem= ?";
+        try (Connection connection = databaseConnection.open()) {
+            String title = academicProblem.getTitle();
+            String description = academicProblem.getDescription();
+            int numberOfStudents = academicProblem.getNumberOfStudents();
+            int idAcademicOffering = academicProblem.getAcademicOffering().getIdAcademicOffering();
+            PreparedStatement preparedStatement = connection.prepareStatement(sentence);
+            preparedStatement.setString(1, title);
+            preparedStatement.setString(2, description);
+            preparedStatement.setInt(3, numberOfStudents);
+            preparedStatement.setInt(4, idAcademicOffering);
+            preparedStatement.setInt(5, academicProblem.getIdAcademicProblem());
+            int numberOfRowsAffected = preparedStatement.executeUpdate();
+            responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
+        } catch (SQLException exception) {
+            responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
+        } finally {
+            databaseConnection.close();
+        }
+        return responseCode;
+    }
+    
+    public static ArrayList<AcademicProblem> loadAcademicProblemsByAcademicTutorshipReport(int idAcademicTutorshipReport) {
+        ArrayList<AcademicProblem> academicProblems = new ArrayList<>();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String query = 
+                "select * from academicproblem join academictutorshipreport on academictutorshipreport.idAcademicTutorshipReport = academicproblem.idAcademicTutorshipReport "
+                + "join academicoffering on academicproblem.idAcademicOffering = academicoffering.idAcademicOffering "
+                + "join academicpersonnel on academicoffering.idAcademicPersonnel = academicpersonnel.idAcademicPersonnel "
+                + "join educationalexperience on academicoffering.idEducationalExperience = educationalexperience.idEducationalExperience "
+                + "join academictutorship on academictutorshipreport.idAcademicTutorship = academictutorship.idAcademicTutorship "
+                + "join schoolperiod on academicoffering.idSchoolPeriod = schoolperiod.idSchoolPeriod where academicproblem.idAcademicTutorshipReport = ?";
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idAcademicTutorshipReport);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                AcademicProblem academicProblem = new AcademicProblem();
+                academicProblem.setIdAcademicProblem(resultSet.getInt("idAcademicProblem"));
+                academicProblem.setTitle(resultSet.getString("title"));
+                academicProblem.setDescription(resultSet.getString("description"));
+                academicProblem.setNumberOfStudents(resultSet.getInt("numberOfStudents"));
+                academicProblem.setIdAcademicOffering(resultSet.getInt("idAcademicOffering"));
+                academicProblem.getAcademicOffering().setNrc(resultSet.getInt("nrc"));
+                academicProblem.getAcademicOffering().getEducationalExperience().setIdEducationalExperience(resultSet.getInt("idEducationalExperience"));
+                academicProblem.getAcademicOffering().getEducationalExperience().setName(resultSet.getString("educationalexperience.name"));
+                academicProblem.getAcademicOffering().getSchoolPeriod().setIdSchoolPeriod(resultSet.getInt("idSchoolPeriod"));
+                academicProblem.getAcademicOffering().getSchoolPeriod().setStartDate(resultSet.getDate("startDate"));
+                academicProblem.getAcademicOffering().getSchoolPeriod().setEndDate(resultSet.getDate("endDate")); 
+                academicProblem.getAcademicOffering().getAcademicPersonnel().setName(resultSet.getString("academicpersonnel.name"));
+                academicProblem.getAcademicOffering().getAcademicPersonnel().setPaternalSurname(resultSet.getString("academicpersonnel.paternalSurname"));
+                academicProblem.getAcademicOffering().getAcademicPersonnel().setMaternalSurname(resultSet.getString("academicpersonnel.maternalSurname"));
+                academicProblems.add(academicProblem);
+            }
+        } catch (SQLException exception) {
+            academicProblems = null;
+        } finally {
+            databaseConnection.close();
+        }
+         return academicProblems;
+    }
+    
     public static ArrayList<AcademicProblem> loadAcademicProblemsByAcademicTutorshipGeneralReport(int idAcademicTutorshipReport) {
         ArrayList<AcademicProblem> academicProblems = new ArrayList<>();
         DatabaseConnection databaseConnection = new DatabaseConnection();

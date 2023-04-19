@@ -56,6 +56,7 @@ public class ModifyAcademicProblemFXMLController implements Initializable {
     private ObservableList<EducationalExperience> educationalExperiences;
     private ObservableList<AcademicPersonnel> academicPersonnel;
     private ObservableList<AcademicOffering> academicOfferings;
+    private ArrayList<AcademicProblem> academicProblems;
 
     private IAcademicProblem academicProblemInterface;
     
@@ -63,6 +64,7 @@ public class ModifyAcademicProblemFXMLController implements Initializable {
     private int idEducationalProgram;
     private int idSchoolPeriod;
     private int idEducationalExperience;
+    private int index;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -71,35 +73,26 @@ public class ModifyAcademicProblemFXMLController implements Initializable {
         academicOfferings = FXCollections.observableArrayList();
     }
 
-    public void configureView(IAcademicProblem academicProblemInterface, int idSchoolPeriod, int idEducationalProgram, int numberOfStudentsByAcademicPersonnel,AcademicProblem academicProblem) {
+    public void configureView(IAcademicProblem academicProblemInterface, int idSchoolPeriod, int idEducationalProgram, int numberOfStudentsByAcademicPersonnel,ArrayList<AcademicProblem> academicProblems,int index) {
         this.academicProblemInterface = academicProblemInterface;
-        idSchoolPeriod = idSchoolPeriod;
-        idEducationalProgram = idEducationalProgram;
-        configureAcademicPersonnelInformation(numberOfStudentsByAcademicPersonnel);
-        loadCurrentEducationalExperiencesByEducationalProgram();
+        this.idSchoolPeriod = idSchoolPeriod;
+        this.idEducationalProgram = idEducationalProgram;
+        this.academicProblem = academicProblems.get(index);
+        this.index = index;
+        this.academicProblems = academicProblems;
+        this.configureAcademicPersonnelInformation(numberOfStudentsByAcademicPersonnel);
+        this.loadCurrentEducationalExperiencesByEducationalProgram();        
+        this.loadAcademicProblemData();
     }
 
     
     public void loadAcademicProblemData(){
         this.titleTextField.setText(this.academicProblem.getTitle());
-        this.titleTextField.setText(this.academicProblem.getDescription());
+        this.descriptionTextArea.setText(this.academicProblem.getDescription());
         this.numberOfStudentsSpinner.getValueFactory().setValue(this.academicProblem.getNumberOfStudents());
-        this.academicPersonnelComboBox.selectionModelProperty().get().select(this.getIndexAcademicPersonnel());
-        //Pendiente seleccion combobox
-        //
-    }
-    
-    private int getIndexAcademicPersonnel(){
-        int indexReturn = 1;
-        int iterator = 0;
-        for(AcademicPersonnel academicPersonnel: this.academicPersonnel){
-            
-            if(this.academicProblem.getAcademicOffering().getAcademicPersonnel().getFullName().matches(academicPersonnel.getFullName())){
-                indexReturn = iterator; 
-            }
-            iterator++;
-        }
-        return indexReturn;
+        this.academicPersonnelComboBox.setValue(this.academicProblem.getAcademicOffering().getAcademicPersonnel());
+        this.educationalExperienceComboBox.setValue(this.academicProblem.getAcademicOffering().getEducationalExperience());
+        this.nrcComboBox.setValue(this.academicProblem.getAcademicOffering());
     }
     
     private void configureAcademicPersonnelInformation(int numberOfStudentsByAcademicPersonnel) {
@@ -153,10 +146,14 @@ public class ModifyAcademicProblemFXMLController implements Initializable {
             String title = titleTextField.getText();
             String description = descriptionTextArea.getText();
             int numberOfStudents = numberOfStudentsSpinner.getValue();
-            AcademicProblem academicProblem = new AcademicProblem(title, description, numberOfStudents);
+            this.academicProblem.setDescription(description);
+            this.academicProblem.setTitle(title);
+            this.academicProblem.setNumberOfStudents(numberOfStudents);
             AcademicOffering academicOffering = nrcComboBox.getValue();
-            academicProblem.setAcademicOffering(academicOffering);
-            academicProblemInterface.configureAcademicProblem(academicProblem);
+            academicOffering.setAcademicPersonnel(this.academicPersonnelComboBox.getValue());
+            academicOffering.setEducationalExperience(this.educationalExperienceComboBox.getValue());
+            this.academicProblem.setAcademicOffering(academicOffering);
+            this.academicProblems.set(this.index, academicProblem);
             Utilities.showAlert("La problemática académica se actualizó correctamente en el Reporte de Tutorías Académicas.\n",
                     Alert.AlertType.INFORMATION);
             closePopUpWindow();
@@ -165,9 +162,7 @@ public class ModifyAcademicProblemFXMLController implements Initializable {
                     + "Por favor, compruebe la información ingresada e inténtelo nuevamente.\n",
                     Alert.AlertType.WARNING);
         }
-    }
-
-    
+    }    
     
     private boolean validateEmptyFields() {
         return titleTextField.getText().isEmpty()

@@ -84,7 +84,7 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
     private int idAcademicTutorshipReport;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         academicProblems = new ArrayList<>();
         students = FXCollections.observableArrayList();
         configureStudentsTableViewColumns();
@@ -122,7 +122,9 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
     }
 
     private void loadAcademicProblemsByAcademicTutorshipReport() {
-        academicProblems = AcademicProblemDAO.loadAcademicProblemsByAcademicTutorshipReport(idAcademicTutorshipReport);
+        academicProblems = 
+                AcademicProblemDAO.loadAcademicProblemsByAcademicTutorshipReport(
+                        academicTutorshipReport.getIdAcademicTutorshipReport());
     }
 
     private void loadStudentsByAcademicTutorshipReport() {
@@ -141,7 +143,7 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
     }
 
     @FXML
-    private void acceptButtonClick(ActionEvent event) {
+    private void acceptButtonClick(ActionEvent actionEvent) {
         String generalComment = generalCommentTextArea.getText();
         int numberOfStudentsAttending = calculateNumberOfStudentsAttending();
         int numberOfStudentsAtRisk = calculateNumberOfStudentsAtRisk();
@@ -198,6 +200,8 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
         academicProblems.forEach(academicProblem -> {
             if (academicProblem.getIdAcademicOffering() == Constants.PRIMARY_KEY_OF_NON_EXISTENT_RECORD_IN_DATABASE) {
                 AcademicProblemDAO.logAcademicProblemByAcademicTutorshipReport(academicProblem, idAcademicTutorshipReport);
+            }else{
+                AcademicProblemDAO.updatedAcademicProblemByAcademicTutorshipReport(academicProblem);
             }
         });
     }
@@ -225,7 +229,7 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
     }
 
     @FXML
-    private void logAcademicProblemButtonClick(ActionEvent event) {
+    private void logAcademicProblemButtonClick(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("LogAcademicProblemFXML.fxml"));
         try {
             Parent root = loader.load();
@@ -244,11 +248,26 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
     }
 
     @FXML
-    private void viewAcademicProblemsButtonClick(ActionEvent event) {
+    private void viewAcademicProblemsButtonClick(ActionEvent actionEvent) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ModifyAcademicProblemListFXML.fxml"));
+        try {
+            Parent root = loader.load();
+            ModifyAcademicProblemListFXMLController modifyAcademicProblemListFXMLController = loader.getController();
+            int numberOfStudentsByAcademicPersonnel = students.size();
+            modifyAcademicProblemListFXMLController.configureView(this, schoolPeriod, educationalProgram, numberOfStudentsByAcademicPersonnel, academicProblems);
+            Stage stage = new Stage();
+            Scene logAcademicProblemView = new Scene(root);
+            stage.setScene(logAcademicProblemView);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Modificar problemática académica.");
+            stage.showAndWait();
+        } catch (IOException exception) {
+            System.err.println("The ModifyAcademicProblemListFXML.fxml' file could not be open. Please try again later.");
+        }
     }
 
     @FXML
-    private void cancelButtonClick(ActionEvent event) {
+    private void cancelButtonClick(ActionEvent actionEvent) {
         goToTutorialReportManagementMenu();
     }
 

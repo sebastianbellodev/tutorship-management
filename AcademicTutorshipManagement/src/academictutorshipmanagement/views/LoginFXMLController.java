@@ -40,10 +40,10 @@ public class LoginFXMLController implements Initializable, IEducationalProgram, 
     private User user;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle resourceBundle) {
     }
 
-    public void logInButtonClick(ActionEvent event) throws NoSuchAlgorithmException {
+    public void logInButtonClick(ActionEvent actionEvent) throws NoSuchAlgorithmException {
         if (!validateEmptyFields()) {
             String username = usernameTextField.getText();
             String password = passwordField.getText();
@@ -101,7 +101,7 @@ public class LoginFXMLController implements Initializable, IEducationalProgram, 
     }
 
     @FXML
-    private void forgottenPasswordOnMouseClicked(MouseEvent event) {
+    private void forgottenPasswordOnMouseClicked(MouseEvent mouseEvent) {
     }
 
     @Override

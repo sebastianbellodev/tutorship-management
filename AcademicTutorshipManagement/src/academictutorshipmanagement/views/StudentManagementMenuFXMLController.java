@@ -31,20 +31,20 @@ public class StudentManagementMenuFXMLController implements Initializable {
     private SchoolPeriod schoolPeriod;
     private AcademicPersonnel academicPersonnel;
     
-    private int idRol;
+    private int idRole;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle resourceBundle) {
     }
 
     public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
         this.schoolPeriod = schoolPeriod;
         this.academicPersonnel = academicPersonnel;
-        idRol = academicPersonnel.getUser().getRole().getIdRole();
+        idRole = academicPersonnel.getUser().getRole().getIdRole();
     }
 
     @FXML
-    private void backButtonClick(ActionEvent event) {
+    private void backButtonClick(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainMenuFXML.fxml"));
         try {
             Parent root = loader.load();
@@ -62,8 +62,8 @@ public class StudentManagementMenuFXMLController implements Initializable {
     }
 
     @FXML
-    private void logStudenttButtonClick(ActionEvent event) {
-        if (idRol == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE) {
+    private void logStudentButtonClick(ActionEvent actionEvent) {
+        if (idRole == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE) {
             goToLogStudent();
         } else {
             Utilities.showAlert("No tiene los permisos necesarios para realizar esta acción.\n\n"
@@ -81,7 +81,88 @@ public class StudentManagementMenuFXMLController implements Initializable {
             Scene mainMenuView = new Scene(root);
             Stage stage = (Stage) backButton.getScene().getWindow();
             stage.setScene(mainMenuView);
-            stage.setTitle("Registrar estudiante.");
+            stage.setTitle("Registrar estudiante");
+            stage.show();
+        } catch (IOException exception) {
+            System.err.println("The 'MainMenuFXML.fxml' file could not be open. Please try again later.");
+        }
+    }
+
+    @FXML
+    private void queryStudentButtonClick(ActionEvent actionEvent) {
+        if (idRole == Constants.CAREER_HEAD_ID_ROLE) {
+            goToQueryStudent();
+        } else {
+            Utilities.showAlert("No tiene los permisos necesarios para realizar esta acción.\n\n"
+                    + "Por favor, vuelva a iniciar sesión e inténtelo nuevamente.\n",
+                    Alert.AlertType.INFORMATION);
+        }
+    }
+    
+    public void goToQueryStudent() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("QueryStudentFXML.fxml"));
+        try {
+            Parent root = loader.load();
+            QueryStudentFXMLController queryStudentFXMLController = loader.getController();
+            queryStudentFXMLController.configureView(schoolPeriod, academicPersonnel);
+            Scene mainMenuView = new Scene(root);
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.setScene(mainMenuView);
+            stage.setTitle("Consultar estudiante");
+            stage.show();
+        } catch (IOException exception) {
+            System.err.println("The 'MainMenuFXML.fxml' file could not be open. Please try again later.");
+        }
+    }
+
+    @FXML
+    private void modifyStudentButtonClick(ActionEvent actionEvent) {
+        if (idRole == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE) {
+            goToModifyStudent();
+        } else {
+            Utilities.showAlert("No tiene los permisos necesarios para realizar esta acción.\n\n"
+                    + "Por favor, vuelva a iniciar sesión e inténtelo nuevamente.\n",
+                    Alert.AlertType.INFORMATION);
+        }
+    }
+    
+    public void goToModifyStudent() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ModifyStudentFXML.fxml"));
+        try {
+            Parent root = loader.load();
+            ModifyStudentFXMLController modifyStudentFXMLController = loader.getController();
+            modifyStudentFXMLController.configureView(schoolPeriod, academicPersonnel);
+            Scene mainMenuView = new Scene(root);
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.setScene(mainMenuView);
+            stage.setTitle("Editar estudiante");
+            stage.show();
+        } catch (IOException exception) {
+            System.err.println("The 'MainMenuFXML.fxml' file could not be open. Please try again later.");
+        }
+    }
+
+    @FXML
+    private void assignStudentButtonClick(ActionEvent actionEvent) {
+        if (idRole == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE) {
+            goToAssignStudentToAcademicTutor();
+        } else {
+            Utilities.showAlert("No tiene los permisos necesarios para realizar esta acción.\n\n"
+                    + "Por favor, vuelva a iniciar sesión e inténtelo nuevamente.\n",
+                    Alert.AlertType.INFORMATION);
+        }
+    }
+    
+    public void goToAssignStudentToAcademicTutor() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("AssignStudentToAcademicTutorFXML.fxml"));
+        try {
+            Parent root = loader.load();
+            AssignStudentToAcademicTutorFXMLController assignStudentToAcademicTutorFXMLController = loader.getController();
+            assignStudentToAcademicTutorFXMLController.configureView(schoolPeriod, academicPersonnel);
+            Scene mainMenuView = new Scene(root);
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.setScene(mainMenuView);
+            stage.setTitle("Asignar tutor académico a estudiante");
             stage.show();
         } catch (IOException exception) {
             System.err.println("The 'MainMenuFXML.fxml' file could not be open. Please try again later.");
