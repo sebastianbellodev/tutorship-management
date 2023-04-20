@@ -21,7 +21,9 @@ public class Student {
 
     public Student() {
         attendedBy = new CheckBox();
+        attendedBy.setDisable(true);
         atRisk = new CheckBox();
+        atRisk.setDisable(true);
     }
 
     public Student(String name, String paternalSurname, String maternalSurname, String emailAddress) {

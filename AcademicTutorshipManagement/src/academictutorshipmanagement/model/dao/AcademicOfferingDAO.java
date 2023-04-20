@@ -25,8 +25,8 @@ public class AcademicOfferingDAO {
                 + "WHERE idSchoolPeriod = ? AND idEducationalExperience = ?";
         try (Connection connection = databaseConnection.open()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, idEducationalExperience);
-            preparedStatement.setInt(2, idSchoolPeriod);
+            preparedStatement.setInt(1, idSchoolPeriod);
+            preparedStatement.setInt(2, idEducationalExperience);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 AcademicOffering academicOffering = new AcademicOffering();

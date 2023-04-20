@@ -88,10 +88,10 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         academicProblems = new ArrayList<>();
         students = FXCollections.observableArrayList();
-        configureStudentsTableViewColumns();
+        configureTableViewColumns();
     }
 
-    private void configureStudentsTableViewColumns() {
+    private void configureTableViewColumns() {
         registrationNumberTableColumn.setCellValueFactory(new PropertyValueFactory("registrationNumber"));
         nameTableColumn.setCellValueFactory(new PropertyValueFactory("name"));
         paternalSurnameTableColumn.setCellValueFactory(new PropertyValueFactory("paternalSurname"));
@@ -123,12 +123,21 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
         ArrayList<Student> studentsResultSet = StudentDAO.getStudentsByAcademicPersonnel(idEducationalProgram, idAcademicPersonnel);
         if (!studentsResultSet.isEmpty()) {
             students.addAll(studentsResultSet);
+            configureTableViewCheckBoxes();
             studentsTableView.setItems(students);
         } else {
             Utilities.showAlert("No hay conexión con la base de datos.\n\n"
                     + "Por favor, inténtelo más tarde.\n",
                     Alert.AlertType.ERROR);
         }
+    }
+
+    private void configureTableViewCheckBoxes() {
+        students.forEach(student -> {
+            boolean isDisabled = false;
+            student.getAttendedBy().setDisable(isDisabled);
+            student.getAtRisk().setDisable(isDisabled);
+        });
     }
 
     @FXML

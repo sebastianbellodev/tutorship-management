@@ -91,7 +91,7 @@
           <TableColumn fx:id="nameTableColumn" prefWidth="145.0" style="-fx-font: 12px &quot;Arial&quot;;" text="Nombre" />
             <TableColumn fx:id="paternalSurnameTableColumn" prefWidth="115.0" style="-fx-font: 12px &quot;Arial&quot;;" text="Apellido paterno" />
             <TableColumn fx:id="maternalSurnameTableColumn" prefWidth="115.0" style="-fx-font: 12px &quot;Arial&quot;;" text="Apellido materno" />
-            <TableColumn fx:id="attendedByTableColumn" minWidth="0.0" prefWidth="55.0" style="-fx-font: 12px &quot;Arial&quot;; -fx-alignment-: CENTER;" text="Asistió" />
+            <TableColumn fx:id="attendedByTableColumn" minWidth="0.0" prefWidth="55.0" style="-fx-font: 12px &quot;Arial&quot;; -fx-alignment: CENTER;" text="Asistió" />
             <TableColumn fx:id="atRiskTableColumn" prefWidth="70.0" style="-fx-font: 12px &quot;Arial&quot;; -fx-alignment: CENTER;" text="En riesgo" />
         </columns>
       </TableView>

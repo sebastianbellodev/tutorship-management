@@ -87,10 +87,10 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
     public void initialize(URL url, ResourceBundle resourceBundle) {
         academicProblems = new ArrayList<>();
         students = FXCollections.observableArrayList();
-        configureStudentsTableViewColumns();
+        configureTableViewColumns();
     }
 
-    private void configureStudentsTableViewColumns() {
+    private void configureTableViewColumns() {
         registrationNumberTableColumn.setCellValueFactory(new PropertyValueFactory("registrationNumber"));
         nameTableColumn.setCellValueFactory(new PropertyValueFactory("name"));
         paternalSurnameTableColumn.setCellValueFactory(new PropertyValueFactory("paternalSurname"));
@@ -142,7 +142,10 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
 
     private void configureTableViewCheckBoxes() {
         students.forEach(student -> {
+            boolean isDisabled = false;
+            student.getAttendedBy().setDisable(isDisabled);
             student.getAttendedBy().setSelected(student.getAttendedBy().isSelected());
+            student.getAtRisk().setDisable(isDisabled);
             student.getAtRisk().setSelected(student.getAtRisk().isSelected());
         });
     }

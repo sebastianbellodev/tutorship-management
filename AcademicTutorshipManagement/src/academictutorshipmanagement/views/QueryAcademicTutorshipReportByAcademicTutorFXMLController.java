@@ -141,8 +141,8 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
 
     private void loadAcademicPersonnel(int idSchoolPeriod) {
         ArrayList<AcademicPersonnel> academicPersonnelResulSet
-                = AcademicPersonnelDAO.getAcademicPersonnelByRole(Constants.ACADEMIC_TUTOR_ID_ROLE,
-                        academicPersonnel.getUser().getEducationalProgram().getIdEducationalProgram());
+                = AcademicPersonnelDAO.getAcademicPersonnelByRole( academicPersonnel.getUser().getEducationalProgram().getIdEducationalProgram(),
+                        Constants.ACADEMIC_TUTOR_ID_ROLE);
         if (academicPersonnelResulSet.isEmpty()) {
             Utilities.showAlert("No hay conexión con la base de datos.\n\n"
                     + "Por favor, inténtelo más tarde.\n",
@@ -164,7 +164,7 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
     }
 
     private void loadAcademicTutorshipReports(int idAcademicPersonnel, int idSchoolPeriod) {
-        ArrayList<AcademicTutorshipReport> academicTutorshipReportsResultSet = AcademicTutorshipReportDAO.getAcademicTutorshipReports(idAcademicPersonnel, idSchoolPeriod);
+        ArrayList<AcademicTutorshipReport> academicTutorshipReportsResultSet = AcademicTutorshipReportDAO.getAcademicTutorshipReports(idSchoolPeriod, idAcademicPersonnel);
         if (academicTutorshipReportsResultSet.isEmpty()) {
             Utilities.showAlert("No hay conexión con la base de datos.\n\n"
                     + "Por favor, inténtelo más tarde.\n",
