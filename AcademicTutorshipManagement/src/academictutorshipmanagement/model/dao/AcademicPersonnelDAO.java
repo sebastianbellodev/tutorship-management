@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 02, 2023.
- * Date of update: March 05, 2023.
+ * Date of update: April 20, 2023.
  */
 package academictutorshipmanagement.model.dao;
 
@@ -47,7 +47,7 @@ public class AcademicPersonnelDAO {
     public static ArrayList<AcademicPersonnel> getAcademicPersonnelByEducationalExperience(int idSchoolPeriod, int idEducationalExperience) {
         ArrayList<AcademicPersonnel> academicPersonnels = new ArrayList<>();
         DatabaseConnection databaseConnection = new DatabaseConnection();
-        String query = "SELECT DISTINCT academicPersonnel.idAcademicPersonnel, academicPersonnel.name, academicPersonnel.paternalSurname, academicPersonnel.maternalSurname\n"
+        String query = "SELECT DISTINCT academicPersonnel.*\n"
                 + "FROM academicPersonnel\n"
                 + "INNER JOIN academicOffering\n"
                 + "ON academicPersonnel.idAcademicPersonnel = academicOffering.idAcademicPersonnel\n"
@@ -63,6 +63,7 @@ public class AcademicPersonnelDAO {
                 academicPersonnel.setName(resultSet.getString("name"));
                 academicPersonnel.setPaternalSurname(resultSet.getString("paternalSurname"));
                 academicPersonnel.setMaternalSurname(resultSet.getString("maternalSurname"));
+                academicPersonnel.setEmailAddress(resultSet.getString("emailAddress"));
                 academicPersonnels.add(academicPersonnel);
             }
         } catch (SQLException exception) {
@@ -73,14 +74,14 @@ public class AcademicPersonnelDAO {
         return academicPersonnels;
     }
     
-    public static ArrayList<AcademicPersonnel> getAcademicPersonnelByRole(int idRole, int idEducationalProgram) {
+    public static ArrayList<AcademicPersonnel> getAcademicPersonnelByRole(int idEducationalProgram, int idRole) {
         ArrayList<AcademicPersonnel> academicPersonnels = new ArrayList<>();
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String query = "SELECT academicPersonnel.*\n"
                 + "FROM educationalProgramRole\n"
                 + "INNER JOIN academicPersonnel\n"
                 + "ON educationalProgramRole.username = academicPersonnel.username\n"
-                + "WHERE idRole = ? AND idEducationalProgram = ?\n"
+                + "WHERE idEducationalProgram = ? AND idRole = ?\n"
                 + "ORDER BY academicPersonnel.name ASC";
         try (Connection connection = databaseConnection.open()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);

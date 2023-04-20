@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 04, 2023.
- * Date of update: March 05, 2023.
+ * Date of update: April 20, 2023.
  */
 package academictutorshipmanagement.views;
 
@@ -50,7 +50,7 @@ public class LogAcademicProblemFXMLController implements Initializable {
     private TextArea descriptionTextArea;
 
     private ObservableList<EducationalExperience> educationalExperiences;
-    private ObservableList<AcademicPersonnel> academicPersonnel;
+    private ObservableList<AcademicPersonnel> academicPersonnels;
     private ObservableList<AcademicOffering> academicOfferings;
 
     private IAcademicProblem academicProblemInterface;
@@ -62,7 +62,7 @@ public class LogAcademicProblemFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         educationalExperiences = FXCollections.observableArrayList();
-        academicPersonnel = FXCollections.observableArrayList();
+        academicPersonnels = FXCollections.observableArrayList();
         academicOfferings = FXCollections.observableArrayList();
     }
 
@@ -86,7 +86,7 @@ public class LogAcademicProblemFXMLController implements Initializable {
             educationalExperienceComboBox.setItems(educationalExperiences);
             educationalExperienceComboBox.valueProperty().addListener((ObservableValue<? extends EducationalExperience> observable, EducationalExperience oldValue, EducationalExperience newValue) -> {
                 if (newValue != null) {
-                    academicPersonnel.clear();
+                    academicPersonnels.clear();
                     academicOfferings.clear();
                     idEducationalExperience = newValue.getIdEducationalExperience();
                     loadAcademicPersonnelByEducationalExperience(idEducationalExperience);
@@ -102,8 +102,8 @@ public class LogAcademicProblemFXMLController implements Initializable {
 
     private void loadAcademicPersonnelByEducationalExperience(int idEducationalExperience) {
         ArrayList<AcademicPersonnel> academicPersonnelsResultSet = AcademicPersonnelDAO.getAcademicPersonnelByEducationalExperience(idSchoolPeriod, idEducationalExperience);
-        academicPersonnel.addAll(academicPersonnelsResultSet);
-        academicPersonnelComboBox.setItems(academicPersonnel);
+        academicPersonnels.addAll(academicPersonnelsResultSet);
+        academicPersonnelComboBox.setItems(academicPersonnels);
         academicPersonnelComboBox.valueProperty().addListener((ObservableValue<? extends AcademicPersonnel> observable, AcademicPersonnel oldValue, AcademicPersonnel newValue) -> {
             if (newValue != null) {
                 academicOfferings.clear();
@@ -114,7 +114,7 @@ public class LogAcademicProblemFXMLController implements Initializable {
     }
 
     private void loadAcademicOfferingsByAcademicPersonnel(int idAcademicPersonnel) {
-        ArrayList<AcademicOffering> academicOfferingsResultSet = AcademicOfferingDAO.getAcademicOfferings(idEducationalExperience, idSchoolPeriod, idAcademicPersonnel);
+        ArrayList<AcademicOffering> academicOfferingsResultSet = AcademicOfferingDAO.getAcademicOfferingsByAcademicPersonnel(idSchoolPeriod, idEducationalExperience, idAcademicPersonnel);
         academicOfferings.addAll(academicOfferingsResultSet);
         nrcComboBox.setItems(academicOfferings);
     }

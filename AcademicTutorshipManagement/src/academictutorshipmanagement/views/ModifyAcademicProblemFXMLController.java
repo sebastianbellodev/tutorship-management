@@ -135,7 +135,7 @@ public class ModifyAcademicProblemFXMLController implements Initializable {
     }
 
     private void loadAcademicOfferingsByAcademicPersonnel(int idAcademicPersonnel) {
-        ArrayList<AcademicOffering> academicOfferingsResultSet = AcademicOfferingDAO.getAcademicOfferings(idEducationalExperience, idAcademicPersonnel, idSchoolPeriod);
+        ArrayList<AcademicOffering> academicOfferingsResultSet = AcademicOfferingDAO.getAcademicOfferingsByAcademicPersonnel(idSchoolPeriod, idEducationalExperience, idAcademicPersonnel);
         academicOfferings.addAll(academicOfferingsResultSet);
         nrcComboBox.setItems(academicOfferings);
     }

@@ -1,7 +1,7 @@
 /**
- * Name(s) of the programmer(s): María José Torres Igartua.
+ * Name(s) of the programmer(s): Armando Omar Obando Muñóz and María José Torres Igartua.
  * Date of creation: March 05, 2023.
- * Date of update: April 19, 2023.
+ * Date of update: April 20, 2023.
  */
 package academictutorshipmanagement.model.dao;
 
@@ -196,7 +196,7 @@ public class AcademicProblemDAO {
         return response;
     }
 
-    public static int updatedAcademicProblemByAcademicTutorshipReport(AcademicProblem academicProblem){
+    public static int updateAcademicProblemByAcademicTutorshipReport(AcademicProblem academicProblem){
         int responseCode;
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String sentence = "UPDATE academicProblem "

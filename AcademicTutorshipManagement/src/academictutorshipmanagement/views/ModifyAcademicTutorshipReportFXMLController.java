@@ -1,7 +1,7 @@
 /**
- * Name(s) of the programmer(s): María José Torres Igartua.
+ * Name(s) of the programmer(s): Armando Omar Obando Muñóz and María José Torres Igartua.
  * Date of creation: March 05, 2023.
- * Date of update: April 19, 2023.
+ * Date of update: April 20, 2023.
  */
 package academictutorshipmanagement.views;
 
@@ -122,7 +122,8 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
     }
 
     private void loadAcademicProblemsByAcademicTutorshipReport() {
-        academicProblems = AcademicProblemDAO.loadAcademicProblemsByAcademicTutorshipReport(academicTutorshipReport.getIdAcademicTutorshipReport());
+        int idAcademicTutorshipReport = academicTutorshipReport.getIdAcademicTutorshipReport();
+        academicProblems = AcademicProblemDAO.loadAcademicProblemsByAcademicTutorshipReport(idAcademicTutorshipReport);
     }
 
     private void loadStudentsByAcademicTutorshipReport() {
@@ -203,7 +204,7 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
             if (academicProblem.getIdAcademicOffering() == Constants.PRIMARY_KEY_OF_NON_EXISTENT_RECORD_IN_DATABASE) {
                 AcademicProblemDAO.logAcademicProblemByAcademicTutorshipReport(academicProblem, idAcademicTutorshipReport);
             } else {
-                AcademicProblemDAO.updatedAcademicProblemByAcademicTutorshipReport(academicProblem);
+                AcademicProblemDAO.updateAcademicProblemByAcademicTutorshipReport(academicProblem);
             }
         });
     }

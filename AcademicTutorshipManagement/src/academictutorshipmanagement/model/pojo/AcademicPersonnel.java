@@ -15,6 +15,7 @@ public class AcademicPersonnel {
     private String maternalSurname;
     private String emailAddress;
     private CheckBox associatedTo;
+    private int nrc;
     private User user;
     private ContractType contractType;
     private int responseCode;
@@ -77,7 +78,15 @@ public class AcademicPersonnel {
     public void setAssociatedTo(boolean associatedTo) {
         this.associatedTo.setSelected(associatedTo);
     }
-    
+
+    public int getNrc() {
+        return nrc;
+    }
+
+    public void setNrc(int nrc) {
+        this.nrc = nrc;
+    }
+
     public User getUser() {
         return user;
     }
