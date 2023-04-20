@@ -24,7 +24,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
@@ -39,12 +38,6 @@ public class MainMenuFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         schoolPeriod = SchoolPeriodDAO.getCurrentSchoolPeriod();
-        int responseCode = schoolPeriod.getResponseCode();
-        if (responseCode == Constants.NO_DATABASE_CONNECTION_CODE) {
-            Utilities.showAlert("No hay conexión con la base de datos.\n\n"
-                    + "Por favor, inténtelo más tarde.\n",
-                    Alert.AlertType.ERROR);
-        }
     }
 
     public void configureView(User user) {

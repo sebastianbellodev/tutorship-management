@@ -5,6 +5,8 @@
  */
 package academictutorshipmanagement.model.pojo;
 
+import javafx.scene.control.CheckBox;
+
 public class AcademicPersonnel {
     
     private int idAcademicPersonnel;
@@ -12,11 +14,13 @@ public class AcademicPersonnel {
     private String paternalSurname;
     private String maternalSurname;
     private String emailAddress;
+    private CheckBox associatedTo;
     private User user;
     private ContractType contractType;
     private int responseCode;
     
     public AcademicPersonnel() {
+        associatedTo = new CheckBox();
     }
 
     public AcademicPersonnel(String name, String paternalSurname, String maternalSurname, String emailAddress) {
@@ -66,6 +70,14 @@ public class AcademicPersonnel {
         this.emailAddress = emailAddress;
     }
 
+    public CheckBox getAssociatedTo() {
+        return associatedTo;
+    }
+
+    public void setAssociatedTo(boolean associatedTo) {
+        this.associatedTo.setSelected(associatedTo);
+    }
+    
     public User getUser() {
         return user;
     }
@@ -88,15 +100,7 @@ public class AcademicPersonnel {
 
     public void setResponseCode(int responseCode) {
         this.responseCode = responseCode;
-    }
-
-    
-    public String getFullName(){
-        String fullName = "";
-        fullName = this.name + " " + this.paternalSurname + " " + this.maternalSurname;
-        return fullName; 
-    }
-            
+    }    
             
     @Override
     public String toString() {

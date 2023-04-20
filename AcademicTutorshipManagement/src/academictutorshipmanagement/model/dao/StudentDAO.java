@@ -168,8 +168,8 @@ public class StudentDAO {
                 + "(attendedBy, atRisk, idAcademicTutorshipReport, registrationNumber)\n"
                 + "VALUES(?, ?, ?, ?)";
         try (Connection connection = databaseConnection.open()) {
-            boolean attendedBy = student.isAttendedBy();
-            boolean atRisk = student.isAtRisk();
+            boolean attendedBy = student.getAttendedBy().isSelected();
+            boolean atRisk = student.getAtRisk().isSelected();
             String registrationNumber = student.getRegistrationNumber();
             PreparedStatement preparedStatement = connection.prepareStatement(sentence);
             preparedStatement.setBoolean(1, attendedBy);
@@ -193,8 +193,8 @@ public class StudentDAO {
                 + "SET attendedBy = ?, atRisk = ?\n"
                 + "WHERE registrationNumber = ?";
         try (Connection connection = databaseConnection.open()) {
-            boolean attendedBy = student.isAttendedBy();
-            boolean atRisk = student.isAtRisk();
+            boolean attendedBy = student.getAtRisk().isSelected();
+            boolean atRisk = student.getAtRisk().isSelected();
             String registrationNumber = student.getRegistrationNumber();
             PreparedStatement preparedStatement = connection.prepareStatement(sentence);
             preparedStatement.setBoolean(1, attendedBy);

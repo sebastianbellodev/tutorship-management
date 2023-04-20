@@ -96,8 +96,8 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
         nameTableColumn.setCellValueFactory(new PropertyValueFactory("name"));
         paternalSurnameTableColumn.setCellValueFactory(new PropertyValueFactory("paternalSurname"));
         maternalSurnameTableColumn.setCellValueFactory(new PropertyValueFactory("maternalSurname"));
-        attendedByTableColumn.setCellValueFactory(new PropertyValueFactory("attendedByCheckBox"));
-        atRiskTableColumn.setCellValueFactory(new PropertyValueFactory("atRiskCheckBox"));
+        attendedByTableColumn.setCellValueFactory(new PropertyValueFactory("attendedBy"));
+        atRiskTableColumn.setCellValueFactory(new PropertyValueFactory("atRisk"));
     }
 
     public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
@@ -150,7 +150,7 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
     private int calculateNumberOfStudentsAttending() {
         int numberOfStudentsAttending = 0;
         for (Student student : students) {
-            boolean isAttendedBy = student.getAttendedByCheckBox().isSelected();
+            boolean isAttendedBy = student.getAttendedBy().isSelected();
             if (isAttendedBy) {
                 numberOfStudentsAttending++;
             }
@@ -162,7 +162,7 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
     private int calculateNumberOfStudentsAtRisk() {
         int numberOfStudentsAtRisk = 0;
         for (Student student : students) {
-            boolean isAtRisk = student.getAtRiskCheckBox().isSelected();
+            boolean isAtRisk = student.getAtRisk().isSelected();
             if (isAtRisk) {
                 numberOfStudentsAtRisk++;
             }

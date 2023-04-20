@@ -71,7 +71,7 @@ public class LogAcademicProblemFXMLController implements Initializable {
         idSchoolPeriod = schoolPeriod.getIdSchoolPeriod();
         idEducationalProgram = educationalProgram.getIdEducationalProgram();
         configureAcademicPersonnelInformation(numberOfStudentsByAcademicPersonnel);
-        loadCurrentEducationalExperiencesByEducationalProgram();
+        loadEducationalExperiencesByEducationalProgram();
     }
 
     private void configureAcademicPersonnelInformation(int numberOfStudentsByAcademicPersonnel) {
@@ -79,7 +79,7 @@ public class LogAcademicProblemFXMLController implements Initializable {
         numberOfStudentsSpinner.setValueFactory(spinnerValueFactory);
     }
 
-    private void loadCurrentEducationalExperiencesByEducationalProgram() {
+    private void loadEducationalExperiencesByEducationalProgram() {
         ArrayList<EducationalExperience> educationalExperiencesResultSet = EducationalExperienceDAO.getEducationalExperiencesByEducationalProgram(idSchoolPeriod, idEducationalProgram);
         if (!educationalExperiencesResultSet.isEmpty()) {
             educationalExperiences.addAll(educationalExperiencesResultSet);
@@ -114,7 +114,7 @@ public class LogAcademicProblemFXMLController implements Initializable {
     }
 
     private void loadAcademicOfferingsByAcademicPersonnel(int idAcademicPersonnel) {
-        ArrayList<AcademicOffering> academicOfferingsResultSet = AcademicOfferingDAO.getAcademicOfferings(idEducationalExperience, idAcademicPersonnel, idSchoolPeriod);
+        ArrayList<AcademicOffering> academicOfferingsResultSet = AcademicOfferingDAO.getAcademicOfferings(idEducationalExperience, idSchoolPeriod, idAcademicPersonnel);
         academicOfferings.addAll(academicOfferingsResultSet);
         nrcComboBox.setItems(academicOfferings);
     }
