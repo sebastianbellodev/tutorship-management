@@ -95,8 +95,8 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
         nameTableColumn.setCellValueFactory(new PropertyValueFactory("name"));
         paternalSurnameTableColumn.setCellValueFactory(new PropertyValueFactory("paternalSurname"));
         maternalSurnameTableColumn.setCellValueFactory(new PropertyValueFactory("maternalSurname"));
-        attendedByTableColumn.setCellValueFactory(new PropertyValueFactory("attendedByCheckBox"));
-        atRiskTableColumn.setCellValueFactory(new PropertyValueFactory("atRiskCheckBox"));
+        attendedByTableColumn.setCellValueFactory(new PropertyValueFactory("attendedBy"));
+        atRiskTableColumn.setCellValueFactory(new PropertyValueFactory("atRisk"));
     }
 
     public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel, AcademicTutorshipReport academicTutorshipReport) {
@@ -141,8 +141,8 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
 
     private void configureTableViewCheckBoxes() {
         students.forEach(student -> {
-            student.getAttendedByCheckBox().setSelected(student.isAttendedBy());
-            student.getAtRiskCheckBox().setSelected(student.isAtRisk());
+            student.getAttendedBy().setSelected(student.getAttendedBy().isSelected());
+            student.getAtRisk().setSelected(student.getAtRisk().isSelected());
         });
     }
 
@@ -162,7 +162,7 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
     private int calculateNumberOfStudentsAttending() {
         int numberOfStudentsAttending = 0;
         for (Student student : students) {
-            boolean isAttendedBy = student.getAttendedByCheckBox().isSelected();
+            boolean isAttendedBy = student.getAttendedBy().isSelected();
             if (isAttendedBy) {
                 numberOfStudentsAttending++;
             }
@@ -174,7 +174,7 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
     private int calculateNumberOfStudentsAtRisk() {
         int numberOfStudentsAtRisk = 0;
         for (Student student : students) {
-            boolean isAtRisk = student.getAtRiskCheckBox().isSelected();
+            boolean isAtRisk = student.getAtRisk().isSelected();
             if (isAtRisk) {
                 numberOfStudentsAtRisk++;
             }

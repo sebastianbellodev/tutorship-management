@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 05, 2023.
- * Date of update: March 05, 2023.
+ * Date of update: April 20, 2023.
  */
 package academictutorshipmanagement.model.pojo;
 
@@ -14,16 +14,10 @@ public class AcademicOffering {
     private SchoolPeriod schoolPeriod;
 
     public AcademicOffering() {
-        this.academicPersonnel = new AcademicPersonnel();
-        this.educationalExperience = new EducationalExperience();
-        this.schoolPeriod = new SchoolPeriod();
     }
 
     public AcademicOffering(int nrc) {
         this.nrc = nrc;
-        this.academicPersonnel = new AcademicPersonnel();
-        this.educationalExperience = new EducationalExperience();
-        this.schoolPeriod = new SchoolPeriod();
     }
 
     public int getIdAcademicOffering() {

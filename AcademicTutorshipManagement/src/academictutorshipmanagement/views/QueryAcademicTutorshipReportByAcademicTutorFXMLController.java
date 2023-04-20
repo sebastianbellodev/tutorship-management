@@ -112,8 +112,8 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
     private void configureStudentsTableViewColumns() {
         registrationNumberTableColumn.setCellValueFactory(new PropertyValueFactory("registrationNumber"));
         studentTableColumn.setCellValueFactory(new PropertyValueFactory("innerStudent"));
-        attendedByTableColumn.setCellValueFactory(new PropertyValueFactory("attendedByCheckBox"));
-        atRiskTableColumn.setCellValueFactory(new PropertyValueFactory("atRiskCheckBox"));
+        attendedByTableColumn.setCellValueFactory(new PropertyValueFactory("attendedBy"));
+        atRiskTableColumn.setCellValueFactory(new PropertyValueFactory("atRisk"));
     }
 
     private void loadSchoolPeriods() {
@@ -206,8 +206,8 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
 
     private void configureTableViewCheckBoxes() {
         students.forEach(student -> {
-            student.getAttendedByCheckBox().setSelected(student.isAttendedBy());
-            student.getAtRiskCheckBox().setSelected(student.isAtRisk());
+            student.getAttendedBy().setSelected(student.getAttendedBy().isSelected());
+            student.getAtRisk().setSelected(student.getAtRisk().isSelected());
         });
     }
 
@@ -280,10 +280,8 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
             this.setPaternalSurname(student.getPaternalSurname());
             this.setMaternalSurname(student.getMaternalSurname());
             this.setRegistrationNumber(student.getRegistrationNumber());
-            this.setAtRisk(student.isAtRisk());
-            this.setAtRiskCheckBox(student.getAtRiskCheckBox());
-            this.setAttendedBy(student.isAttendedBy());
-            this.setAttendedByCheckBox(student.getAttendedByCheckBox());
+            this.setAtRisk(student.getAtRisk().isSelected());
+            this.setAttendedBy(student.getAttendedBy().isSelected());
         }
 
         public String getInnerStudent() {

@@ -15,7 +15,32 @@ import java.util.ArrayList;
 
 public class AcademicOfferingDAO {
 
-    public static ArrayList<AcademicOffering> getAcademicOfferings(int idEducationalExperience, int idAcademicPersonnel, int idSchoolPeriod) {
+    public static ArrayList<AcademicOffering> getAcademicOfferings(int idEducationalExperience, int idSchoolPeriod) {
+        ArrayList<AcademicOffering> academicOfferings = new ArrayList<>();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String query = "SELECT idAcademicOffering, nrc\n"
+                + "FROM academicOffering\n"
+                + "WHERE idEducationalExperience = ? AND idSchoolPeriod = ?";
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idEducationalExperience);
+            preparedStatement.setInt(2, idSchoolPeriod);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                AcademicOffering academicOffering = new AcademicOffering();
+                academicOffering.setIdAcademicOffering(resultSet.getInt("idAcademicOffering"));
+                academicOffering.setNrc(resultSet.getInt("nrc"));
+                academicOfferings.add(academicOffering);
+            }
+        } catch (SQLException exception) {
+            academicOfferings = null;
+        } finally {
+            databaseConnection.close();
+        }
+        return academicOfferings;
+    }
+
+    public static ArrayList<AcademicOffering> getAcademicOfferings(int idEducationalExperience, int idSchoolPeriod, int idAcademicPersonnel) {
         ArrayList<AcademicOffering> academicOfferings = new ArrayList<>();
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String query = "SELECT idAcademicOffering, nrc\n"

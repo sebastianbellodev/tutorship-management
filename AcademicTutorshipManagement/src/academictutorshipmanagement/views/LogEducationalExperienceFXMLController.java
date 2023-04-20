@@ -71,8 +71,25 @@ public class LogEducationalExperienceFXMLController implements Initializable {
             Utilities.showAlert("No hay conexión con la base de datos.\n\n"
                     + "Por favor, inténtelo más tarde.\n",
                     Alert.AlertType.ERROR);
+            goToEducationalProgramAdministrationMenu();
         }
     }
+    
+    private void goToEducationalProgramAdministrationMenu() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("EducationalProgramAdministrationMenuFXML.fxml"));
+        try {
+            Parent root = loader.load();
+            EducationalProgramAdministrationMenuFXMLController educationalProgramAdministrationMenuFXMLController = loader.getController();
+            educationalProgramAdministrationMenuFXMLController.configureView(schoolPeriod, academicPersonnel);
+            Scene educationalProgramAdministrationMenuView = new Scene(root);
+            Stage stage = (Stage) nameTextField.getScene().getWindow();
+            stage.setScene(educationalProgramAdministrationMenuView);
+            stage.setTitle("Administración del programa educativo.");
+            stage.show();
+        } catch (IOException exception) {
+            System.err.println("The 'EducationalProgramAdministrationMenuFXML.fxml' file could not be open. Please try again later.");
+        }
+    }    
 
     public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
         this.schoolPeriod = schoolPeriod;
@@ -86,6 +103,7 @@ public class LogEducationalExperienceFXMLController implements Initializable {
             EducationalExperience educationalExperience = EducationalExperienceDAO.checkEducationalExperienceExistence(name);
             boolean isRegistered = educationalExperience != null;
             if (!isRegistered) {
+                educationalExperience = new EducationalExperience();
                 educationalExperience.setName(name);
                 educationalExperience.setAvailable(Constants.AVAILABLE);
                 logEducationalExperience(educationalExperience);
@@ -150,22 +168,6 @@ public class LogEducationalExperienceFXMLController implements Initializable {
                     Alert.AlertType.ERROR);
         }
         goToEducationalProgramAdministrationMenu();
-    }
-
-    private void goToEducationalProgramAdministrationMenu() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("EducationalProgramAdministrationMenuFXML.fxml"));
-        try {
-            Parent root = loader.load();
-            EducationalProgramAdministrationMenuFXMLController educationalProgramAdministrationMenuFXMLController = loader.getController();
-            educationalProgramAdministrationMenuFXMLController.configureView(schoolPeriod, academicPersonnel);
-            Scene educationalProgramAdministrationMenuView = new Scene(root);
-            Stage stage = (Stage) nameTextField.getScene().getWindow();
-            stage.setScene(educationalProgramAdministrationMenuView);
-            stage.setTitle("Administración del programa educativo.");
-            stage.show();
-        } catch (IOException exception) {
-            System.err.println("The 'EducationalProgramAdministrationMenuFXML.fxml' file could not be open. Please try again later.");
-        }
     }
 
     @FXML

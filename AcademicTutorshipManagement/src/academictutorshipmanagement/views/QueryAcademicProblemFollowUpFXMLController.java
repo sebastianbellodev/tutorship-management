@@ -74,7 +74,7 @@ public class QueryAcademicProblemFollowUpFXMLController implements Initializable
             this.queryAcademicProblem = this.queryAcademicProblemWithFollowUp();
             this.titleAcademicProblemLabel.setText(this.queryAcademicProblem.getTitle());
             this.descriptionAcademicProblemLabel.setText(this.queryAcademicProblem.getDescription());
-            this.nameAcademicPersonnelLabel.setText(this.queryAcademicProblem.getAcademicOffering().getAcademicPersonnel().getFullName());
+            this.nameAcademicPersonnelLabel.setText(this.queryAcademicProblem.getAcademicOffering().getAcademicPersonnel().toString());
             this.nameEducationalExperienceLabel.setText(this.queryAcademicProblem.getAcademicOffering().getEducationalExperience().getName());
             this.numberStudentsLabel.setText(Integer.toString(this.queryAcademicProblem.getNumberOfStudents()));
             if(this.queryAcademicProblem.getAcademicProblemFollowUp().getIdAcademicProblemFollowUp()!=0){

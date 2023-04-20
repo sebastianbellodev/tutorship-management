@@ -99,12 +99,13 @@ public class EducationalExperienceDAO {
         int responseCode;
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String sentence = "INSERT INTO educationalExperience\n"
-                + "(name)\n"
-                + "VALUES(?)";
+                + "(name, available)\n"
+                + "VALUES(?, ?)";
         try (Connection connection = databaseConnection.open()) {
             String name = educationalExperience.getName();
             PreparedStatement preparedStatement = connection.prepareStatement(sentence);
             preparedStatement.setString(1, name);
+            preparedStatement.setBoolean(2, Constants.AVAILABLE);
             int numberOfRowsAffected = preparedStatement.executeUpdate();
             responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
         } catch (SQLException exception) {
