@@ -85,8 +85,8 @@ public class AcademicPersonnelDAO {
                 + "ORDER BY academicPersonnel.name ASC";
         try (Connection connection = databaseConnection.open()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, idRole);
-            preparedStatement.setInt(2, idEducationalProgram);
+            preparedStatement.setInt(1, idEducationalProgram);
+            preparedStatement.setInt(2, idRole);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 AcademicPersonnel academicPersonnel = new AcademicPersonnel();

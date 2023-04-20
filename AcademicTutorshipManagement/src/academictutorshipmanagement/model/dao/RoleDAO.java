@@ -27,8 +27,8 @@ public class RoleDAO {
                 + "ORDER BY name ASC";
         try (Connection connection = databaseConnection.open()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, idEducationalProgram);
-            preparedStatement.setString(2, username);
+            preparedStatement.setString(1, username);
+            preparedStatement.setInt(2, idEducationalProgram);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Role role = new Role();

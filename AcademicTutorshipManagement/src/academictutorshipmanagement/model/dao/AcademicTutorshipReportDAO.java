@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 05, 2023.
- * Date of update: March 05, 2023.
+ * Date of update: April 20, 2023.
  */
 package academictutorshipmanagement.model.dao;
 
@@ -27,8 +27,8 @@ public class AcademicTutorshipReportDAO {
                 + "WHERE idAcademicTutorship = ? AND idAcademicPersonnel = ?";
         try (Connection connection = databaseConnection.open()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, idAcademicPersonnel);
-            preparedStatement.setInt(2, idAcademicTutorship);
+            preparedStatement.setInt(1, idAcademicTutorship);
+            preparedStatement.setInt(2, idAcademicPersonnel);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 academicTutorshipReport.setIdAcademicTutorshipReport(resultSet.getInt("idAcademicTutorshipReport"));
@@ -45,7 +45,7 @@ public class AcademicTutorshipReportDAO {
         return academicTutorshipReport;
     }
     
-    public static ArrayList<AcademicTutorshipReport> getAcademicTutorshipReports(int idAcademicPersonnel, int idSchoolPeriod) {
+    public static ArrayList<AcademicTutorshipReport> getAcademicTutorshipReports(int idSchoolPeriod, int idAcademicPersonnel) {
         ArrayList<AcademicTutorshipReport> academicTutorshipReports = new ArrayList<>();
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String query = "SELECT academictutorshipreport.*, academictutorshipsession.*\n"
@@ -54,11 +54,11 @@ public class AcademicTutorshipReportDAO {
                 + "ON academictutorshipreport.idAcademicTutorship = academictutorship.idAcademicTutorship\n"
                 + "INNER JOIN academictutorshipsession\n"
                 + "ON academictutorshipsession.idAcademicTutorshipSession = academictutorship.idAcademicTutorshipSession\n"
-                + "WHERE idAcademicPersonnel = ? AND idSchoolPeriod = ?";
+                + "WHERE idSchoolPeriod = ? AND idAcademicPersonnel = ?";
         try (Connection connection = databaseConnection.open()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, idAcademicPersonnel);
-            preparedStatement.setInt(2, idSchoolPeriod);
+            preparedStatement.setInt(1, idSchoolPeriod);
+            preparedStatement.setInt(2, idAcademicPersonnel);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 AcademicTutorshipReport academicTutorshipReport = new AcademicTutorshipReport();
