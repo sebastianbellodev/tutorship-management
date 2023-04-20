@@ -19,12 +19,12 @@ import java.util.ArrayList;
 
 public class AcademicTutorshipReportDAO {
 
-    public static AcademicTutorshipReport getAcademicTutorshipReport(int idAcademicPersonnel, int idAcademicTutorship) {
+    public static AcademicTutorshipReport getAcademicTutorshipReport(int idAcademicTutorship, int idAcademicPersonnel) {
         AcademicTutorshipReport academicTutorshipReport = new AcademicTutorshipReport();
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String query = "SELECT idAcademicTutorshipReport, generalComment, numberOfStudentsAttending, numberOfStudentsAtRisk\n"
                 + "FROM academicTutorshipReport\n"
-                + "WHERE idAcademicPersonnel = ? AND idAcademicTutorship = ?";
+                + "WHERE idAcademicTutorship = ? AND idAcademicPersonnel = ?";
         try (Connection connection = databaseConnection.open()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, idAcademicPersonnel);
