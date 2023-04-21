@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 01, 2023.
- * Date of update: April 19, 2023.
+ * Date of update: April 21, 2023.
  */
 package academictutorshipmanagement.model.pojo;
 
@@ -20,11 +20,8 @@ public class Student {
     private CheckBox atRisk;
 
     public Student() {
-        boolean isDisabled = true;
         attendedBy = new CheckBox();
-        attendedBy.setDisable(isDisabled);
         atRisk = new CheckBox();
-        atRisk.setDisable(isDisabled);
     }
 
     public Student(String name, String paternalSurname, String maternalSurname, String emailAddress) {

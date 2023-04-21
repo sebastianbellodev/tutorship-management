@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: April 18, 2023.
- * Date of update: April 20, 2023.
+ * Date of update: April 21, 2023.
  */
 package academictutorshipmanagement.views;
 
@@ -67,6 +67,7 @@ public class ModifyEducationalExperienceFXMLController implements Initializable 
     private ObservableList<EducationalProgram> educationalPrograms;
     private ObservableList<EducationalExperience> educationalExperiences;
     private ObservableList<AcademicPersonnel> academicPersonnels;
+    private ObservableList<AcademicOffering> academicOfferings;
 
     private SchoolPeriod schoolPeriod;
     private AcademicPersonnel academicPersonnel;
@@ -80,10 +81,10 @@ public class ModifyEducationalExperienceFXMLController implements Initializable 
         educationalPrograms = FXCollections.observableArrayList();
         educationalExperiences = FXCollections.observableArrayList();
         academicPersonnels = FXCollections.observableArrayList();
+        academicOfferings = FXCollections.observableArrayList();
         configureEducationalProgramsTableViewColumns();
         configureAcademicPersonnelTableViewColumns();
         loadEducationalPrograms();
-        loadAcademicPersonnel();
     }
 
     public void loadEducationalPrograms() {
@@ -114,11 +115,6 @@ public class ModifyEducationalExperienceFXMLController implements Initializable 
         }
     }
 
-    private void loadAcademicPersonnel() {
-        ArrayList<AcademicPersonnel> academicPersonnelsResultSet = AcademicPersonnelDAO.getAcademicPersonnel();
-        academicPersonnels.addAll(academicPersonnelsResultSet);
-    }
-
     public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
         this.schoolPeriod = schoolPeriod;
         idSchoolPeriod = schoolPeriod.getIdSchoolPeriod();
@@ -128,20 +124,20 @@ public class ModifyEducationalExperienceFXMLController implements Initializable 
 
     private void loadEducationalExperiences() {
         ArrayList<EducationalExperience> educationalExperiencesResultSet = EducationalExperienceDAO.getEducationalExperiences();
-        if (!educationalExperiencesResultSet.isEmpty()) {
-            educationalExperiences.addAll(educationalExperiencesResultSet);
-            educationalExperienceComboBox.setItems(educationalExperiences);
-            educationalExperienceComboBox.valueProperty().addListener((ObservableValue<? extends EducationalExperience> observable, EducationalExperience oldValue, EducationalExperience newValue) -> {
-                if (newValue != null) {
-                    educationalExperience = newValue;
-                    idEducationalExperience = newValue.getIdEducationalExperience();
-                    String name = newValue.getName();
-                    nameTextField.setText(name);
-                    loadEducationalProgramsByEducationalExperience();
-                    loadAcademicPersonnelByEducationalExperience();
-                }
-            });
-        }
+        educationalExperiences.addAll(educationalExperiencesResultSet);
+        educationalExperienceComboBox.setItems(educationalExperiences);
+        educationalExperienceComboBox.valueProperty().addListener((ObservableValue<? extends EducationalExperience> observable, EducationalExperience oldValue, EducationalExperience newValue) -> {
+            if (newValue != null) {
+                academicPersonnels.clear();
+                academicOfferings.clear();
+                educationalExperience = newValue;
+                idEducationalExperience = educationalExperience.getIdEducationalExperience();
+                String name = newValue.getName();
+                nameTextField.setText(name);
+                loadEducationalProgramsByEducationalExperience();
+                loadAcademicPersonnelByEducationalExperience();
+            }
+        });
     }
 
     private void loadEducationalProgramsByEducationalExperience() {
@@ -153,7 +149,7 @@ public class ModifyEducationalExperienceFXMLController implements Initializable 
                 int idEducationalProgram = educationalProgramByEducationalExperience.getIdEducationalProgram();
                 boolean isAssociatedTo = educationalProgram.getIdEducationalProgram() == idEducationalProgram;
                 if (isAssociatedTo) {
-                    educationalProgram.getAssociatedTo().setDisable(!isEnabled);
+                    educationalProgram.getAssociatedTo().setDisable(isAssociatedTo);
                     educationalProgram.getAssociatedTo().setStyle("-fx-opacity: 1");
                     educationalProgram.setAssociatedTo(isAssociatedTo);
                 }
@@ -163,31 +159,21 @@ public class ModifyEducationalExperienceFXMLController implements Initializable 
     }
 
     private void loadAcademicPersonnelByEducationalExperience() {
-        ArrayList<AcademicPersonnel> academicPersonnelsByEducationalExperience = AcademicPersonnelDAO.getAcademicPersonnelByEducationalExperience(idEducationalExperience, idSchoolPeriod);
+        ArrayList<AcademicPersonnel> academicPersonnelsResultSet = AcademicPersonnelDAO.getAcademicPersonnelByEducationalExperience(idEducationalExperience, idSchoolPeriod);
+        academicPersonnels.addAll(academicPersonnelsResultSet);
         this.academicPersonnels.forEach(academicPersonnel -> {
-            boolean isEnabled = false;
-            academicPersonnel.setAssociatedTo(isEnabled);
-            academicPersonnelsByEducationalExperience.forEach(academicPersonnelByEducationalExperience -> {
-                int idAcademicPersonnel = academicPersonnelByEducationalExperience.getIdAcademicPersonnel();
-                boolean isAssociatedTo = academicPersonnel.getIdAcademicPersonnel() == idAcademicPersonnel;
-                if (isAssociatedTo) {
-                    academicPersonnel.getAssociatedTo().setDisable(!isEnabled);
-                    academicPersonnel.getAssociatedTo().setStyle("-fx-opacity: 1");
-                    academicPersonnel.setAssociatedTo(isAssociatedTo);
-                    academicPersonnel.getNrc().setDisable(!isEnabled);
-                    academicPersonnel.getNrc().setStyle("-fx-opacity: 1");
-                }
-            });
+            boolean isAssociatedTo = true;
+            academicPersonnel.getAssociatedTo().setDisable(isAssociatedTo);
+            academicPersonnel.getAssociatedTo().setStyle("-fx-opacity: 1");
+            academicPersonnel.setAssociatedTo(isAssociatedTo);
+            loadAcademicOfferingsByEducationalExperience();
         });
-        loadAcademicOfferingsByEducationalExperience();
     }
 
     private void loadAcademicOfferingsByEducationalExperience() {
-        ArrayList<AcademicOffering> academicOfferings = AcademicOfferingDAO.getAcademicOfferingsByEducationalExperience(idEducationalExperience, idSchoolPeriod);
+        ArrayList<AcademicOffering> academicOfferingsResultSet = AcademicOfferingDAO.getAcademicOfferingsByEducationalExperience(idEducationalExperience, idSchoolPeriod);
+        academicOfferings.addAll(academicOfferingsResultSet);
         academicPersonnels.forEach(academicPersonnel -> {
-            boolean isEditable = true;
-            academicPersonnel.getNrc().setEditable(isEditable);
-            academicPersonnel.getNrc().setText("");
             academicOfferings.forEach(academicOffering -> {
                 int idAcademicPersonnel = academicOffering.getAcademicPersonnel().getIdAcademicPersonnel();
                 if (academicPersonnel.getIdAcademicPersonnel() == idAcademicPersonnel) {
@@ -266,16 +252,16 @@ public class ModifyEducationalExperienceFXMLController implements Initializable 
 
     private void assignEducationalExperienceToAcademicPersonnel() {
         academicPersonnels.forEach(academicPersonnel -> {
-            boolean isAssociatedTo = academicPersonnel.getAssociatedTo().isSelected();
-            if (isAssociatedTo) {
-                AcademicOffering academicOffering = new AcademicOffering();
-                int nrc = Integer.valueOf(academicPersonnel.getNrc().getText());
-                academicOffering.setNrc(nrc);
-                academicOffering.setEducationalExperience(educationalExperience);
-                academicOffering.setAcademicPersonnel(academicPersonnel);
-                academicOffering.setSchoolPeriod(schoolPeriod);
-                AcademicOfferingDAO.logAcademicOffering(academicOffering);
-            }
+            academicOfferings.forEach(academicOffering -> {
+                int idAcademicPersonnel = academicOffering.getAcademicPersonnel().getIdAcademicPersonnel();
+                if (academicPersonnel.getIdAcademicPersonnel() == idAcademicPersonnel) {
+                    String nrc = academicPersonnel.getNrc().getText();
+                    if (String.valueOf(academicOffering.getNrc()) != nrc) {
+                        academicOffering.setNrc(Integer.valueOf(nrc));
+                        AcademicOfferingDAO.updateAcademicOffering(academicOffering);
+                    }
+                }
+            });
         });
     }
 

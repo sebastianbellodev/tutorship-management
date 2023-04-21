@@ -141,7 +141,7 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
 
     private void loadAcademicPersonnel(int idSchoolPeriod) {
         ArrayList<AcademicPersonnel> academicPersonnelResulSet
-                = AcademicPersonnelDAO.getAcademicPersonnelByRole( academicPersonnel.getUser().getEducationalProgram().getIdEducationalProgram(),
+                = AcademicPersonnelDAO.getAcademicPersonnelByRole(academicPersonnel.getUser().getEducationalProgram().getIdEducationalProgram(),
                         Constants.ACADEMIC_TUTOR_ID_ROLE);
         if (academicPersonnelResulSet.isEmpty()) {
             Utilities.showAlert("No hay conexión con la base de datos.\n\n"
@@ -280,8 +280,13 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
             this.setPaternalSurname(student.getPaternalSurname());
             this.setMaternalSurname(student.getMaternalSurname());
             this.setRegistrationNumber(student.getRegistrationNumber());
-            this.setAtRisk(student.getAtRisk().isSelected());
+            boolean isDisabled = true;
+            this.getAttendedBy().setDisable(isDisabled);
+            this.getAttendedBy().setStyle("-fx-opacity: 1");
             this.setAttendedBy(student.getAttendedBy().isSelected());
+            this.getAtRisk().setDisable(isDisabled);
+            this.getAtRisk().setStyle("-fx-opacity: 1");
+            this.setAtRisk(student.getAtRisk().isSelected());
         }
 
         public String getInnerStudent() {

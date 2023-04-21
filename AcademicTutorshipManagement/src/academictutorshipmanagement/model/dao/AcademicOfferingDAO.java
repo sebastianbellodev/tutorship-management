@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 05, 2023.
- * Date of update: April 20, 2023.
+ * Date of update: April 21, 2023.
  */
 package academictutorshipmanagement.model.dao;
 
@@ -105,6 +105,28 @@ public class AcademicOfferingDAO {
             databaseConnection.close();
         }
         return academicOfferings;
+    }
+
+    public static int updateAcademicOffering(AcademicOffering academicOffering) {
+        int responseCode;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String sentence = "UPDATE academicOffering\n"
+                + "SET nrc = ?\n"
+                + "WHERE idAcademicOffering = ?";
+        try (Connection connection = databaseConnection.open()) {
+            int idAcademicOffering = academicOffering.getIdAcademicOffering();
+            int nrc = academicOffering.getNrc();
+            PreparedStatement preparedStatement = connection.prepareStatement(sentence);
+            preparedStatement.setInt(1, nrc);
+            preparedStatement.setInt(2, idAcademicOffering);
+            int numberOfRowsAffected = preparedStatement.executeUpdate();
+            responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
+        } catch (SQLException exception) {
+            responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
+        } finally {
+            databaseConnection.close();
+        }
+        return responseCode;
     }
 
 }

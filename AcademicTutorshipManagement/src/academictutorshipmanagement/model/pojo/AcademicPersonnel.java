@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 01, 2023.
- * Date of update: April 20, 2023.
+ * Date of update: April 21, 2023.
  */
 package academictutorshipmanagement.model.pojo;
 
@@ -24,10 +24,8 @@ public class AcademicPersonnel {
     private int responseCode;
 
     public AcademicPersonnel() {
-        boolean isEditable = false;
         associatedTo = new CheckBox();
         nrc = new TextField();
-        nrc.setEditable(isEditable);
         nrc.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
