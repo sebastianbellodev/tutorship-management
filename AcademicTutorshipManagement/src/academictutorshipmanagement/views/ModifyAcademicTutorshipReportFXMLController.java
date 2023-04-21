@@ -131,23 +131,17 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
         ArrayList<Student> studentsResultSet = StudentDAO.getStudentsByAcademicTutorshipReport(idAcademicTutorshipReport);
         if (!studentsResultSet.isEmpty()) {
             students.addAll(studentsResultSet);
-            configureTableViewCheckBoxes();
+            students.forEach(student -> {
+                boolean isDisabled = false;
+                student.getAttendedBy().setDisable(isDisabled);
+                student.getAtRisk().setDisable(isDisabled);
+            });
             studentsTableView.setItems(students);
         } else {
             Utilities.showAlert("No hay conexión con la base de datos.\n\n"
                     + "Por favor, inténtelo más tarde.\n",
                     Alert.AlertType.ERROR);
         }
-    }
-
-    private void configureTableViewCheckBoxes() {
-        students.forEach(student -> {
-            boolean isDisabled = false;
-            student.getAttendedBy().setDisable(isDisabled);
-            student.getAttendedBy().setSelected(student.getAttendedBy().isSelected());
-            student.getAtRisk().setDisable(isDisabled);
-            student.getAtRisk().setSelected(student.getAtRisk().isSelected());
-        });
     }
 
     @FXML
