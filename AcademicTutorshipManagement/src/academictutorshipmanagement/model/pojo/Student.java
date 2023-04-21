@@ -20,10 +20,11 @@ public class Student {
     private CheckBox atRisk;
 
     public Student() {
+        boolean isDisabled = true;
         attendedBy = new CheckBox();
-        attendedBy.setDisable(true);
+        attendedBy.setDisable(isDisabled);
         atRisk = new CheckBox();
-        atRisk.setDisable(true);
+        atRisk.setDisable(isDisabled);
     }
 
     public Student(String name, String paternalSurname, String maternalSurname, String emailAddress) {

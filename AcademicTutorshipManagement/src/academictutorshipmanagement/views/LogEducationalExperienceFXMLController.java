@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: April 18, 2023.
- * Date of update: April 19, 2023.
+ * Date of update: April 20, 2023.
  */
 package academictutorshipmanagement.views;
 
@@ -47,19 +47,20 @@ public class LogEducationalExperienceFXMLController implements Initializable {
 
     private SchoolPeriod schoolPeriod;
     private AcademicPersonnel academicPersonnel;
+    private EducationalExperience educationalExperience;
 
     private int idEducationalExperience;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         educationalPrograms = FXCollections.observableArrayList();
-        configureEducationalProgramsTableViewColumns();
+        configureTableViewColumns();
         loadEducationalPrograms();
     }
 
-    private void configureEducationalProgramsTableViewColumns() {
+    private void configureTableViewColumns() {
         nameTableColumn.setCellValueFactory(new PropertyValueFactory("name"));
-        associatedToTableColumn.setCellValueFactory(new PropertyValueFactory("associatedToCheckBox"));
+        associatedToTableColumn.setCellValueFactory(new PropertyValueFactory("associatedTo"));
     }
 
     private void loadEducationalPrograms() {
@@ -74,7 +75,7 @@ public class LogEducationalExperienceFXMLController implements Initializable {
             goToEducationalProgramAdministrationMenu();
         }
     }
-    
+
     private void goToEducationalProgramAdministrationMenu() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("EducationalProgramAdministrationMenuFXML.fxml"));
         try {
@@ -89,7 +90,7 @@ public class LogEducationalExperienceFXMLController implements Initializable {
         } catch (IOException exception) {
             System.err.println("The 'EducationalProgramAdministrationMenuFXML.fxml' file could not be open. Please try again later.");
         }
-    }    
+    }
 
     public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
         this.schoolPeriod = schoolPeriod;
@@ -100,18 +101,18 @@ public class LogEducationalExperienceFXMLController implements Initializable {
     private void acceptButtonClick(ActionEvent actionEvent) {
         String name = nameTextField.getText();
         if (!name.isEmpty()) {
-            EducationalExperience educationalExperience = EducationalExperienceDAO.checkEducationalExperienceExistence(name);
+            educationalExperience = EducationalExperienceDAO.checkEducationalExperienceExistence(name);
             boolean isRegistered = educationalExperience != null;
             if (!isRegistered) {
                 educationalExperience = new EducationalExperience();
                 educationalExperience.setName(name);
                 educationalExperience.setAvailable(Constants.AVAILABLE);
-                logEducationalExperience(educationalExperience);
+                logEducationalExperience();
             } else {
                 boolean isAvailable = educationalExperience.isAvailable();
                 if (!isAvailable) {
                     educationalExperience.setAvailable(Constants.AVAILABLE);
-                    updateEducationalExperience(educationalExperience);
+                    updateEducationalExperience();
                 } else {
                     Utilities.showAlert("La información ingresada corresponde a una experiencia educativa que ya se encuentra registrada en el sistema.\n\n"
                             + "Por favor, compruebe la información ingresada e inténtelo nuevamente.\n",
@@ -125,12 +126,12 @@ public class LogEducationalExperienceFXMLController implements Initializable {
         }
     }
 
-    private void logEducationalExperience(EducationalExperience educationalExperience) {
+    private void logEducationalExperience() {
         int responseCode = EducationalExperienceDAO.logEducationalExperience(educationalExperience);
         if (responseCode == Constants.CORRECT_OPERATION_CODE) {
             String name = educationalExperience.getName();
             idEducationalExperience = EducationalExperienceDAO.getEducationalExperience(name).getIdEducationalExperience();
-            assignEducationalExperienceToEducationalPrograms(false);
+            assignEducationalExperienceToEducationalPrograms();
             Utilities.showAlert("La información se registró correctamente en el sistema.\n",
                     Alert.AlertType.INFORMATION);
         } else {
@@ -141,25 +142,21 @@ public class LogEducationalExperienceFXMLController implements Initializable {
         goToEducationalProgramAdministrationMenu();
     }
 
-    private void assignEducationalExperienceToEducationalPrograms(boolean isUpdate) {
+    private void assignEducationalExperienceToEducationalPrograms() {
         educationalPrograms.forEach(educationalProgram -> {
-            boolean associatedTo = educationalProgram.getAssociatedToCheckBox().isSelected();
-            int idEducationalProgram = educationalProgram.getIdEducationalProgram();
-            if (isUpdate) {
-                EducationalProgramDAO.assignEducationalExperieceToEducationalProgram(idEducationalProgram, idEducationalExperience, associatedTo);
-            } else {
-                if (associatedTo) {
-                    EducationalProgramDAO.assignEducationalExperieceToEducationalProgram(idEducationalProgram, idEducationalExperience);
-                }
+            boolean isAssociatedTo = educationalProgram.getAssociatedTo().isSelected();
+            if (isAssociatedTo) {
+                int idEducationalProgram = educationalProgram.getIdEducationalProgram();
+                EducationalProgramDAO.assignEducationalExperieceToEducationalProgram(idEducationalProgram, idEducationalExperience);
             }
         });
     }
 
-    private void updateEducationalExperience(EducationalExperience educationalExperience) {
+    private void updateEducationalExperience() {
         int responseCode = EducationalExperienceDAO.updateEducationalExperience(educationalExperience);
         if (responseCode == Constants.CORRECT_OPERATION_CODE) {
             idEducationalExperience = educationalExperience.getIdEducationalExperience();
-            assignEducationalExperienceToEducationalPrograms(true);
+            assignEducationalExperienceToEducationalPrograms();
             Utilities.showAlert("La información se registró correctamente en el sistema.\n",
                     Alert.AlertType.INFORMATION);
         } else {
