@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 05, 2023.
- * Date of update: April 20, 2023.
+ * Date of update: April 21, 2023.
  */
 package academictutorshipmanagement.model.dao;
 
@@ -129,7 +129,7 @@ public class AcademicTutorshipReportDAO {
                 + "(generalComment, numberOfStudentsAttending, numberOfStudentsAtRisk, idAcademicPersonnel, idAcademicTutorship)\n"
                 + "VALUES(?, ?, ?, ?, ?)";
         try (Connection connection = databaseConnection.open()) {
-            String generalComment = (academicTutorshipReport.getGeneralComment().isEmpty()) ? null : academicTutorshipReport.getGeneralComment();
+            String generalComment = academicTutorshipReport.getGeneralComment();
             int numberOfStudentsAttending = academicTutorshipReport.getNumberOfStudentsAttending();
             int numberOfStudentsAtRisk = academicTutorshipReport.getNumberOfStudentsAtRisk();
             int idAcademicPersonnel = academicTutorshipReport.getAcademicPersonnel().getIdAcademicPersonnel();
@@ -157,7 +157,7 @@ public class AcademicTutorshipReportDAO {
                 + "SET generalComment = ?, numberOfStudentsAttending = ?, numberOfStudentsAtRisk = ?\n"
                 + "WHERE idAcademicTutorshipReport = ?";
         try (Connection connection = databaseConnection.open()) {
-            String generalComment = (academicTutorshipReport.getGeneralComment().isEmpty()) ? null : academicTutorshipReport.getGeneralComment();
+            String generalComment = academicTutorshipReport.getGeneralComment();
             int numberOfStudentsAttending = academicTutorshipReport.getNumberOfStudentsAttending();
             int numberOfStudentsAtRisk = academicTutorshipReport.getNumberOfStudentsAtRisk();
             int idAcademicTutorshipReport = academicTutorshipReport.getIdAcademicTutorshipReport();

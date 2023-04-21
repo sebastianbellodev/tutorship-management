@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: April 18, 2023.
- * Date of update: April 20, 2023.
+ * Date of update: April 21, 2023.
  */
 package academictutorshipmanagement.views;
 
@@ -120,8 +120,10 @@ public class QueryEducationalExperienceFXMLController implements Initializable {
             academicOfferings.forEach(academicOffering -> {
                 int idAcademicPersonnel = academicOffering.getAcademicPersonnel().getIdAcademicPersonnel();
                 if (academicPersonnel.getIdAcademicPersonnel() == idAcademicPersonnel) {
-                    String nrc = String.valueOf(academicOffering.getNrc());
+                    boolean isDisabled = true;
+                    academicPersonnel.getNrc().setDisable(isDisabled);
                     academicPersonnel.getNrc().setStyle("-fx-opacity: 1");
+                    String nrc = String.valueOf(academicOffering.getNrc());
                     academicPersonnel.setNrc(nrc);
                 }
             });

@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 03, 2023.
- * Date of update: March 05, 2023.
+ * Date of update: April 21, 2023.
  */
 package academictutorshipmanagement.model.dao;
 
@@ -193,7 +193,7 @@ public class StudentDAO {
                 + "SET attendedBy = ?, atRisk = ?\n"
                 + "WHERE registrationNumber = ?";
         try (Connection connection = databaseConnection.open()) {
-            boolean attendedBy = student.getAtRisk().isSelected();
+            boolean attendedBy = student.getAttendedBy().isSelected();
             boolean atRisk = student.getAtRisk().isSelected();
             String registrationNumber = student.getRegistrationNumber();
             PreparedStatement preparedStatement = connection.prepareStatement(sentence);

@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): Armando Omar Obando Muñóz and María José Torres Igartua.
  * Date of creation: March 05, 2023.
- * Date of update: April 20, 2023.
+ * Date of update: April 21, 2023.
  */
 package academictutorshipmanagement.views;
 
@@ -164,7 +164,6 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
             if (isAttendedBy) {
                 numberOfStudentsAttending++;
             }
-            student.setAttendedBy(isAttendedBy);
         }
         return numberOfStudentsAttending;
     }
@@ -176,7 +175,6 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
             if (isAtRisk) {
                 numberOfStudentsAtRisk++;
             }
-            student.setAtRisk(isAtRisk);
         }
         return numberOfStudentsAtRisk;
     }
