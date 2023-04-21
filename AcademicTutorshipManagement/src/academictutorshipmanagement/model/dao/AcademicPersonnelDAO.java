@@ -18,33 +18,33 @@ import java.util.ArrayList;
 
 public class AcademicPersonnelDAO {
 
-    public static AcademicPersonnel getAcademicPersonnelByUser(String username) {
-        AcademicPersonnel academicPersonnel = new AcademicPersonnel();
+    public static ArrayList<AcademicPersonnel> getAcademicPersonnel() {
+        ArrayList<AcademicPersonnel> academicPersonnels = new ArrayList<>();
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String query = "SELECT *\n"
                 + "FROM academicPersonnel\n"
-                + "WHERE username = ?";
+                + "ORDER By name ASC";
         try (Connection connection = databaseConnection.open()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, username);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
+            while (resultSet.next()) {
+                AcademicPersonnel academicPersonnel = new AcademicPersonnel();
                 academicPersonnel.setIdAcademicPersonnel(resultSet.getInt("idAcademicPersonnel"));
                 academicPersonnel.setName(resultSet.getString("name"));
                 academicPersonnel.setPaternalSurname(resultSet.getString("paternalSurname"));
                 academicPersonnel.setMaternalSurname(resultSet.getString("maternalSurname"));
                 academicPersonnel.setEmailAddress(resultSet.getString("emailAddress"));
-                academicPersonnel.setResponseCode(Constants.CORRECT_OPERATION_CODE);
+                academicPersonnels.add(academicPersonnel);
             }
         } catch (SQLException exception) {
-            academicPersonnel.setResponseCode(Constants.NO_DATABASE_CONNECTION_CODE);
+            academicPersonnels = null;
         } finally {
             databaseConnection.close();
         }
-        return academicPersonnel;
+        return academicPersonnels;
     }
 
-    public static ArrayList<AcademicPersonnel> getAcademicPersonnelByEducationalExperience(int idSchoolPeriod, int idEducationalExperience) {
+    public static ArrayList<AcademicPersonnel> getAcademicPersonnelByEducationalExperience(int idEducationalExperience, int idSchoolPeriod) {
         ArrayList<AcademicPersonnel> academicPersonnels = new ArrayList<>();
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String query = "SELECT DISTINCT academicPersonnel.*\n"
@@ -73,7 +73,7 @@ public class AcademicPersonnelDAO {
         }
         return academicPersonnels;
     }
-    
+
     public static ArrayList<AcademicPersonnel> getAcademicPersonnelByRole(int idEducationalProgram, int idRole) {
         ArrayList<AcademicPersonnel> academicPersonnels = new ArrayList<>();
         DatabaseConnection databaseConnection = new DatabaseConnection();
@@ -110,4 +110,31 @@ public class AcademicPersonnelDAO {
         }
         return academicPersonnels;
     }
+
+    public static AcademicPersonnel getAcademicPersonnelByUser(String username) {
+        AcademicPersonnel academicPersonnel = new AcademicPersonnel();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String query = "SELECT *\n"
+                + "FROM academicPersonnel\n"
+                + "WHERE username = ?";
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                academicPersonnel.setIdAcademicPersonnel(resultSet.getInt("idAcademicPersonnel"));
+                academicPersonnel.setName(resultSet.getString("name"));
+                academicPersonnel.setPaternalSurname(resultSet.getString("paternalSurname"));
+                academicPersonnel.setMaternalSurname(resultSet.getString("maternalSurname"));
+                academicPersonnel.setEmailAddress(resultSet.getString("emailAddress"));
+                academicPersonnel.setResponseCode(Constants.CORRECT_OPERATION_CODE);
+            }
+        } catch (SQLException exception) {
+            academicPersonnel.setResponseCode(Constants.NO_DATABASE_CONNECTION_CODE);
+        } finally {
+            databaseConnection.close();
+        }
+        return academicPersonnel;
+    }
+
 }

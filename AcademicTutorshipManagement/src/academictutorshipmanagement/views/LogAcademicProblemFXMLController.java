@@ -58,6 +58,7 @@ public class LogAcademicProblemFXMLController implements Initializable {
     private int idEducationalProgram;
     private int idSchoolPeriod;
     private int idEducationalExperience;
+    private int idAcademicPersonnel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -80,7 +81,7 @@ public class LogAcademicProblemFXMLController implements Initializable {
     }
 
     private void loadEducationalExperiencesByEducationalProgram() {
-        ArrayList<EducationalExperience> educationalExperiencesResultSet = EducationalExperienceDAO.getEducationalExperiencesByEducationalProgram(idSchoolPeriod, idEducationalProgram);
+        ArrayList<EducationalExperience> educationalExperiencesResultSet = EducationalExperienceDAO.getEducationalExperiencesByEducationalProgram(idEducationalProgram, idSchoolPeriod);
         if (!educationalExperiencesResultSet.isEmpty()) {
             educationalExperiences.addAll(educationalExperiencesResultSet);
             educationalExperienceComboBox.setItems(educationalExperiences);
@@ -101,20 +102,20 @@ public class LogAcademicProblemFXMLController implements Initializable {
     }
 
     private void loadAcademicPersonnelByEducationalExperience(int idEducationalExperience) {
-        ArrayList<AcademicPersonnel> academicPersonnelsResultSet = AcademicPersonnelDAO.getAcademicPersonnelByEducationalExperience(idSchoolPeriod, idEducationalExperience);
+        ArrayList<AcademicPersonnel> academicPersonnelsResultSet = AcademicPersonnelDAO.getAcademicPersonnelByEducationalExperience(idEducationalExperience, idSchoolPeriod);
         academicPersonnels.addAll(academicPersonnelsResultSet);
         academicPersonnelComboBox.setItems(academicPersonnels);
         academicPersonnelComboBox.valueProperty().addListener((ObservableValue<? extends AcademicPersonnel> observable, AcademicPersonnel oldValue, AcademicPersonnel newValue) -> {
             if (newValue != null) {
                 academicOfferings.clear();
-                int idAcademicPersonnel = newValue.getIdAcademicPersonnel();
-                loadAcademicOfferingsByAcademicPersonnel(idAcademicPersonnel);
+                idAcademicPersonnel = newValue.getIdAcademicPersonnel();
+                loadAcademicOfferingsByAcademicPersonnel();
             }
         });
     }
 
-    private void loadAcademicOfferingsByAcademicPersonnel(int idAcademicPersonnel) {
-        ArrayList<AcademicOffering> academicOfferingsResultSet = AcademicOfferingDAO.getAcademicOfferingsByAcademicPersonnel(idSchoolPeriod, idEducationalExperience, idAcademicPersonnel);
+    private void loadAcademicOfferingsByAcademicPersonnel() {
+        ArrayList<AcademicOffering> academicOfferingsResultSet = AcademicOfferingDAO.getAcademicOfferingsByAcademicPersonnel(idEducationalExperience, idSchoolPeriod, idAcademicPersonnel);
         academicOfferings.addAll(academicOfferingsResultSet);
         nrcComboBox.setItems(academicOfferings);
     }

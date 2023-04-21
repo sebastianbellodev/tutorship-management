@@ -86,7 +86,7 @@ public class QueryEducationalExperienceFXMLController implements Initializable {
     private void loadEducationalExperiencesByEducationalProgram() {
         int idSchoolPeriod = schoolPeriod.getIdSchoolPeriod();
         int idEducationalProgram = academicPersonnel.getUser().getEducationalProgram().getIdEducationalProgram();
-        ArrayList<EducationalExperience> educationalExperiencesResultSet = EducationalExperienceDAO.getEducationalExperiencesByEducationalProgram(idSchoolPeriod, idEducationalProgram);
+        ArrayList<EducationalExperience> educationalExperiencesResultSet = EducationalExperienceDAO.getEducationalExperiencesByEducationalProgram(idEducationalProgram, idSchoolPeriod);
         if (!educationalExperiencesResultSet.isEmpty()) {
             educationalExperiences.addAll(educationalExperiencesResultSet);
             educationalExperienceComboBox.setItems(educationalExperiences);
@@ -96,8 +96,6 @@ public class QueryEducationalExperienceFXMLController implements Initializable {
                     academicOfferings.clear();
                     idEducationalExperience = newValue.getIdEducationalExperience();
                     loadAcademicPersonnelByEducationalExperience();
-                    loadAcademicOfferingsByEducationalExperience();
-                    configureAcademicOfferingsByAcademicPersonnel();
                 }
             });
 
@@ -110,21 +108,20 @@ public class QueryEducationalExperienceFXMLController implements Initializable {
     }
 
     private void loadAcademicPersonnelByEducationalExperience() {
-        ArrayList<AcademicPersonnel> academicPersonnelsResultSet = AcademicPersonnelDAO.getAcademicPersonnelByEducationalExperience(idSchoolPeriod, idEducationalExperience);
+        ArrayList<AcademicPersonnel> academicPersonnelsResultSet = AcademicPersonnelDAO.getAcademicPersonnelByEducationalExperience(idEducationalExperience, idSchoolPeriod);
         academicPersonnels.addAll(academicPersonnelsResultSet);
+        loadAcademicOfferingsByEducationalExperience();
     }
 
     private void loadAcademicOfferingsByEducationalExperience() {
-        ArrayList<AcademicOffering> academicOfferingsResultSet = AcademicOfferingDAO.getAcademicOfferingsByEducationalExperience(idSchoolPeriod, idEducationalExperience);
+        ArrayList<AcademicOffering> academicOfferingsResultSet = AcademicOfferingDAO.getAcademicOfferingsByEducationalExperience(idEducationalExperience, idSchoolPeriod);
         academicOfferings.addAll(academicOfferingsResultSet);
-    }
-
-    private void configureAcademicOfferingsByAcademicPersonnel() {
         academicPersonnels.forEach(academicPersonnel -> {
             academicOfferings.forEach(academicOffering -> {
                 int idAcademicPersonnel = academicOffering.getAcademicPersonnel().getIdAcademicPersonnel();
                 if (academicPersonnel.getIdAcademicPersonnel() == idAcademicPersonnel) {
-                    int nrc = academicOffering.getNrc();
+                    String nrc = String.valueOf(academicOffering.getNrc());
+                    academicPersonnel.getNrc().setStyle("-fx-opacity: 1");
                     academicPersonnel.setNrc(nrc);
                 }
             });

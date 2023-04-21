@@ -81,7 +81,7 @@ public class ModifyAcademicProblemFXMLController implements Initializable {
         this.index = index;
         this.academicProblems = academicProblems;
         this.configureAcademicPersonnelInformation(numberOfStudentsByAcademicPersonnel);
-        this.loadCurrentEducationalExperiencesByEducationalProgram();        
+        this.loadEducationalExperiencesByEducationalProgram();        
         this.loadAcademicProblemData();
     }
 
@@ -100,8 +100,8 @@ public class ModifyAcademicProblemFXMLController implements Initializable {
         numberOfStudentsSpinner.setValueFactory(spinnerValueFactory);
     }
 
-    private void loadCurrentEducationalExperiencesByEducationalProgram() {
-        ArrayList<EducationalExperience> educationalExperiencesResultSet = EducationalExperienceDAO.getEducationalExperiencesByEducationalProgram(idSchoolPeriod, idEducationalProgram);
+    private void loadEducationalExperiencesByEducationalProgram() {
+        ArrayList<EducationalExperience> educationalExperiencesResultSet = EducationalExperienceDAO.getEducationalExperiencesByEducationalProgram(idEducationalProgram, idSchoolPeriod);
         if (educationalExperiencesResultSet.isEmpty()) {
             Utilities.showAlert("No hay conexión con la base de datos.\n\n"
                     + "Por favor, inténtelo más tarde.\n",
@@ -122,7 +122,7 @@ public class ModifyAcademicProblemFXMLController implements Initializable {
     }
 
     private void loadAcademicPersonnelByEducationalExperience(int idEducationalExperience) {
-        ArrayList<AcademicPersonnel> academicPersonnelsResultSet = AcademicPersonnelDAO.getAcademicPersonnelByEducationalExperience(idSchoolPeriod, idEducationalExperience);
+        ArrayList<AcademicPersonnel> academicPersonnelsResultSet = AcademicPersonnelDAO.getAcademicPersonnelByEducationalExperience(idEducationalExperience, idSchoolPeriod);
         academicPersonnel.addAll(academicPersonnelsResultSet);
         academicPersonnelComboBox.setItems(academicPersonnel);
         academicPersonnelComboBox.valueProperty().addListener((ObservableValue<? extends AcademicPersonnel> observable, AcademicPersonnel oldValue, AcademicPersonnel newValue) -> {
@@ -135,7 +135,7 @@ public class ModifyAcademicProblemFXMLController implements Initializable {
     }
 
     private void loadAcademicOfferingsByAcademicPersonnel(int idAcademicPersonnel) {
-        ArrayList<AcademicOffering> academicOfferingsResultSet = AcademicOfferingDAO.getAcademicOfferingsByAcademicPersonnel(idSchoolPeriod, idEducationalExperience, idAcademicPersonnel);
+        ArrayList<AcademicOffering> academicOfferingsResultSet = AcademicOfferingDAO.getAcademicOfferingsByAcademicPersonnel(idEducationalExperience, idSchoolPeriod, idAcademicPersonnel);
         academicOfferings.addAll(academicOfferingsResultSet);
         nrcComboBox.setItems(academicOfferings);
     }
