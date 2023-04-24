@@ -33,6 +33,14 @@ public class Student {
         this.emailAddress = emailAddress;
     }
 
+    public Student(String registrationNumber, String name, String paternalSurname, String maternalSurname, String emailAddress) {
+        this.registrationNumber = registrationNumber;
+        this.name = name;
+        this.paternalSurname = paternalSurname;
+        this.maternalSurname = maternalSurname;
+        this.emailAddress = emailAddress;
+    }    
+    
     public String getRegistrationNumber() {
         return registrationNumber;
     }

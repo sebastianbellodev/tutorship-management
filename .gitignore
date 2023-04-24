@@ -2,3 +2,8 @@
 /AcademicTutorshipManagement/dist/
 /AcademicTutorshipManagement/build/
 /AcademicTutorshipManagement/src/academictutorshipmanagement/model/DatabaseConfiguration.txt
+AcademicTutorshipManagement/database/AcademicTutorshipManagement.sql
+AcademicTutorshipManagement/nbproject/build-impl.xml
+AcademicTutorshipManagement/nbproject/genfiles.properties
+AcademicTutorshipManagement/nbproject/project.properties
+AcademicTutorshipManagement/nbproject/project.xml

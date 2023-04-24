@@ -28,6 +28,15 @@ public class AcademicPersonnel {
         this.emailAddress = emailAddress;
     }
 
+    public AcademicPersonnel(int idAcademicPersonnel, String name, String paternalSurname, String maternalSurname, String emailAddress) {
+        this.idAcademicPersonnel = idAcademicPersonnel;
+        this.name = name;
+        this.paternalSurname = paternalSurname;
+        this.maternalSurname = maternalSurname;
+        this.emailAddress = emailAddress;
+    }
+
+    
     public int getIdAcademicPersonnel() {
         return idAcademicPersonnel;
     }

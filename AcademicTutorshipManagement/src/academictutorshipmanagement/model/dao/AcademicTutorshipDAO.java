@@ -40,4 +40,23 @@ public class AcademicTutorshipDAO {
         return academicTutorship;
     }
 
+    public int LogAcademicTutorship(int id, int idEducationalProgram) {
+        int responseCode;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String query = "INSERT INTO  academictutorship \n" +
+                       "(idAcademicTutorshipSession, idEducationalProgram) \n" +
+                       "VALUES (?,?)";
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);            
+            preparedStatement.setInt(1, schoolPeriod);
+            preparedStatement.setInt(2, idEducationalProgram);
+            int numberOfRowsAffected = preparedStatement.executeUpdate();
+            responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
+        } catch (SQLException exception) {
+            responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
+        } finally {
+            databaseConnection.close();
+        }
+        return responseCode;
+    }
 }

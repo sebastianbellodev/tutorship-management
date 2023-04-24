@@ -69,7 +69,7 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <Button layoutX="603.0" layoutY="552.0" mnemonicParsing="false" onAction="#acceptButtonClick" prefHeight="33.0" prefWidth="157.0" text="Guardar">
+      <Button layoutX="603.0" layoutY="552.0" mnemonicParsing="false" onAction="#acceptButtonClick" prefHeight="33.0" prefWidth="157.0" text="Aceptar">
          <font>
             <Font name="Arial" size="14.0" />
          </font>

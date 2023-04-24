@@ -109,13 +109,10 @@ public class LogAcademicPersonnelFXMLController implements Initializable {
         Integer maternalSurname = maternalSurnameTextField.getText().length();
 
         return emailAddressTextField.getText().endsWith("@uv.mx")
-                && Utilities.compareStudentEmailAddressLength(emailAddress)
                 && Utilities.compareGeneralFieldLength(username)
                 && Utilities.compareGeneralFieldLength(name)
                 && Utilities.compareGeneralFieldLength(paternalSurname)
-                && Utilities.compareGeneralFieldLength(maternalSurname);
-        
-       
+                && Utilities.compareGeneralFieldLength(maternalSurname);  
     }
     
     private boolean checkUsername() {
@@ -129,7 +126,7 @@ public class LogAcademicPersonnelFXMLController implements Initializable {
             Utilities.showAlert("No se puede dejar ningún campo vacío.\n\n"
                     + "Por favor, compruebe la información ingresada e inténtelo nuevamente.\n",
                     Alert.AlertType.WARNING);
-        }else if(validateInvalidData()){
+        }else if(!validateInvalidData()){
             Utilities.showAlert("Los datos ingresados son inválidos.\n\n"
                         + "Por favor, compruebe la información ingresada e inténtelo nuevamente.\n",
                         Alert.AlertType.WARNING);

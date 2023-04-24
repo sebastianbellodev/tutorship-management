@@ -161,4 +161,43 @@ public class AcademicPersonnelDAO {
         return responseCode;
     }
     
+    public ObservableList <AcademicPersonnel> getAllAcademicPersonnelsByRole(AcademicPersonnel usableAcademicPersonnel) {
+        ObservableList<AcademicPersonnel> academicPersonnels  = FXCollections.observableArrayList(); 
+        DatabaseConnection databaseConnection = new DatabaseConnection();        
+        try(Connection connection = databaseConnection.open()){
+            String query = "SELECT academicpersonnel.idAcademicPersonnel, academicpersonnel.name, paternalSurname, maternalSurname, emailAddress, contracttype.name, academicpersonnel.username\n" +
+                            "FROM academicpersonnel \n" +
+                            "INNER JOIN contracttype ON academicpersonnel.idContractType = contracttype.idContractType\n" +
+                            "INNER JOIN educationalprogramrole ON academicpersonnel.username = educationalprogramrole.username\n" +
+                            "WHERE educationalprogramrole.idRole = 3 AND educationalprogramrole.idEducationalProgram = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, usableAcademicPersonnel.getUser().getEducationalProgram().getIdEducationalProgram());
+            ResultSet resultSet = preparedStatement.executeQuery();     
+            
+                while(resultSet.next()){
+                    int idAcademicPersonnel = resultSet.getInt("academicpersonnel.idAcademicPersonnel");
+                    String name = resultSet.getString("academicpersonnel.name");
+                    String paternalSurname = resultSet.getString("paternalSurname");
+                    String maternalSurname = resultSet.getString("maternalSurname");
+                    String emailAddress = resultSet.getString("emailAddress");
+                    String username = resultSet.getString("academicpersonnel.username");
+                    String contractType = resultSet.getString("contracttype.name");
+                    
+                    ContractType newContractType = new ContractType(contractType);
+                    User user = new User(username);
+                    
+                    AcademicPersonnel academicPersonnel = new AcademicPersonnel(idAcademicPersonnel, name, paternalSurname, maternalSurname, emailAddress);
+                    academicPersonnel.setContractType(newContractType);
+                    academicPersonnel.setUser(user);
+                    academicPersonnels.add(academicPersonnel);                   
+                }
+           
+        }catch(SQLException exception){
+            academicPersonnels = null;
+        } finally{
+            databaseConnection.close();
+        }
+        return academicPersonnels;
+    }
+    
 }
