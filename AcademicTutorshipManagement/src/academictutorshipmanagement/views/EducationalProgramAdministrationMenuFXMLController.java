@@ -87,7 +87,13 @@ public class EducationalProgramAdministrationMenuFXMLController implements Initi
     @FXML
     private void queryEducationalExperienceButtonClick(ActionEvent actionEvent) {
         if (idRole == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE || idRole == Constants.CAREER_HEAD_ID_ROLE) {
-            goToQueryEducationalExperience();
+            if (schoolPeriod != null) {
+                goToQueryEducationalExperience();
+            } else {
+                Utilities.showAlert("El periodo escolar ha finalizado.\n\n"
+                        + "Por favor, inténtelo más tarde.\n",
+                        Alert.AlertType.WARNING);
+            }
         } else {
             Utilities.showAlert("No tiene los permisos necesarios para realizar esta acción.\n\n"
                     + "Por favor, vuelva a iniciar sesión e inténtelo nuevamente.\n",
@@ -114,7 +120,13 @@ public class EducationalProgramAdministrationMenuFXMLController implements Initi
     @FXML
     private void modifyEducationalExperienceButtonClick(ActionEvent actionEvent) {
         if (idRole == Constants.ADMINISTRATOR_ID_ROLE) {
-            goToModifyEducationalExperience();
+            if (schoolPeriod != null) {
+                goToModifyEducationalExperience();
+            } else {
+                Utilities.showAlert("El periodo escolar ha finalizado.\n\n"
+                        + "Por favor, inténtelo más tarde.\n",
+                        Alert.AlertType.WARNING);
+            }
         } else {
             Utilities.showAlert("No tiene los permisos necesarios para realizar esta acción.\n\n"
                     + "Por favor, vuelva a iniciar sesión e inténtelo nuevamente.\n",

@@ -109,7 +109,7 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
     private void validateAcademicTutorshipReportExistence() {
         int idAcademicPersonnel = academicPersonnel.getIdAcademicPersonnel();
         int idAcademicTutorship = academicTutorship.getIdAcademicTutorship();
-        AcademicTutorshipReport academicTutorshipReport = AcademicTutorshipReportDAO.getAcademicTutorshipReport(idAcademicPersonnel, idAcademicTutorship);
+        AcademicTutorshipReport academicTutorshipReport = AcademicTutorshipReportDAO.getAcademicTutorshipReport(idAcademicTutorship, idAcademicPersonnel);
         int responseCode = academicTutorshipReport.getResponseCode();
         if (responseCode == Constants.CORRECT_OPERATION_CODE) {
             goToModifyAcademicTutorshipReport(academicTutorshipReport);

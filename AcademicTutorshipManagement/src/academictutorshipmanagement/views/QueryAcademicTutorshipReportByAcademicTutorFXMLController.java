@@ -112,8 +112,8 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
     private void configureStudentsTableViewColumns() {
         registrationNumberTableColumn.setCellValueFactory(new PropertyValueFactory("registrationNumber"));
         studentTableColumn.setCellValueFactory(new PropertyValueFactory("innerStudent"));
-        attendedByTableColumn.setCellValueFactory(new PropertyValueFactory("attendedByCheckBox"));
-        atRiskTableColumn.setCellValueFactory(new PropertyValueFactory("atRiskCheckBox"));
+        attendedByTableColumn.setCellValueFactory(new PropertyValueFactory("attendedBy"));
+        atRiskTableColumn.setCellValueFactory(new PropertyValueFactory("atRisk"));
     }
 
     private void loadSchoolPeriods() {
@@ -141,8 +141,8 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
 
     private void loadAcademicPersonnel(int idSchoolPeriod) {
         ArrayList<AcademicPersonnel> academicPersonnelResulSet
-                = AcademicPersonnelDAO.getAcademicPersonnelByRole(Constants.ACADEMIC_TUTOR_ID_ROLE,
-                        academicPersonnel.getUser().getEducationalProgram().getIdEducationalProgram());
+                = AcademicPersonnelDAO.getAcademicPersonnelByRole(academicPersonnel.getUser().getEducationalProgram().getIdEducationalProgram(),
+                        Constants.ACADEMIC_TUTOR_ID_ROLE);
         if (academicPersonnelResulSet.isEmpty()) {
             Utilities.showAlert("No hay conexión con la base de datos.\n\n"
                     + "Por favor, inténtelo más tarde.\n",
@@ -164,7 +164,7 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
     }
 
     private void loadAcademicTutorshipReports(int idAcademicPersonnel, int idSchoolPeriod) {
-        ArrayList<AcademicTutorshipReport> academicTutorshipReportsResultSet = AcademicTutorshipReportDAO.getAcademicTutorshipReports(idAcademicPersonnel, idSchoolPeriod);
+        ArrayList<AcademicTutorshipReport> academicTutorshipReportsResultSet = AcademicTutorshipReportDAO.getAcademicTutorshipReports(idSchoolPeriod, idAcademicPersonnel);
         if (academicTutorshipReportsResultSet.isEmpty()) {
             Utilities.showAlert("No hay conexión con la base de datos.\n\n"
                     + "Por favor, inténtelo más tarde.\n",
@@ -206,8 +206,8 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
 
     private void configureTableViewCheckBoxes() {
         students.forEach(student -> {
-            student.getAttendedByCheckBox().setSelected(student.isAttendedBy());
-            student.getAtRiskCheckBox().setSelected(student.isAtRisk());
+            student.getAttendedBy().setSelected(student.getAttendedBy().isSelected());
+            student.getAtRisk().setSelected(student.getAtRisk().isSelected());
         });
     }
 
@@ -280,10 +280,13 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
             this.setPaternalSurname(student.getPaternalSurname());
             this.setMaternalSurname(student.getMaternalSurname());
             this.setRegistrationNumber(student.getRegistrationNumber());
-            this.setAtRisk(student.isAtRisk());
-            this.setAtRiskCheckBox(student.getAtRiskCheckBox());
-            this.setAttendedBy(student.isAttendedBy());
-            this.setAttendedByCheckBox(student.getAttendedByCheckBox());
+            boolean isDisabled = true;
+            this.getAttendedBy().setDisable(isDisabled);
+            this.getAttendedBy().setStyle("-fx-opacity: 1");
+            this.setAttendedBy(student.getAttendedBy().isSelected());
+            this.getAtRisk().setDisable(isDisabled);
+            this.getAtRisk().setStyle("-fx-opacity: 1");
+            this.setAtRisk(student.getAtRisk().isSelected());
         }
 
         public String getInnerStudent() {

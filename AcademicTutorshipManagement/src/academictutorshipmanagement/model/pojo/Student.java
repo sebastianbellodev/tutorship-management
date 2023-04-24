@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 01, 2023.
- * Date of update: April 19, 2023.
+ * Date of update: April 21, 2023.
  */
 package academictutorshipmanagement.model.pojo;
 
@@ -16,14 +16,12 @@ public class Student {
     private String emailAddress;
     private EducationalProgram educationalProgram;
     private AcademicPersonnel academicPersonnel;
-    private boolean attendedBy;
-    private CheckBox attendedByCheckBox;
-    private boolean atRisk;
-    private CheckBox atRiskCheckBox;
+    private CheckBox attendedBy;
+    private CheckBox atRisk;
 
     public Student() {
-        attendedByCheckBox = new CheckBox();
-        atRiskCheckBox = new CheckBox();
+        attendedBy = new CheckBox();
+        atRisk = new CheckBox();
     }
 
     public Student(String name, String paternalSurname, String maternalSurname, String emailAddress) {
@@ -96,37 +94,21 @@ public class Student {
     public void setAcademicPersonnel(AcademicPersonnel academicPersonnel) {
         this.academicPersonnel = academicPersonnel;
     }
-
-    public boolean isAttendedBy() {
+    
+    public CheckBox getAttendedBy() {
         return attendedBy;
     }
 
     public void setAttendedBy(boolean attendedBy) {
-        this.attendedBy = attendedBy;
-    }
-    
-    public CheckBox getAttendedByCheckBox() {
-        return attendedByCheckBox;
+        this.attendedBy.setSelected(attendedBy);
     }
 
-    public void setAttendedByCheckBox(CheckBox attendedByCheckBox) {
-        this.attendedByCheckBox = attendedByCheckBox;
-    }
-
-    public boolean isAtRisk() {
+    public CheckBox getAtRisk() {
         return atRisk;
     }
 
     public void setAtRisk(boolean atRisk) {
-        this.atRisk = atRisk;
-    }
-
-    public CheckBox getAtRiskCheckBox() {
-        return atRiskCheckBox;
-    }
-
-    public void setAtRiskCheckBox(CheckBox atRiskCheckBox) {
-        this.atRiskCheckBox = atRiskCheckBox;
+        this.atRisk.setSelected(atRisk);
     }
 
 }

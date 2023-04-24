@@ -1,24 +1,41 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 01, 2023.
- * Date of update: March 02, 2023.
+ * Date of update: April 21, 2023.
  */
 package academictutorshipmanagement.model.pojo;
 
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
+
 
 public class AcademicPersonnel {
-    
+
     private int idAcademicPersonnel;
     private String name;
     private String paternalSurname;
     private String maternalSurname;
     private String emailAddress;
+    private CheckBox associatedTo;
+    private TextField nrc;
     private User user;
     private ContractType contractType;
     private int responseCode;
-    
+
     public AcademicPersonnel() {
+        associatedTo = new CheckBox();
+        nrc = new TextField();
+        nrc.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    nrc.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
     }
 
     public AcademicPersonnel(String name, String paternalSurname, String maternalSurname, String emailAddress) {
@@ -77,6 +94,22 @@ public class AcademicPersonnel {
         this.emailAddress = emailAddress;
     }
 
+    public CheckBox getAssociatedTo() {
+        return associatedTo;
+    }
+
+    public void setAssociatedTo(boolean associatedTo) {
+        this.associatedTo.setSelected(associatedTo);
+    }
+
+    public TextField getNrc() {
+        return nrc;
+    }
+
+    public void setNrc(String nrc) {
+        this.nrc.setText(nrc);
+    }
+
     public User getUser() {
         return user;
     }
@@ -100,17 +133,17 @@ public class AcademicPersonnel {
     public void setResponseCode(int responseCode) {
         this.responseCode = responseCode;
     }
+
 	
     public String getFullName(){
         String fullName = "";
         fullName = this.name + " " + this.paternalSurname + " " + this.maternalSurname;
         return fullName; 
     }
-            
-            
+
     @Override
     public String toString() {
         return getName() + " " + getPaternalSurname() + " " + getMaternalSurname();
     }
-    
+
 }

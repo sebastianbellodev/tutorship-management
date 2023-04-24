@@ -59,7 +59,7 @@ public class ModifyAcademicProblemFollowUpFXMLController implements Initializabl
     private void loadGUI(){
         this.titleAcademicProblemLabel.setText(this.academicProblem.getTitle());
         this.descriptionAcademicProblemLabel.setText(this.academicProblem.getDescription());
-        this.nameAcademicPersonnelLabel.setText(this.academicProblem.getAcademicOffering().getAcademicPersonnel().getFullName());
+        this.nameAcademicPersonnelLabel.setText(this.academicProblem.getAcademicOffering().getAcademicPersonnel().toString());
         this.nameEducationalExperienceLabel.setText(this.academicProblem.getAcademicOffering().getEducationalExperience().getName());
         this.numberStudentsLabel.setText(Integer.toString(this.academicProblem.getNumberOfStudents()));
     }
