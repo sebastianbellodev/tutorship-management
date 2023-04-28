@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="academictutorshipmanagement.views.QueryAcademicOfferingFXMLController">
+   <children>
+      <TextField fx:id="filterTextField" layoutX="26.0" layoutY="54.0" prefHeight="25.0" prefWidth="603.0" />
+      <ComboBox fx:id="schoolPeriodComboBox" layoutX="644.0" layoutY="54.0" onAction="#schoolPeriodSelected" prefHeight="25.0" prefWidth="290.0" />
+      <Label layoutX="26.0" layoutY="22.0" prefHeight="17.0" prefWidth="175.0" text="Busqueda:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="645.0" layoutY="27.0" text="Periodo Escolar:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TableView fx:id="academicOfferingTableView" layoutX="26.0" layoutY="100.0" prefHeight="440.0" prefWidth="908.0">
+        <columns>
+          <TableColumn fx:id="NRCTableColumn" prefWidth="98.0" text="NRC" />
+          <TableColumn fx:id="educationalExperienceTableColumn" prefWidth="444.0" text="Experiencia Educativa" />
+            <TableColumn fx:id="personalTableColumn" prefWidth="365.0" text="Académico" />
+        </columns>
+      </TableView>
+      <Button fx:id="backButton" layoutX="785.0" layoutY="555.0" mnemonicParsing="false" onAction="#backButtonClick" prefHeight="25.0" prefWidth="149.0" text="Regresar" />
+   </children>
+</AnchorPane>
