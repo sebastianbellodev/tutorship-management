@@ -139,5 +139,32 @@ public class EducationalExperienceDAO {
         }
         return responseCode;
     }
+    
+        public static ArrayList<EducationalExperience> getEducationalExperiencesByEducationalProgram(int idEducationalProgram) throws SQLException{
+        ArrayList<EducationalExperience> educationalExperiences = new ArrayList<>();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String query = "SELECT DISTINCT educationalExperience.*\n"
+                + "FROM educationalExperience\n"
+                + "INNER JOIN academicOffering\n"
+                + "ON educationalExperience.idEducationalExperience = academicOffering.idEducationalExperience\n"
+                + "INNER JOIN syllabus\n"
+                + "ON academicOffering.idEducationalExperience = syllabus.idEducationalExperience\n"
+                + "WHERE syllabus.idEducationalProgram = ?\n"
+                + "ORDER BY educationalExperience.name ASC";
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idEducationalProgram);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                EducationalExperience educationalExperience = new EducationalExperience();
+                educationalExperience.setIdEducationalExperience(resultSet.getInt("idEducationalExperience"));
+                educationalExperience.setName(resultSet.getString("name"));
+                educationalExperiences.add(educationalExperience);
+            }
+        }finally {
+            databaseConnection.close();
+        }
+        return educationalExperiences;
+    }
 
 }
