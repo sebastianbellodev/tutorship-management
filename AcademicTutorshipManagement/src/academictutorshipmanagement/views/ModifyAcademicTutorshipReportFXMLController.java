@@ -1,7 +1,7 @@
 /**
- * Name(s) of the programmer(s): María José Torres Igartua.
+ * Name(s) of the programmer(s): Armando Omar Obando Muñóz and María José Torres Igartua.
  * Date of creation: March 05, 2023.
- * Date of update: April 19, 2023.
+ * Date of update: April 21, 2023.
  */
 package academictutorshipmanagement.views;
 
@@ -87,10 +87,10 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
     public void initialize(URL url, ResourceBundle resourceBundle) {
         academicProblems = new ArrayList<>();
         students = FXCollections.observableArrayList();
-        configureStudentsTableViewColumns();
+        configureTableViewColumns();
     }
 
-    private void configureStudentsTableViewColumns() {
+    private void configureTableViewColumns() {
         registrationNumberTableColumn.setCellValueFactory(new PropertyValueFactory("registrationNumber"));
         nameTableColumn.setCellValueFactory(new PropertyValueFactory("name"));
         paternalSurnameTableColumn.setCellValueFactory(new PropertyValueFactory("paternalSurname"));
@@ -122,7 +122,8 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
     }
 
     private void loadAcademicProblemsByAcademicTutorshipReport() {
-        academicProblems = AcademicProblemDAO.loadAcademicProblemsByAcademicTutorshipReport(academicTutorshipReport.getIdAcademicTutorshipReport());
+        int idAcademicTutorshipReport = academicTutorshipReport.getIdAcademicTutorshipReport();
+        academicProblems = AcademicProblemDAO.loadAcademicProblemsByAcademicTutorshipReport(idAcademicTutorshipReport);
     }
 
     private void loadStudentsByAcademicTutorshipReport() {
@@ -130,20 +131,17 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
         ArrayList<Student> studentsResultSet = StudentDAO.getStudentsByAcademicTutorshipReport(idAcademicTutorshipReport);
         if (!studentsResultSet.isEmpty()) {
             students.addAll(studentsResultSet);
-            configureTableViewCheckBoxes();
+            students.forEach(student -> {
+                boolean isDisabled = false;
+                student.getAttendedBy().setDisable(isDisabled);
+                student.getAtRisk().setDisable(isDisabled);
+            });
             studentsTableView.setItems(students);
         } else {
             Utilities.showAlert("No hay conexión con la base de datos.\n\n"
                     + "Por favor, inténtelo más tarde.\n",
                     Alert.AlertType.ERROR);
         }
-    }
-
-    private void configureTableViewCheckBoxes() {
-        students.forEach(student -> {
-            student.getAttendedBy().setSelected(student.getAttendedBy().isSelected());
-            student.getAtRisk().setSelected(student.getAtRisk().isSelected());
-        });
     }
 
     @FXML
@@ -166,7 +164,6 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
             if (isAttendedBy) {
                 numberOfStudentsAttending++;
             }
-            student.setAttendedBy(isAttendedBy);
         }
         return numberOfStudentsAttending;
     }
@@ -178,7 +175,6 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
             if (isAtRisk) {
                 numberOfStudentsAtRisk++;
             }
-            student.setAtRisk(isAtRisk);
         }
         return numberOfStudentsAtRisk;
     }
@@ -203,7 +199,7 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
             if (academicProblem.getIdAcademicOffering() == Constants.PRIMARY_KEY_OF_NON_EXISTENT_RECORD_IN_DATABASE) {
                 AcademicProblemDAO.logAcademicProblemByAcademicTutorshipReport(academicProblem, idAcademicTutorshipReport);
             } else {
-                AcademicProblemDAO.updatedAcademicProblemByAcademicTutorshipReport(academicProblem);
+                AcademicProblemDAO.updateAcademicProblemByAcademicTutorshipReport(academicProblem);
             }
         });
     }
