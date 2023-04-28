@@ -9,9 +9,9 @@ public class AcademicOffering {
     
     private int idAcademicOffering;
     private int nrc;
-    private EducationalExperience educationalExperience;
-    private AcademicPersonnel academicPersonnel;
-    private SchoolPeriod schoolPeriod;
+    private EducationalExperience educationalExperience = new EducationalExperience();
+    private AcademicPersonnel academicPersonnel = new AcademicPersonnel();
+    private SchoolPeriod schoolPeriod = new SchoolPeriod();
 
     public AcademicOffering() {
     }
