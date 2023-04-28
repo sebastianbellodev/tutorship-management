@@ -100,7 +100,11 @@ public class AcademicPersonnel {
 
     public void setResponseCode(int responseCode) {
         this.responseCode = responseCode;
-    }    
+    }
+
+    public String getFullName(){
+        return this.paternalSurname + " " + this.maternalSurname + " " + this.name;
+    }
             
     @Override
     public String toString() {
