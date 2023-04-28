@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="academictutorshipmanagement.views.RegisterAcademicOfferingFXMLController">
+   <children>
+      <Label layoutX="27.0" layoutY="30.0" text="Programa Educativo:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="educationalExperienceTextField" editable="false" layoutX="178.0" layoutY="111.0" prefHeight="25.0" prefWidth="281.0" />
+      <ComboBox fx:id="educationalProgramComboBox" layoutX="166.0" layoutY="28.0" onAction="#educationalProgramSelect" prefHeight="25.0" prefWidth="769.0" />
+      <Label layoutX="27.0" layoutY="78.0" text="Periodo Escolar:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="500.0" layoutY="78.0" text="NRC:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="27.0" layoutY="114.0" text="Experiencia Educativa: ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="500.0" layoutY="114.0" text="Academico:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="schoolPeriodComboBox" layoutX="178.0" layoutY="74.0" onAction="#schoolPeriodSelect" prefHeight="25.0" prefWidth="281.0" />
+      <TextField fx:id="NRCTextField" layoutX="587.0" layoutY="74.0" prefHeight="25.0" prefWidth="347.0" />
+      <TextField fx:id="academicPersonnelTextField" editable="false" layoutX="587.0" layoutY="109.0" prefHeight="25.0" prefWidth="347.0" />
+      <TextField fx:id="educationalFilterTextField" layoutX="26.0" layoutY="173.0" prefHeight="25.0" prefWidth="434.0" promptText="Busqueda:" />
+      <TextField fx:id="personelFilterTextField" layoutX="500.0" layoutY="173.0" prefHeight="25.0" prefWidth="434.0" promptText="Busqueda:" />
+      <TableView fx:id="educationalExperienceTableView" layoutX="27.0" layoutY="204.0" onMouseClicked="#educationalExperienceSelect" prefHeight="325.0" prefWidth="434.0">
+        <columns>
+          <TableColumn fx:id="educationalExperienceTableColumn" prefWidth="432.0" text="Experiencia Educativa" />
+        </columns>
+      </TableView>
+      <TableView fx:id="academicPersonelTableView" layoutX="500.0" layoutY="204.0" onMouseClicked="#academicPersonnelSelect" prefHeight="325.0" prefWidth="434.0">
+         <columns>
+            <TableColumn fx:id="academicPersonnelTableColumn" prefWidth="433.0" text="Académico" />
+         </columns>
+      </TableView>
+      <Label layoutX="27.0" layoutY="147.0" prefHeight="17.0" prefWidth="434.0" text="Selecciona una Experiencia Educativa:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="500.0" layoutY="147.0" prefHeight="20.0" prefWidth="434.0" text="Selecciona un Académico: ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="registrerButton" layoutX="687.0" layoutY="545.0" mnemonicParsing="false" onAction="#registerButtonClick" prefHeight="25.0" prefWidth="128.0" text="Registrar" />
+      <Button fx:id="backButton" layoutX="824.0" layoutY="545.0" mnemonicParsing="false" onAction="#backButtonClick" prefHeight="25.0" prefWidth="111.0" text="Regresar" />
+   </children>
+</AnchorPane>

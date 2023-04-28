@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class SpecificFormatGenerationMenuFXMLController implements Initializable {
@@ -27,6 +28,8 @@ public class SpecificFormatGenerationMenuFXMLController implements Initializable
 
     private SchoolPeriod schoolPeriod;
     private AcademicPersonnel academicPersonnel;
+    @FXML
+    private Button buttonSignatureList;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -55,4 +58,17 @@ public class SpecificFormatGenerationMenuFXMLController implements Initializable
         }
     }
 
+    @FXML
+    private void buttonSignatureListClick(ActionEvent event) throws IOException {
+        Stage stageMenuCoordinador = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        Parent root = loader.load(getClass().getResource("/academictutorshipmanagement/views/SaveSignatureFormatListFXML.fxml").openStream());
+        Scene scene = new Scene(root);
+        stageMenuCoordinador.setScene(scene);
+        stageMenuCoordinador.setTitle("Generar Formato de Lista de Firmas");
+        stageMenuCoordinador.alwaysOnTopProperty();
+        stageMenuCoordinador.initModality(Modality.APPLICATION_MODAL);
+        stageMenuCoordinador.show();
+    }
+    
 }

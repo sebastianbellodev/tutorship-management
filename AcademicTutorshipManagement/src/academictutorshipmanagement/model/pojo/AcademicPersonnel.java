@@ -123,6 +123,10 @@ public class AcademicPersonnel {
         this.responseCode = responseCode;
     }
 
+    public String getFullName(){
+        return this.paternalSurname + " " + this.maternalSurname + " " + this.name;
+    }
+            
     @Override
     public String toString() {
         return getName() + " " + getPaternalSurname() + " " + getMaternalSurname();
