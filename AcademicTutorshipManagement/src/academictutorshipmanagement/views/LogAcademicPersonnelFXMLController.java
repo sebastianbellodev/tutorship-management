@@ -76,8 +76,7 @@ public class LogAcademicPersonnelFXMLController implements Initializable {
         ObservableList<ContractType> contractTypes = contractTypeDAO.getAllContractTypes();
         
         this.cbb_educationalProgram.setItems(educationalPrograms);
-        this.cbb_contract.setItems(contractTypes);
-        
+        this.cbb_contract.setItems(contractTypes);        
     }
     
     private void loadRolesTableView(){
@@ -97,8 +96,26 @@ public class LogAcademicPersonnelFXMLController implements Initializable {
                 || usernameTextField.getText().isEmpty()
                 || emailAddressTextField.getText().isEmpty()
                 || cbb_contract.getSelectionModel().isEmpty()
-                || cbb_educationalProgram.getSelectionModel().isEmpty();
+                || cbb_educationalProgram.getSelectionModel().isEmpty()
+                || validateEmptyCheckBoxes();
 
+    }
+    
+     private boolean validateEmptyCheckBoxes(){
+        Boolean check = false; 
+        int unselectedBoxes = 0;
+        
+        for(Role roleView : roles){
+            if(!roleView.getRoleByCheckBox().isSelected()){
+                unselectedBoxes++;
+            }
+        }
+        
+        if(unselectedBoxes == 3){
+            check = true;
+        }
+        
+        return check;
     }
     
     private boolean validateInvalidData() {
@@ -164,18 +181,18 @@ public class LogAcademicPersonnelFXMLController implements Initializable {
     }
         
     private int logSelectedRoles(User user, EducationalProgram educationalProgram){   
+        int available = Constants.ACADEMIC_PERSONNEL_AVAILABLE;
         int numberRolesSelected = 0;
         for (Role role : roles) {            
             if (role.getRoleByCheckBox().isSelected()) {
                 
-                EducationalProgramDAO.logEducationalProgramByRole(user, educationalProgram, role); 
+                EducationalProgramDAO.logEducationalProgramByRole(user, educationalProgram, role, available); 
                 numberRolesSelected++;
             }            
         }
         return numberRolesSelected;
     }
     
-    //User -> EducationalProgram -> AcademicPersonnel
     private void logAcademicPersonnel(AcademicPersonnel academicPersonnel, User user, EducationalProgram educationalProgram) {
         int responseUserQuery = UserDAO.logUser(user);        
         switch (responseUserQuery) {

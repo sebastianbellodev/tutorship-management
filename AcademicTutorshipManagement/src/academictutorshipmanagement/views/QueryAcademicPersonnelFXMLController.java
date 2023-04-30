@@ -6,6 +6,7 @@ import academictutorshipmanagement.model.dao.StudentDAO;
 import academictutorshipmanagement.model.pojo.AcademicPersonnel;
 import academictutorshipmanagement.model.pojo.Role;
 import academictutorshipmanagement.model.pojo.Student;
+import academictutorshipmanagement.utilities.Constants;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -102,7 +103,8 @@ public class QueryAcademicPersonnelFXMLController implements Initializable {
     
     private void loadRolsTableView(String username){
        RoleDAO roleDAO = new RoleDAO();
-       roles = roleDAO.getAllRolesByAcademicPersonnel(username);     
+       int available = Constants.ACADEMIC_PERSONNEL_AVAILABLE;
+       roles = roleDAO.getAllRolesByAcademicPersonnel(username, available );     
        rolesTableView.setItems(roles);
     }
     

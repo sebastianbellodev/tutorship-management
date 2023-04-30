@@ -50,6 +50,10 @@ public class Role {
         this.name = name;
     }
     
+    public void setAssociatedTo(boolean roleByCheckBox){
+        this.roleByCheckBox.setSelected(roleByCheckBox);
+    }
+    
     @Override
     public String toString() {
         return getName();

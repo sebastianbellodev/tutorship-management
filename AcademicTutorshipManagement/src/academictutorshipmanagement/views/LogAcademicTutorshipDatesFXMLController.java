@@ -1,7 +1,9 @@
 package academictutorshipmanagement.views;
 
+import academictutorshipmanagement.model.dao.AcademicTutorshipDAO;
 import academictutorshipmanagement.model.dao.AcademicTutorshipSessionDAO;
 import academictutorshipmanagement.model.dao.SchoolPeriodDAO;
+import academictutorshipmanagement.model.pojo.AcademicPersonnel;
 import academictutorshipmanagement.model.pojo.AcademicTutorshipSession;
 import academictutorshipmanagement.model.pojo.SchoolPeriod;
 import academictutorshipmanagement.utilities.Utilities;
@@ -49,6 +51,7 @@ public class LogAcademicTutorshipDatesFXMLController implements Initializable {
     private DatePicker dp_endDate;
     @FXML
     private DatePicker dp_reportDate;   
+    private AcademicPersonnel actualAacademicPersonnel;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -58,6 +61,10 @@ public class LogAcademicTutorshipDatesFXMLController implements Initializable {
             Logger.getLogger(LogAcademicTutorshipDatesFXMLController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }    
+    
+    public void configureView(AcademicPersonnel academicPersonnel){
+        this.actualAacademicPersonnel = academicPersonnel; 
+    }
     
     private void setSchoolPeriod() throws SQLException{        
         SchoolPeriodDAO schoolPeriodDAO = new SchoolPeriodDAO();
@@ -107,6 +114,8 @@ public class LogAcademicTutorshipDatesFXMLController implements Initializable {
     @FXML
     private void saveDates(ActionEvent event) {
         AcademicTutorshipSessionDAO tutorshipSessionDAO = new AcademicTutorshipSessionDAO();
+        AcademicTutorshipDAO academictutorshipDAO = new AcademicTutorshipDAO();
+        int idEducationalProgram = actualAacademicPersonnel.getUser().getEducationalProgram().getIdEducationalProgram();
         Utilities utilities = new Utilities();
      
         if(usablePeriod == null){
@@ -130,6 +139,7 @@ public class LogAcademicTutorshipDatesFXMLController implements Initializable {
                     }else{
                         if(OperationResult == true){                               
                             tutorshipSessionDAO.saveNewDates(starDateSession, endDateSession, reportDate, session, usablePeriod.getIdSchoolPeriod());
+                            academictutorshipDAO.logAcademicTutorship(session, idEducationalProgram);
                             alerts(4);
                             clear();
                         }else{
@@ -152,16 +162,9 @@ public class LogAcademicTutorshipDatesFXMLController implements Initializable {
    
     @FXML
     private void cancel(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("TutorialSessionAdministrationMenuFXML.fxml"));
-        try{
-            Parent root = loader.load();
-            Scene queryFollowUpOnAcademicProblemsList = new Scene(root);
-            Stage stage = (Stage) this.btn_cancel.getScene().getWindow();
-            stage.setScene(queryFollowUpOnAcademicProblemsList);
-            stage.show();
-        }catch(IOException ioException){
-            
-        }
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
     }
 
     @FXML

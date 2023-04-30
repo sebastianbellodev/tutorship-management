@@ -209,10 +209,29 @@ public class EducationalProgramAdministrationMenuFXMLController implements Initi
     @FXML
     private void modifyAcademicPersonnelButtonClick(ActionEvent actionEvent) {
         if (idRole == Constants.ADMINISTRATOR_ID_ROLE) {
+            goToModifyAcademicPersonnel();           
         } else {
             Utilities.showAlert("No tiene los permisos necesarios para realizar esta acción.\n\n"
                     + "Por favor, vuelva a iniciar sesión e inténtelo nuevamente.\n",
                     Alert.AlertType.INFORMATION);
+        }
+    }
+    
+    private void goToModifyAcademicPersonnel(){
+        try{
+            Stage stageMenu = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            Parent root = loader.load(getClass().getResource("/academictutorshipmanagement/views/ModifyAcademicPersonnelFXML.fxml").openStream());
+            ModifyAcademicPersonnelFXMLController modifyAcademicPersonnelFXMLController = loader.getController();
+            modifyAcademicPersonnelFXMLController.configureView(academicPersonnel);
+            Scene scene = new Scene(root);
+            stageMenu.setScene(scene);
+            stageMenu.setTitle("Editar Personal academico");
+            stageMenu.alwaysOnTopProperty();        
+            stageMenu.initModality(Modality.APPLICATION_MODAL);
+            stageMenu.show();
+        }catch (IOException exception) {
+            System.err.println("The 'ModifyAcademicPersonnelFXML.fxml' file could not be open. Please try again later.");
         }
     }
 

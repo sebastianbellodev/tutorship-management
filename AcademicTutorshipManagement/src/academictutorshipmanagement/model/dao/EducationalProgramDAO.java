@@ -138,20 +138,46 @@ public class EducationalProgramDAO {
         return educationalPrograms;
     }
 
-    public static int logEducationalProgramByRole(User user, EducationalProgram educationalProgram, Role role){
+    public static int logEducationalProgramByRole(User user, EducationalProgram educationalProgram, Role role, int available){
         int responseCode;
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String sentence = "INSERT INTO educationalprogramrole\n"
-                + "(idEducationalProgram, idRole, username)\n"
-                + "VALUES(?, ?, ?)";
+                + "(idEducationalProgram, idRole, username, available)\n"
+                + "VALUES(?, ?, ?, ?)";
         try (Connection connection = databaseConnection.open()) {
             int idEducationalProgram = educationalProgram.getIdEducationalProgram();
             int idRole = role.getIdRole();
-            String username = user.getUsername();
+            String username = user.getUsername();            
             PreparedStatement preparedStatement = connection.prepareStatement(sentence);
             preparedStatement.setInt(1, idEducationalProgram);
             preparedStatement.setInt(2, idRole);
-            preparedStatement.setString(3, username);           
+            preparedStatement.setString(3, username); 
+            preparedStatement.setInt(4, available);
+            int numberOfRowsAffected = preparedStatement.executeUpdate();
+            responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
+        } catch (SQLException exception) {
+            responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
+        } finally {
+            databaseConnection.close();
+        }
+        return responseCode;
+    }
+    
+    public static int updateEducationalProgramByRole(User user, EducationalProgram educationalProgram, Role role, int available){
+        int responseCode;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String sentence = "UPDATE educationalprogramrole \n" +
+                          "SET available = ?\n" +
+                          "WHERE username = ? AND idEducationalProgram = ? AND idRole = ?;";
+        try (Connection connection = databaseConnection.open()) {
+            int idEducationalProgram = educationalProgram.getIdEducationalProgram();
+            int idRole = role.getIdRole();           
+            String username = user.getUsername();
+            PreparedStatement preparedStatement = connection.prepareStatement(sentence);
+            preparedStatement.setInt(1, available);
+            preparedStatement.setString(2, username);
+            preparedStatement.setInt(3, idEducationalProgram);
+            preparedStatement.setInt(4, idRole);                                   
             int numberOfRowsAffected = preparedStatement.executeUpdate();
             responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
         } catch (SQLException exception) {
