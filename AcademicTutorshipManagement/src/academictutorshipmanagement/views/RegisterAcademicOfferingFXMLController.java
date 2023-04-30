@@ -20,8 +20,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.zip.DataFormatException;
 import javafx.beans.value.ChangeListener;
@@ -257,7 +255,7 @@ public class RegisterAcademicOfferingFXMLController implements Initializable {
             academicOfferingPreview.getEducationalExperience();
             AcademicOffering academicOfferingLog = AcademicOfferingDAO.getAcademicOffering(academicOfferingPreview.getNrc(), academicOfferingPreview.getSchoolPeriod().getIdSchoolPeriod(), this.educationalProgramComboBox.getSelectionModel().getSelectedItem().getIdEducationalProgram());
             if(academicOfferingLog == null){
-                if(AcademicOfferingDAO.logAcademicOffering(academicOfferingPreview)){
+                if(AcademicOfferingDAO.logAcademicOffering(academicOfferingPreview) > 0){
                     this.clearFields();
                     MessagesAlerts.showAlert("Se ha registrado el nuevo registro con exito en la base de datos ", Alert.AlertType.INFORMATION);
                 }else{
