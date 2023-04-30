@@ -85,7 +85,7 @@ public class SchoolPeriodDAO {
                 }
            
         }catch(SQLException exception){
-             
+            schoolPeriod = null;
         } finally{
             databaseConnection.close();
         }

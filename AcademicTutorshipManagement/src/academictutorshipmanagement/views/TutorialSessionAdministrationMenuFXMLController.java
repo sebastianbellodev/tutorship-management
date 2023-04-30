@@ -8,6 +8,8 @@ package academictutorshipmanagement.views;
 import academictutorshipmanagement.model.pojo.AcademicPersonnel;
 import academictutorshipmanagement.model.pojo.SchoolPeriod;
 import academictutorshipmanagement.model.pojo.User;
+import academictutorshipmanagement.utilities.Constants;
+import academictutorshipmanagement.utilities.Utilities;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,7 +19,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class TutorialSessionAdministrationMenuFXMLController implements Initializable {
@@ -27,6 +31,7 @@ public class TutorialSessionAdministrationMenuFXMLController implements Initiali
 
     private SchoolPeriod schoolPeriod;
     private AcademicPersonnel academicPersonnel;
+    private int idRole;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -35,6 +40,7 @@ public class TutorialSessionAdministrationMenuFXMLController implements Initiali
     public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
         this.schoolPeriod = schoolPeriod;
         this.academicPersonnel = academicPersonnel;
+        idRole = academicPersonnel.getUser().getRole().getIdRole();
     }
 
     @FXML
@@ -57,16 +63,29 @@ public class TutorialSessionAdministrationMenuFXMLController implements Initiali
 
     @FXML
     private void LogAcademicTutorshipDates(ActionEvent actionEvent) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("LogAcademicTutorshipDatesFXML.fxml"));
+        if (idRole == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE) {
+            goToLogLogAcademicTutorshipDates();
+        } else {
+            Utilities.showAlert("No tiene los permisos necesarios para realizar esta acción.\n\n"
+                    + "Por favor, vuelva a iniciar sesión e inténtelo nuevamente.\n",
+                    Alert.AlertType.INFORMATION);
+        }
+    }
+    
+    private void goToLogLogAcademicTutorshipDates(){  
         try{
-            Parent root = loader.load();                   
-            Scene logAcademicTutorshipDatesView = new Scene(root);
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            stage.setScene(logAcademicTutorshipDatesView);
-            stage.setTitle("Fecha de sesión de tutoría académica");
-            stage.show();
-          
-        }catch (IOException exception){
+            Stage stageMenu = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            Parent root = loader.load(getClass().getResource("/academictutorshipmanagement/views/LogAcademicTutorshipDatesFXML.fxml").openStream());
+            LogAcademicTutorshipDatesFXMLController LogAcademicTutorshipDatesFXMLController = loader.getController();
+            LogAcademicTutorshipDatesFXMLController.configureView(academicPersonnel);
+            Scene scene = new Scene(root);
+            stageMenu.setScene(scene);
+            stageMenu.setTitle("Fecha de sesión de tutoría académica");
+            stageMenu.alwaysOnTopProperty();        
+            stageMenu.initModality(Modality.APPLICATION_MODAL);
+            stageMenu.show();
+        }catch (IOException exception) {
             System.err.println("The 'LogAcademicTutorshipDatesFXML.fxml' file could not be open. Please try again later.");
         }
     }

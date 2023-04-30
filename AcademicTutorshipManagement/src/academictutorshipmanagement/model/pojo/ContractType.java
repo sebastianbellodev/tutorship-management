@@ -17,6 +17,11 @@ public class ContractType {
         this.name = name;
     }
 
+    public ContractType(int idContractType, String name) {
+        this.idContractType = idContractType;
+        this.name = name;
+    }
+
     public int getIdContractType() {
         return idContractType;
     }
@@ -35,4 +40,8 @@ public class ContractType {
         this.name = name;
     }
   
+    @Override
+    public String toString(){
+        return name;
+    }
 }

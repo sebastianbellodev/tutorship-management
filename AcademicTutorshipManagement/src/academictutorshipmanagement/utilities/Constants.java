@@ -30,7 +30,14 @@ public class Constants {
     public static final int STUDENT_EMAIL_ADDRESS_LENGTH = 28;
     public static final int GENERAL_FIELD_LENGTH = 28;
     
+    public static final int ACADEMIC_PERSONNEL_AVAILABLE = 01;
+    public static final int ACADEMIC_PERSONNEL_UNAVAILABLE = 00;
+    
+    public static final String GLOBAL_PASSWORD = "MEPIxBcHCQgt8Um3LJ0euc5Wy9ctDB82/RCKiJRe0V4=";
+
+
     public static final boolean AVAILABLE = true;
     public static final boolean NOT_AVAILABLE = false;
+
 
 }

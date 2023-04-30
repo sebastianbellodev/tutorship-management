@@ -50,10 +50,7 @@ public class RegisterAcademicProblemFollowUpFXMLController implements Initializa
     private Button saveButton;
     @FXML
     private Label descriptionAcademicProblemLabel;
-    
-    /**
-     * Initializes the controller class.
-     */
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }    
@@ -62,8 +59,7 @@ public class RegisterAcademicProblemFollowUpFXMLController implements Initializa
         this.academicProblem = academicProblem;
         this.loadGUI();
     }
-    
-    
+
     private void loadGUI(){
         this.titleAcademicProblemLabel.setText(this.academicProblem.getTitle());
         this.descriptionAcademicProblemLabel.setText(this.academicProblem.getDescription());
@@ -115,13 +111,11 @@ public class RegisterAcademicProblemFollowUpFXMLController implements Initializa
             MessagesAlerts.showFailureLoadWindow();
         }
     }
-    
-    
+
     private void checkEmptyFields() throws DataFormatException{
         if(this.descriptionFollowUpTextArea.getText().isEmpty()){
             throw new DataFormatException();
         }
     }
-    
     
 }

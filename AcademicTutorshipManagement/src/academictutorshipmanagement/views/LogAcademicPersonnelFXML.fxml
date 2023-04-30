@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="academictutorshipmanagement.views.LogAcademicPersonnelFXMLController">
+    <children>
+      <Label layoutX="37.0" layoutY="56.0" prefHeight="40.0" prefWidth="489.0" text="Ingrese la información del estudiante, y dé clic en el botón de &quot;Aceptar&quot;." wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="36.0" layoutY="107.0" prefHeight="20.0" prefWidth="72.0" text="Nombre: *" wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="nameTextField" layoutX="166.0" layoutY="104.0" prefHeight="26.0" prefWidth="258.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="paternalSurnameTextField" layoutX="166.0" layoutY="160.0" prefHeight="26.0" prefWidth="258.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <Label layoutX="36.0" layoutY="163.0" prefHeight="20.0" prefWidth="115.0" text="Apellido paterno: *" wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="36.0" layoutY="214.0" prefHeight="20.0" prefWidth="128.0" text="Apellido materno: *" wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="maternalSurnameTextField" layoutX="166.0" layoutY="212.0" prefHeight="26.0" prefWidth="258.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <Label layoutX="448.0" layoutY="107.0" prefHeight="20.0" prefWidth="80.0" text="Usuario: *" wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="usernameTextField" layoutX="665.0" layoutY="104.0" prefHeight="26.0" prefWidth="258.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <Label layoutX="448.0" layoutY="163.0" prefHeight="20.0" prefWidth="217.0" text="Correo electrónico institucional: *" wrapText="true">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="emailAddressTextField" layoutX="665.0" layoutY="160.0" prefHeight="26.0" prefWidth="258.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </TextField>
+      <Label layoutX="245.0" layoutY="326.0" text="Rol de usuario:*">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Button layoutX="603.0" layoutY="552.0" mnemonicParsing="false" onAction="#acceptButtonClick" prefHeight="33.0" prefWidth="157.0" text="Aceptar">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="782.0" layoutY="552.0" mnemonicParsing="false" onAction="#cancelButtonClick" prefHeight="33.0" prefWidth="157.0" text="Cancelar">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <Label layoutX="448.0" layoutY="216.0" text="Tipo de contratacion: *">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cbb_contract" layoutX="666.0" layoutY="213.0" prefHeight="25.0" prefWidth="258.0" promptText="Contrato" />
+      <Label layoutX="448.0" layoutY="273.0" text="Programa educativo: *">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cbb_educationalProgram" layoutX="665.0" layoutY="269.0" prefHeight="25.0" prefWidth="258.0" promptText="Programa educativo" />
+      <TableView fx:id="rolesTableView" layoutX="284.0" layoutY="358.0" prefHeight="129.0" prefWidth="408.0">
+        <columns>
+          <TableColumn fx:id="roleTableColumn" prefWidth="208.0" text="Rol" />
+          <TableColumn fx:id="valueTableColumn" prefWidth="199.0" text="Valor" />
+        </columns>
+      </TableView>
+      
+   </children>
+</AnchorPane>

@@ -5,10 +5,12 @@
  */
 package academictutorshipmanagement.model.pojo;
 
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+
 
 public class AcademicPersonnel {
 
@@ -43,6 +45,15 @@ public class AcademicPersonnel {
         this.emailAddress = emailAddress;
     }
 
+    public AcademicPersonnel(int idAcademicPersonnel, String name, String paternalSurname, String maternalSurname, String emailAddress) {
+        this.idAcademicPersonnel = idAcademicPersonnel;
+        this.name = name;
+        this.paternalSurname = paternalSurname;
+        this.maternalSurname = maternalSurname;
+        this.emailAddress = emailAddress;
+    }
+
+    
     public int getIdAcademicPersonnel() {
         return idAcademicPersonnel;
     }
@@ -122,7 +133,6 @@ public class AcademicPersonnel {
     public void setResponseCode(int responseCode) {
         this.responseCode = responseCode;
     }
-
     public String getFullName(){
         return this.paternalSurname + " " + this.maternalSurname + " " + this.name;
     }

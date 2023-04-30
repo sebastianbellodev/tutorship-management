@@ -13,6 +13,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class RoleDAO {
 
@@ -39,6 +41,55 @@ public class RoleDAO {
         } catch (SQLException exception) {
             roles = null;
         } finally {
+            databaseConnection.close();
+        }
+        return roles;
+    }
+    
+    public ObservableList<Role> getAllRoles(){
+        ObservableList<Role> roles = FXCollections.observableArrayList();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        try (Connection connection = databaseConnection.open()) {
+            String query = "SELECT  idRole, name FROM role WHERE idRole IN (1,2,3)";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();     
+            while(resultSet.next()){
+                Role role = new Role();
+                role.setIdRole(resultSet.getInt("idRole"));
+                role.setName(resultSet.getString("name"));
+                roles.add(role);
+            }
+            
+        }catch(SQLException exception){
+            System.out.print(exception.getMessage());
+        }finally{
+            databaseConnection.close();
+        }
+        return roles;
+    }
+    
+    public ObservableList<Role> getAllRolesByAcademicPersonnel(String username, int available){
+        ObservableList<Role> roles = FXCollections.observableArrayList();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        try (Connection connection = databaseConnection.open()) {
+            String query = "SELECT  role.idRole, role.name\n" +
+                            "FROM role \n" +
+                            "INNER JOIN educationalprogramrole ON  role.idRole = educationalprogramrole.idRole\n" +
+                            "INNER JOIN academicpersonnel ON educationalprogramrole.username = academicpersonnel.username\n" +
+                            "WHERE academicpersonnel.username = ? AND available = ? ORDER BY idRole ASC";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            preparedStatement.setInt(2, available);
+            ResultSet resultSet = preparedStatement.executeQuery();     
+            while(resultSet.next()){
+                Role role = new Role();
+                role.setIdRole(resultSet.getInt("role.idRole"));
+                role.setName(resultSet.getString("name"));
+                roles.add(role);
+            }            
+        }catch(SQLException exception){
+            System.out.print(exception.getMessage());
+        }finally{
             databaseConnection.close();
         }
         return roles;

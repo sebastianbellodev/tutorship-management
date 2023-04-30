@@ -21,6 +21,11 @@ public class EducationalProgram {
         this.name = name;
     }
 
+    public EducationalProgram(int idEducationalProgram, String name) {
+        this.idEducationalProgram = idEducationalProgram;
+        this.name = name;
+    }        
+
     public int getIdEducationalProgram() {
         return idEducationalProgram;
     }
