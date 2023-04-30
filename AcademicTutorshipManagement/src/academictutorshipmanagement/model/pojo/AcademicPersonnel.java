@@ -133,14 +133,10 @@ public class AcademicPersonnel {
     public void setResponseCode(int responseCode) {
         this.responseCode = responseCode;
     }
-
-	
     public String getFullName(){
-        String fullName = "";
-        fullName = this.name + " " + this.paternalSurname + " " + this.maternalSurname;
-        return fullName; 
+        return this.paternalSurname + " " + this.maternalSurname + " " + this.name;
     }
-
+            
     @Override
     public String toString() {
         return getName() + " " + getPaternalSurname() + " " + getMaternalSurname();

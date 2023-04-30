@@ -38,6 +38,8 @@ public class MainMenuFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         schoolPeriod = SchoolPeriodDAO.getCurrentSchoolPeriod();
+        SessionInformation sessionInformation = getSessionInformation();
+        sessionInformation.setCurrentSchoolPeriod(schoolPeriod);
     }
 
     public void configureView(User user) {

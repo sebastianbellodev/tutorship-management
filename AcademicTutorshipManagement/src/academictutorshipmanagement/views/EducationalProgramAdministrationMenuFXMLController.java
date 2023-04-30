@@ -50,6 +50,17 @@ public class EducationalProgramAdministrationMenuFXMLController implements Initi
     @FXML
     private void queryAcademicOfferingButtonClick(ActionEvent actionEvent) {
         if (idRole == Constants.ACADEMIC_TUTOR_ID_ROLE) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("QueryAcademicOfferingFXML.fxml"));
+            try {
+                Parent root = loader.load();
+                Scene logAcademicOfferingView = new Scene(root);
+                Stage stage = (Stage) backButton.getScene().getWindow();
+                stage.setScene(logAcademicOfferingView);
+                stage.setTitle("Consulta Oferta Academica");
+                stage.show();
+            } catch (IOException exception) {
+                System.err.println("The 'LogEducationalExperienceFXML.fxml' file could not be open. Please try again later.");
+            }
         } else {
             Utilities.showAlert("No tiene los permisos necesarios para realizar esta acción.\n\n"
                     + "Por favor, vuelva a iniciar sesión e inténtelo nuevamente.\n",
@@ -237,12 +248,17 @@ public class EducationalProgramAdministrationMenuFXMLController implements Initi
 
     @FXML
     private void assignEducationalExperienceToAcademicPersonnelButtonClick(ActionEvent actionEvent) {
-        if (idRole == Constants.ADMINISTRATOR_ID_ROLE) {
-        } else {
-            Utilities.showAlert("No tiene los permisos necesarios para realizar esta acción.\n\n"
-                    + "Por favor, vuelva a iniciar sesión e inténtelo nuevamente.\n",
-                    Alert.AlertType.INFORMATION);
-        }
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("RegisterAcademicOfferingFXML.fxml"));
+            try {
+                Parent root = loader.load();
+                Scene registerAcademicOfferingView = new Scene(root);
+                Stage stage = (Stage) backButton.getScene().getWindow();
+                stage.setScene(registerAcademicOfferingView);
+                stage.setTitle("Registrar Oferta Academica");
+                stage.show();
+            } catch (IOException exception) {
+                System.err.println("The 'LogEducationalExperienceFXML.fxml' file could not be open. Please try again later.");
+            }
     }
 
     @FXML

@@ -69,7 +69,7 @@ public class RegisterAcademicProblemFollowUpFXMLController implements Initializa
     }
     
     private void registerFollowUp(){
-        Date todayDate = Date.valueOf(LocalDate.now()); //Verificar Parseador
+        Date todayDate = Date.valueOf(LocalDate.now());
         try{
             this.checkEmptyFields();
             this.academicProblem.getAcademicProblemFollowUp().setDate(todayDate);

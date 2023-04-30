@@ -110,5 +110,9 @@ public class Student {
     public void setAtRisk(boolean atRisk) {
         this.atRisk.setSelected(atRisk);
     }
+    
+    public String getFullName(){
+        return this.name + " " + this.paternalSurname + " " + this.maternalSurname;    
+    }
 
 }
