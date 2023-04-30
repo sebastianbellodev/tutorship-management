@@ -167,24 +167,6 @@ public class AcademicOfferingDAO {
         }
         return academicOffering;
     }
-    
-    public static boolean logAcademicOffering(AcademicOffering academicOffering) throws SQLException{
-        Boolean response = false;        
-        DatabaseConnection databaseConnection = new DatabaseConnection();
-        String query = "INSERT INTO academicoffering (`nrc`, `idEducationalExperience`, `idAcademicPersonnel`, `idSchoolPeriod`) VALUES (?,?,?,?);";
-        try (Connection connection = databaseConnection.open()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(4, academicOffering.getSchoolPeriod().getIdSchoolPeriod());
-            preparedStatement.setInt(1, academicOffering.getNrc());
-            preparedStatement.setInt(2, academicOffering.getEducationalExperience().getIdEducationalExperience());
-            preparedStatement.setInt(3, academicOffering.getAcademicPersonnel().getIdAcademicPersonnel());
-            preparedStatement.executeUpdate();
-            response = true;
-        }finally {
-            databaseConnection.close();
-        }
-        return response;
-    }
 
     public static int updateAcademicOffering(AcademicOffering academicOffering) {
         int responseCode;
