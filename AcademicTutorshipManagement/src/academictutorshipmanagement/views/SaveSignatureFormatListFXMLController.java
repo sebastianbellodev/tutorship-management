@@ -7,7 +7,7 @@ package academictutorshipmanagement.views;
 import academictutorshipmanagement.model.dao.StudentDAO;
 import academictutorshipmanagement.model.pojo.SessionInformation;
 import static academictutorshipmanagement.model.pojo.SessionInformation.getSessionInformation;
-import academictutorshipmanagement.utilities.DocumentFormat.SignatureList;
+import academictutorshipmanagement.utilities.documentformat.SignatureList;
 import academictutorshipmanagement.utilities.MessagesAlerts;
 import java.io.File;
 import java.io.IOException;
