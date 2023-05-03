@@ -10,6 +10,7 @@ import academictutorshipmanagement.interfaces.IRole;
 import academictutorshipmanagement.model.dao.UserDAO;
 import academictutorshipmanagement.model.pojo.EducationalProgram;
 import academictutorshipmanagement.model.pojo.Role;
+import academictutorshipmanagement.model.pojo.SessionInformation;
 import academictutorshipmanagement.model.pojo.User;
 import academictutorshipmanagement.utilities.Constants;
 import academictutorshipmanagement.utilities.Utilities;
@@ -63,6 +64,7 @@ public class LoginFXMLController implements Initializable, IEducationalProgram, 
 
     private void logIn(String username, String password) {
         user = UserDAO.logIn(username, password);
+        user.setPassword(passwordField.getText());
         int responseCode = user.getResponseCode();
         switch (responseCode) {
             case Constants.CORRECT_OPERATION_CODE:

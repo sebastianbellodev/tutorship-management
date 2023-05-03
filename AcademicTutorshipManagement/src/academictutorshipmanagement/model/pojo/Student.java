@@ -96,7 +96,7 @@ public class Student {
     public void setAttendedBy(boolean attendedBy) {
         this.attendedBy = attendedBy;
     }
-    
+
     public CheckBox getAttendedByCheckBox() {
         return attendedByCheckBox;
     }

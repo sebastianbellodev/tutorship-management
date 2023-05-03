@@ -26,6 +26,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class MainMenuFXMLController implements Initializable {
@@ -39,6 +40,7 @@ public class MainMenuFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         schoolPeriod = SchoolPeriodDAO.getCurrentSchoolPeriod();
+        SessionInformation.getSessionInformation().setSchoolPeriod(SchoolPeriodDAO.getCurrentSchoolPeriod());
         int responseCode = schoolPeriod.getResponseCode();
         if (responseCode == Constants.NO_DATABASE_CONNECTION_CODE) {
             Utilities.showAlert("No hay conexión con la base de datos.\n\n"
@@ -52,9 +54,8 @@ public class MainMenuFXMLController implements Initializable {
         academicPersonnel = AcademicPersonnelDAO.getAcademicPersonnelByUser(username);
         academicPersonnel.setUser(user);
         academicPersonnelLabel.setText(academicPersonnelLabel.getText() + academicPersonnel + ".");
-        SessionInformation sessionInformation = getSessionInformation();
-        sessionInformation.setAcademicPersonnel(AcademicPersonnelDAO.getAcademicPersonnelByUser(username));
-        sessionInformation.getAcademicPersonnel().setUser(user);
+        SessionInformation.getSessionInformation().setAcademicPersonnel(academicPersonnel);
+        SessionInformation.getSessionInformation().getAcademicPersonnel().setUser(user);
     }
 
     @FXML
@@ -171,6 +172,23 @@ public class MainMenuFXMLController implements Initializable {
             stage.show();
         } catch (IOException exception) {
             System.err.println("The 'LogInFXML.fxml' file could not be open. Please try again later.");
+        }
+    }
+
+    @FXML
+    private void modifyUserButton(ActionEvent event) {
+        try {
+            Stage stageMenuCoordinador = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            Parent root = loader.load(getClass().getResource("/academictutorshipmanagement/views/ModifyUserFXML.fxml").openStream());
+            Scene scene = new Scene(root);
+            stageMenuCoordinador.setScene(scene);
+            stageMenuCoordinador.setTitle("Editar usuario");
+            stageMenuCoordinador.alwaysOnTopProperty();
+            stageMenuCoordinador.initModality(Modality.APPLICATION_MODAL);
+            stageMenuCoordinador.show();
+        } catch (IOException exception) {
+            System.err.println("The 'ModifyUserFXML.fxml' file could not be open. Please try again later.");
         }
     }
 

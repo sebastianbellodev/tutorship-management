@@ -7,11 +7,10 @@ package academictutorshipmanagement.views;
 import academictutorshipmanagement.model.dao.AcademicPersonnelDAO;
 import academictutorshipmanagement.model.dao.StudentDAO;
 import academictutorshipmanagement.model.pojo.AcademicPersonnel;
-import academictutorshipmanagement.model.pojo.SchoolPeriod;
+import academictutorshipmanagement.model.pojo.SessionInformation;
 import academictutorshipmanagement.model.pojo.Student;
 import academictutorshipmanagement.utilities.Constants;
 import academictutorshipmanagement.utilities.Utilities;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -20,10 +19,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -65,9 +62,6 @@ public class AssignStudentToAcademicTutorFXMLController implements Initializable
     private ObservableList<AcademicPersonnel> academicPersonnels;
     private ObservableList<AcademicPersonnel> academicTutors;
     
-    private SchoolPeriod schoolPeriod;
-    private AcademicPersonnel academicPersonnel;
-    
     /**
      * Initializes the controller class.
      */
@@ -79,11 +73,6 @@ public class AssignStudentToAcademicTutorFXMLController implements Initializable
         academicTutors = FXCollections.observableArrayList();
         academicTutorComboBox.disableProperty().bind(academicPersonnelComboBox.valueProperty().isNull());
         loadStudentsAssigned();
-    }    
-    
-    public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
-        this.schoolPeriod = schoolPeriod;
-        this.academicPersonnel = academicPersonnel;
         configureStudentsUnassignedTableViewColumns();
         configureStudentsAssignedTableViewColumns();
         loadStudentsUnassigned();
@@ -103,7 +92,7 @@ public class AssignStudentToAcademicTutorFXMLController implements Initializable
     }
     
     private void loadStudentsUnassigned() {
-        ArrayList<Student> studentsResultSet = StudentDAO.getStudentsUnassigned(academicPersonnel.getUser().getEducationalProgram().getIdEducationalProgram());
+        ArrayList<Student> studentsResultSet = StudentDAO.getStudentsUnassigned(SessionInformation.getSessionInformation().getAcademicPersonnel().getUser().getEducationalProgram().getIdEducationalProgram());
         studentsUnassigned.clear();
         for (Student student : studentsResultSet) {
             studentsUnassigned.add(new InnerStudent(student));
@@ -121,7 +110,7 @@ public class AssignStudentToAcademicTutorFXMLController implements Initializable
     private void loadAcademicPersonnel() {
         ArrayList<AcademicPersonnel> academicPersonnelResulSet
                 = AcademicPersonnelDAO.getAcademicPersonnelByRole(Constants.ACADEMIC_TUTOR_ID_ROLE,
-                        academicPersonnel.getUser().getEducationalProgram().getIdEducationalProgram());
+                        SessionInformation.getSessionInformation().getAcademicPersonnel().getUser().getEducationalProgram().getIdEducationalProgram());
         academicPersonnels.clear();
         if (academicPersonnelResulSet.isEmpty()) {
             Utilities.showAlert("No hay conexión con la base de datos.\n\n"
@@ -164,19 +153,9 @@ public class AssignStudentToAcademicTutorFXMLController implements Initializable
     
     @FXML
     private void cancelButtonClick(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentManagementMenuFXML.fxml"));
-        try {
-            Parent root = loader.load();
-            StudentManagementMenuFXMLController studentManagementMenuFXMLController = loader.getController();
-            studentManagementMenuFXMLController.configureView(schoolPeriod, academicPersonnel);
-            Scene mainMenuView = new Scene(root);
-            Stage stage = (Stage) studentsAssignedTableView.getScene().getWindow();
-            stage.setScene(mainMenuView);
-            stage.setTitle("Gestión de estudiantes.");
-            stage.show();
-        } catch (IOException exception) {
-            System.err.println("The StudentManagementMenuFXML.fxml' file could not be open. Please try again later.");
-        }
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
@@ -223,10 +202,11 @@ public class AssignStudentToAcademicTutorFXMLController implements Initializable
     }
     
     public class InnerStudent extends Student {
-       private boolean assignAcademicPersonnel;
-       private CheckBox assignAcademicPersonnelCheckBox;
         
-        private InnerStudent(Student student) {
+       boolean assignAcademicPersonnel;
+       CheckBox assignAcademicPersonnelCheckBox;
+        
+        InnerStudent(Student student) {
             this.setName(student.getName());
             this.setPaternalSurname(student.getPaternalSurname());
             this.setMaternalSurname(student.getMaternalSurname());
