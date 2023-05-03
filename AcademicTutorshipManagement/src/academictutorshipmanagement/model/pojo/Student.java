@@ -100,6 +100,15 @@ public class Student {
     }
 
     public void setAttendedBy(boolean attendedBy) {
+        this.attendedBy = attendedBy;
+    }
+
+    public CheckBox getAttendedByCheckBox() {
+        return attendedByCheckBox;
+    }
+
+    public void setAttendedByCheckBox(CheckBox attendedByCheckBox) {
+        this.attendedByCheckBox = attendedByCheckBox;
         this.attendedBy.setSelected(attendedBy);
     }
 

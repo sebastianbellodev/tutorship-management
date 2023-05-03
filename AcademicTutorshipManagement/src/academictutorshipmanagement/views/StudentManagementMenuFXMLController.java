@@ -21,6 +21,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class StudentManagementMenuFXMLController implements Initializable {
@@ -30,7 +31,7 @@ public class StudentManagementMenuFXMLController implements Initializable {
 
     private SchoolPeriod schoolPeriod;
     private AcademicPersonnel academicPersonnel;
-    
+
     private int idRole;
 
     @Override
@@ -71,20 +72,20 @@ public class StudentManagementMenuFXMLController implements Initializable {
                     Alert.AlertType.INFORMATION);
         }
     }
-    
+
     public void goToLogStudent() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("LogStudentFXML.fxml"));
         try {
-            Parent root = loader.load();
-            LogStudentFXMLController logStudentFXMLController = loader.getController();
-            logStudentFXMLController.configureView(schoolPeriod, academicPersonnel);
-            Scene mainMenuView = new Scene(root);
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            stage.setScene(mainMenuView);
-            stage.setTitle("Registrar estudiante");
-            stage.show();
+            Stage stageMenuCoordinador = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            Parent root = loader.load(getClass().getResource("/academictutorshipmanagement/views/LogStudentFXML.fxml").openStream());
+            Scene scene = new Scene(root);
+            stageMenuCoordinador.setScene(scene);
+            stageMenuCoordinador.setTitle("Registrar estudiante");
+            stageMenuCoordinador.alwaysOnTopProperty();
+            stageMenuCoordinador.initModality(Modality.APPLICATION_MODAL);
+            stageMenuCoordinador.show();
         } catch (IOException exception) {
-            System.err.println("The 'MainMenuFXML.fxml' file could not be open. Please try again later.");
+            System.err.println("The 'LogStudentFXML.fxml' file could not be open. Please try again later.");
         }
     }
 
@@ -98,20 +99,20 @@ public class StudentManagementMenuFXMLController implements Initializable {
                     Alert.AlertType.INFORMATION);
         }
     }
-    
+
     public void goToQueryStudent() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("QueryStudentFXML.fxml"));
         try {
-            Parent root = loader.load();
-            QueryStudentFXMLController queryStudentFXMLController = loader.getController();
-            queryStudentFXMLController.configureView(schoolPeriod, academicPersonnel);
-            Scene mainMenuView = new Scene(root);
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            stage.setScene(mainMenuView);
-            stage.setTitle("Consultar estudiante");
-            stage.show();
+            Stage stageMenuCoordinador = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            Parent root = loader.load(getClass().getResource("/academictutorshipmanagement/views/QueryStudentFXML.fxml").openStream());
+            Scene scene = new Scene(root);
+            stageMenuCoordinador.setScene(scene);
+            stageMenuCoordinador.setTitle("Consultar estudiante");
+            stageMenuCoordinador.alwaysOnTopProperty();
+            stageMenuCoordinador.initModality(Modality.APPLICATION_MODAL);
+            stageMenuCoordinador.show();
         } catch (IOException exception) {
-            System.err.println("The 'MainMenuFXML.fxml' file could not be open. Please try again later.");
+            System.err.println("The 'QueryStudentFXML.fxml' file could not be open. Please try again later.");
         }
     }
 
@@ -127,18 +128,18 @@ public class StudentManagementMenuFXMLController implements Initializable {
     }
     
     public void goToModifyStudent() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("ModifyStudentFXML.fxml"));
         try {
-            Parent root = loader.load();
-            ModifyStudentFXMLController modifyStudentFXMLController = loader.getController();
-            modifyStudentFXMLController.configureView(schoolPeriod, academicPersonnel);
-            Scene mainMenuView = new Scene(root);
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            stage.setScene(mainMenuView);
-            stage.setTitle("Editar estudiante");
-            stage.show();
+            Stage stageMenuCoordinador = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            Parent root = loader.load(getClass().getResource("/academictutorshipmanagement/views/ModifyStudentFXML.fxml").openStream());
+            Scene scene = new Scene(root);
+            stageMenuCoordinador.setScene(scene);
+            stageMenuCoordinador.setTitle("Editar estudiante");
+            stageMenuCoordinador.alwaysOnTopProperty();
+            stageMenuCoordinador.initModality(Modality.APPLICATION_MODAL);
+            stageMenuCoordinador.show();
         } catch (IOException exception) {
-            System.err.println("The 'MainMenuFXML.fxml' file could not be open. Please try again later.");
+            System.err.println("The 'ModifyStudentFXML.fxml' file could not be open. Please try again later.");
         }
     }
 
@@ -152,20 +153,20 @@ public class StudentManagementMenuFXMLController implements Initializable {
                     Alert.AlertType.INFORMATION);
         }
     }
-    
+
     public void goToAssignStudentToAcademicTutor() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("AssignStudentToAcademicTutorFXML.fxml"));
         try {
-            Parent root = loader.load();
-            AssignStudentToAcademicTutorFXMLController assignStudentToAcademicTutorFXMLController = loader.getController();
-            assignStudentToAcademicTutorFXMLController.configureView(schoolPeriod, academicPersonnel);
-            Scene mainMenuView = new Scene(root);
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            stage.setScene(mainMenuView);
-            stage.setTitle("Asignar tutor académico a estudiante");
-            stage.show();
+            Stage stageMenuCoordinador = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            Parent root = loader.load(getClass().getResource("/academictutorshipmanagement/views/AssignStudentToAcademicTutorFXML.fxml").openStream());
+            Scene scene = new Scene(root);
+            stageMenuCoordinador.setScene(scene);
+            stageMenuCoordinador.setTitle("Asignar tutor académico a estudiante");
+            stageMenuCoordinador.alwaysOnTopProperty();
+            stageMenuCoordinador.initModality(Modality.APPLICATION_MODAL);
+            stageMenuCoordinador.show();
         } catch (IOException exception) {
-            System.err.println("The 'MainMenuFXML.fxml' file could not be open. Please try again later.");
+            System.err.println("The 'AssignStudentToAcademicTutorFXML.fxml' file could not be open. Please try again later.");
         }
     }
 

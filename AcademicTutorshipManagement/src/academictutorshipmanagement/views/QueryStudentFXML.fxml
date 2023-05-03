@@ -79,11 +79,6 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Button>
-      <Button layoutX="38.0" layoutY="422.0" mnemonicParsing="false" onAction="#acceptButtonClick" prefHeight="20.0" prefWidth="150.0" text="Aceptar">
-         <font>
-            <Font name="Arial" size="14.0" />
-         </font>
-      </Button>
       <TextField fx:id="queryTextField" layoutX="166.0" layoutY="165.0" prefHeight="26.0" prefWidth="258.0">
          <font>
             <Font name="Arial" size="14.0" />

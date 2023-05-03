@@ -24,12 +24,13 @@ public class StudentDAO {
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String query = "SELECT registrationNumber, name, paternalSurname, maternalSurname\n"
                 + "FROM student\n"
-                + "WHERE idEducationalProgram = ? AND idAcademicPersonnel = ?\n"
+                + "WHERE idEducationalProgram = ? AND idAcademicPersonnel = ? AND available = ?\n"
                 + "ORDER BY paternalSurname ASC";
         try (Connection connection = databaseConnection.open()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, idEducationalProgram);
             preparedStatement.setInt(2, idAcademicPersonnel);
+            preparedStatement.setBoolean(3, Constants.AVAILABLE);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Student student = new Student();

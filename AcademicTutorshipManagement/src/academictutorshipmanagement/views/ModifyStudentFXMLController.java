@@ -5,23 +5,18 @@
 package academictutorshipmanagement.views;
 
 import academictutorshipmanagement.model.dao.StudentDAO;
-import academictutorshipmanagement.model.pojo.AcademicPersonnel;
-import academictutorshipmanagement.model.pojo.EducationalProgram;
-import academictutorshipmanagement.model.pojo.SchoolPeriod;
+import academictutorshipmanagement.model.pojo.SessionInformation;
 import academictutorshipmanagement.model.pojo.Student;
 import academictutorshipmanagement.utilities.Constants;
 import academictutorshipmanagement.utilities.Utilities;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -52,8 +47,6 @@ public class ModifyStudentFXMLController implements Initializable {
 
     private ArrayList<Student> students;
 
-    private AcademicPersonnel academicPersonnel;
-    private SchoolPeriod schoolPeriod;
     private String registrationNumber;
     
     @FXML
@@ -71,29 +64,14 @@ public class ModifyStudentFXMLController implements Initializable {
         paternalSurnameTextField.editableProperty().bind(registrationNumberTextField.textProperty().isNotEmpty());
         maternalSurnameTextField.editableProperty().bind(registrationNumberTextField.textProperty().isNotEmpty());
         emailAddressTextField.editableProperty().bind(registrationNumberTextField.textProperty().isNotEmpty());
-    }
-
-    public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
-        this.schoolPeriod = schoolPeriod;
-        this.academicPersonnel = academicPersonnel;
-        students = StudentDAO.getStudentsByEducationalProgram(academicPersonnel.getUser().getEducationalProgram().getIdEducationalProgram());
+        students = StudentDAO.getStudentsByEducationalProgram(SessionInformation.getSessionInformation().getAcademicPersonnel().getUser().getEducationalProgram().getIdEducationalProgram());
     }
 
     @FXML
     private void cancelButtonClick(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentManagementMenuFXML.fxml"));
-        try {
-            Parent root = loader.load();
-            StudentManagementMenuFXMLController studentManagementMenuFXMLController = loader.getController();
-            studentManagementMenuFXMLController.configureView(schoolPeriod, academicPersonnel);
-            Scene mainMenuView = new Scene(root);
-            Stage stage = (Stage) nameTextField.getScene().getWindow();
-            stage.setScene(mainMenuView);
-            stage.setTitle("Gestión de estudiantes.");
-            stage.show();
-        } catch (IOException exception) {
-            System.err.println("The StudentManagementMenuFXML.fxml' file could not be open. Please try again later.");
-        }
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
     }
 
     private boolean validateEmptyField() {
@@ -161,7 +139,7 @@ public class ModifyStudentFXMLController implements Initializable {
             updateStudent(student);
             queryTextField.clear();
             students.clear();
-            students = StudentDAO.getStudentsByEducationalProgram(academicPersonnel.getUser().getEducationalProgram().getIdEducationalProgram());
+            students = StudentDAO.getStudentsByEducationalProgram(SessionInformation.getSessionInformation().getAcademicPersonnel().getUser().getEducationalProgram().getIdEducationalProgram());
         }
     }
     
@@ -203,7 +181,7 @@ public class ModifyStudentFXMLController implements Initializable {
         emailAddressTextField.setText(student.getEmailAddress());
         paternalSurnameTextField.setText(student.getPaternalSurname());
         maternalSurnameTextField.setText(student.getMaternalSurname());
-        educationalProgramTextField.setText(academicPersonnel.getUser().getEducationalProgram().getName());
+        educationalProgramTextField.setText(SessionInformation.getSessionInformation().getAcademicPersonnel().getUser().getEducationalProgram().getName());
         registrationNumber = student.getRegistrationNumber();
     }
 
@@ -233,7 +211,7 @@ public class ModifyStudentFXMLController implements Initializable {
             deleteStudent(registrationNumberTextField.getText());
             queryTextField.clear();
             students.clear();
-            students = StudentDAO.getStudentsByEducationalProgram(academicPersonnel.getUser().getEducationalProgram().getIdEducationalProgram());
+            students = StudentDAO.getStudentsByEducationalProgram(SessionInformation.getSessionInformation().getAcademicPersonnel().getUser().getEducationalProgram().getIdEducationalProgram());
         }
     }
     
