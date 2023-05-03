@@ -72,16 +72,10 @@ public class AssignStudentToAcademicTutorFXMLController implements Initializable
         academicPersonnels = FXCollections.observableArrayList();
         academicTutors = FXCollections.observableArrayList();
         academicTutorComboBox.disableProperty().bind(academicPersonnelComboBox.valueProperty().isNull());
-        loadStudentsAssigned();
-    }
-
-    public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
-        this.schoolPeriod = schoolPeriod;
-        this.academicPersonnel = academicPersonnel;
-        configureStudentsUnassignedTableViewColumns();
         configureStudentsAssignedTableViewColumns();
         loadStudentsUnassigned();
         loadAcademicPersonnel();
+        loadStudentsAssigned();
     }
 
     private void configureStudentsUnassignedTableViewColumns() {
