@@ -1,7 +1,7 @@
 /**
- * Name(s) of the programmer(s): María José Torres Igartua.
+ * Name(s) of the programmer(s): Armando Omar Obando Muñóz and María José Torres Igartua.
  * Date of creation: March 02, 2023.
- * Date of update: March 05, 2023.
+ * Date of update: April 20, 2023.
  */
 package academictutorshipmanagement.views;
 
@@ -88,16 +88,16 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         academicProblems = new ArrayList<>();
         students = FXCollections.observableArrayList();
-        configureStudentsTableViewColumns();
+        configureTableViewColumns();
     }
 
-    private void configureStudentsTableViewColumns() {
+    private void configureTableViewColumns() {
         registrationNumberTableColumn.setCellValueFactory(new PropertyValueFactory("registrationNumber"));
         nameTableColumn.setCellValueFactory(new PropertyValueFactory("name"));
         paternalSurnameTableColumn.setCellValueFactory(new PropertyValueFactory("paternalSurname"));
         maternalSurnameTableColumn.setCellValueFactory(new PropertyValueFactory("maternalSurname"));
-        attendedByTableColumn.setCellValueFactory(new PropertyValueFactory("attendedByCheckBox"));
-        atRiskTableColumn.setCellValueFactory(new PropertyValueFactory("atRiskCheckBox"));
+        attendedByTableColumn.setCellValueFactory(new PropertyValueFactory("attendedBy"));
+        atRiskTableColumn.setCellValueFactory(new PropertyValueFactory("atRisk"));
     }
 
     public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
@@ -121,8 +121,23 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
         int idEducationalProgram = educationalProgram.getIdEducationalProgram();
         idAcademicPersonnel = academicPersonnel.getIdAcademicPersonnel();
         ArrayList<Student> studentsResultSet = StudentDAO.getStudentsByAcademicPersonnel(idEducationalProgram, idAcademicPersonnel);
-        students.addAll(studentsResultSet);
-        studentsTableView.setItems(students);
+        if (!studentsResultSet.isEmpty()) {
+            students.addAll(studentsResultSet);
+            configureTableViewCheckBoxes();
+            studentsTableView.setItems(students);
+        } else {
+            Utilities.showAlert("No hay conexión con la base de datos.\n\n"
+                    + "Por favor, inténtelo más tarde.\n",
+                    Alert.AlertType.ERROR);
+        }
+    }
+
+    private void configureTableViewCheckBoxes() {
+        students.forEach(student -> {
+            boolean isDisabled = false;
+            student.getAttendedBy().setDisable(isDisabled);
+            student.getAtRisk().setDisable(isDisabled);
+        });
     }
 
     @FXML
@@ -132,7 +147,10 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
         int numberOfStudentsAtRisk = calculateNumberOfStudentsAtRisk();
         numberOfStudentsAttendingTextField.setText(String.valueOf(numberOfStudentsAttending));
         numberOfStudentsAtRiskTextField.setText(String.valueOf(numberOfStudentsAtRisk));
-        academicTutorshipReport = new AcademicTutorshipReport(generalComment, numberOfStudentsAttending, numberOfStudentsAtRisk);
+        academicTutorshipReport = new AcademicTutorshipReport();
+        academicTutorshipReport.setGeneralComment(generalComment);
+        academicTutorshipReport.setNumberOfStudentsAttending(numberOfStudentsAttending);
+        academicTutorshipReport.setNumberOfStudentsAttending(numberOfStudentsAttending);
         academicTutorshipReport.setAcademicPersonnel(academicPersonnel);
         academicTutorshipReport.setAcademicTutorship(academicTutorship);
         logAcademicTutorshipReport();
@@ -141,11 +159,11 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
     private int calculateNumberOfStudentsAttending() {
         int numberOfStudentsAttending = 0;
         for (Student student : students) {
-            boolean attendedBy = student.getAttendedByCheckBox().isSelected();
-            if (attendedBy) {
+            boolean isAttendedBy = student.getAttendedBy().isSelected();
+            if (isAttendedBy) {
                 numberOfStudentsAttending++;
             }
-            student.setAttendedBy(attendedBy);
+            student.setAttendedBy(isAttendedBy);
         }
         return numberOfStudentsAttending;
     }
@@ -153,11 +171,11 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
     private int calculateNumberOfStudentsAtRisk() {
         int numberOfStudentsAtRisk = 0;
         for (Student student : students) {
-            boolean atRisk = student.getAtRiskCheckBox().isSelected();
-            if (atRisk) {
+            boolean isAtRisk = student.getAtRisk().isSelected();
+            if (isAtRisk) {
                 numberOfStudentsAtRisk++;
             }
-            student.setAtRisk(atRisk);
+            student.setAtRisk(isAtRisk);
         }
         return numberOfStudentsAtRisk;
     }
@@ -166,17 +184,15 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
         int responseCode = AcademicTutorshipReportDAO.logAcademicTutorshipReport(academicTutorshipReport);
         if (responseCode == Constants.CORRECT_OPERATION_CODE) {
             int idAcademicTutorship = academicTutorship.getIdAcademicTutorship();
-            idAcademicTutorshipReport = AcademicTutorshipReportDAO.getAcademicTutorshipReport(idAcademicPersonnel, idAcademicTutorship).getIdAcademicTutorshipReport();
+            idAcademicTutorshipReport = AcademicTutorshipReportDAO.getAcademicTutorshipReport(idAcademicTutorship, idAcademicPersonnel).getIdAcademicTutorshipReport();
             logAcademicProblemsByAcademicTutorshipReport();
             logStudentsByAcademicTutorshipReport();
             Utilities.showAlert("La información se registró correctamente en el sistema.\n",
                     Alert.AlertType.INFORMATION);
         } else {
-            if (responseCode == Constants.NO_DATABASE_CONNECTION_CODE) {
-                Utilities.showAlert("No hay conexión con la base de datos.\n\n"
-                        + "Por favor, inténtelo más tarde.\n",
-                        Alert.AlertType.ERROR);
-            }
+            Utilities.showAlert("No hay conexión con la base de datos.\n\n"
+                    + "Por favor, inténtelo más tarde.\n",
+                    Alert.AlertType.ERROR);
         }
         goToTutorialReportManagementMenu();
     }
@@ -230,6 +246,21 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
 
     @FXML
     private void viewAcademicProblemsButtonClick(ActionEvent actionEvent) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ModifyAcademicProblemListFXML.fxml"));
+        try {
+            Parent root = loader.load();
+            ModifyAcademicProblemListFXMLController modifyAcademicProblemListFXMLController = loader.getController();
+            int numberOfStudentsByAcademicPersonnel = students.size();
+            modifyAcademicProblemListFXMLController.configureView(this, schoolPeriod, educationalProgram, numberOfStudentsByAcademicPersonnel, academicProblems);
+            Stage stage = new Stage();
+            Scene logAcademicProblemView = new Scene(root);
+            stage.setScene(logAcademicProblemView);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Modificar problemática académica.");
+            stage.showAndWait();
+        } catch (IOException exception) {
+            System.err.println("The ModifyAcademicProblemListFXML.fxml' file could not be open. Please try again later.");
+        }
     }
 
     @FXML

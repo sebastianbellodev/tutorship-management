@@ -50,10 +50,7 @@ public class RegisterAcademicProblemFollowUpFXMLController implements Initializa
     private Button saveButton;
     @FXML
     private Label descriptionAcademicProblemLabel;
-    
-    /**
-     * Initializes the controller class.
-     */
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }    
@@ -62,18 +59,17 @@ public class RegisterAcademicProblemFollowUpFXMLController implements Initializa
         this.academicProblem = academicProblem;
         this.loadGUI();
     }
-    
-    
+
     private void loadGUI(){
         this.titleAcademicProblemLabel.setText(this.academicProblem.getTitle());
         this.descriptionAcademicProblemLabel.setText(this.academicProblem.getDescription());
-        this.nameAcademicPersonnelLabel.setText(this.academicProblem.getAcademicOffering().getAcademicPersonnel().getFullName());
+        this.nameAcademicPersonnelLabel.setText(this.academicProblem.getAcademicOffering().getAcademicPersonnel().toString());
         this.nameEducationalExperienceLabel.setText(this.academicProblem.getAcademicOffering().getEducationalExperience().getName());
         this.numberStudentsLabel.setText(Integer.toString(this.academicProblem.getNumberOfStudents()));
     }
     
     private void registerFollowUp(){
-        Date todayDate = Date.valueOf(LocalDate.now()); //Verificar Parseador
+        Date todayDate = Date.valueOf(LocalDate.now());
         try{
             this.checkEmptyFields();
             this.academicProblem.getAcademicProblemFollowUp().setDate(todayDate);
@@ -115,13 +111,11 @@ public class RegisterAcademicProblemFollowUpFXMLController implements Initializa
             MessagesAlerts.showFailureLoadWindow();
         }
     }
-    
-    
+
     private void checkEmptyFields() throws DataFormatException{
         if(this.descriptionFollowUpTextArea.getText().isEmpty()){
             throw new DataFormatException();
         }
     }
-    
     
 }

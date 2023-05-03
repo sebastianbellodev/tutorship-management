@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 01, 2023.
- * Date of update: March 03, 2023.
+ * Date of update: April 20, 2023.
  */
 package academictutorshipmanagement.views;
 
@@ -23,7 +23,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
-import java.sql.SQLException;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
@@ -41,6 +40,9 @@ public class SelectEducationalProgramRoleFXMLController implements Initializable
     private IRole roleInterface;
 
     private User user;
+    
+    private String username;
+    private int idEducationalProgram;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -52,30 +54,29 @@ public class SelectEducationalProgramRoleFXMLController implements Initializable
         this.educationalProgramInterface = educationalProgramInterface;
         this.roleInterface = roleInterface;
         this.user = user;
-        try {
-            loadEducationalPrograms();
-        } catch (SQLException exception) {
+        username = user.getUsername();
+        loadEducationalProgramsByUser();
+    }
+
+    private void loadEducationalProgramsByUser() {
+        ArrayList<EducationalProgram> educationalProgramsResultSet = EducationalProgramDAO.getEducationalProgramsByUser(username);
+        if (!educationalProgramsResultSet.isEmpty()) {
+            educationalPrograms.addAll(educationalProgramsResultSet);
+            educationalProgramComboBox.setItems(educationalPrograms);
+            educationalProgramComboBox.valueProperty().addListener((ObservableValue<? extends EducationalProgram> observable, EducationalProgram oldValue, EducationalProgram newValue) -> {
+                roles.clear();
+                idEducationalProgram = newValue.getIdEducationalProgram();
+                loadRolesByEducationalProgram(username, idEducationalProgram);
+            });
+        } else {
             Utilities.showAlert("No hay conexión con la base de datos.\n\n"
                     + "Por favor, inténtelo más tarde.\n",
                     Alert.AlertType.ERROR);
-            closePopUpWindow();
         }
     }
 
-    private void loadEducationalPrograms() throws SQLException {
-        String username = user.getUsername();
-        ArrayList<EducationalProgram> educationalProgramsResultSet = EducationalProgramDAO.getEducationalProgramsByUser(username);
-        educationalPrograms.addAll(educationalProgramsResultSet);
-        educationalProgramComboBox.setItems(educationalPrograms);
-        educationalProgramComboBox.valueProperty().addListener((ObservableValue<? extends EducationalProgram> observable, EducationalProgram oldValue, EducationalProgram newValue) -> {
-            roles.clear();
-            int idEducationalProgram = newValue.getIdEducationalProgram();
-            loadRolesByEducationalProgram(idEducationalProgram, username);
-        });
-    }
-
-    private void loadRolesByEducationalProgram(int idEducationalProgram, String username) {
-        ArrayList<Role> rolesResultSet = RoleDAO.getRolesByEducationalProgram(idEducationalProgram, username);
+    private void loadRolesByEducationalProgram(String username, int idEducationalProgram) {
+        ArrayList<Role> rolesResultSet = RoleDAO.getRolesByEducationalProgram(username, idEducationalProgram);
         roles.addAll(rolesResultSet);
         roleComboBox.setItems(roles);
     }

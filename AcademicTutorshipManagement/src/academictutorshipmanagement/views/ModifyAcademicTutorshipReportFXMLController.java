@@ -1,7 +1,7 @@
 /**
- * Name(s) of the programmer(s): María José Torres Igartua.
+ * Name(s) of the programmer(s): Armando Omar Obando Muñóz and María José Torres Igartua.
  * Date of creation: March 05, 2023.
- * Date of update: March 15, 2023.
+ * Date of update: April 21, 2023.
  */
 package academictutorshipmanagement.views;
 
@@ -87,16 +87,16 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
     public void initialize(URL url, ResourceBundle resourceBundle) {
         academicProblems = new ArrayList<>();
         students = FXCollections.observableArrayList();
-        configureStudentsTableViewColumns();
+        configureTableViewColumns();
     }
 
-    private void configureStudentsTableViewColumns() {
+    private void configureTableViewColumns() {
         registrationNumberTableColumn.setCellValueFactory(new PropertyValueFactory("registrationNumber"));
         nameTableColumn.setCellValueFactory(new PropertyValueFactory("name"));
         paternalSurnameTableColumn.setCellValueFactory(new PropertyValueFactory("paternalSurname"));
         maternalSurnameTableColumn.setCellValueFactory(new PropertyValueFactory("maternalSurname"));
-        attendedByTableColumn.setCellValueFactory(new PropertyValueFactory("attendedByCheckBox"));
-        atRiskTableColumn.setCellValueFactory(new PropertyValueFactory("atRiskCheckBox"));
+        attendedByTableColumn.setCellValueFactory(new PropertyValueFactory("attendedBy"));
+        atRiskTableColumn.setCellValueFactory(new PropertyValueFactory("atRisk"));
     }
 
     public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel, AcademicTutorshipReport academicTutorshipReport) {
@@ -106,8 +106,8 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
         educationalProgram = academicPersonnel.getUser().getEducationalProgram();
         this.academicTutorshipReport = academicTutorshipReport;
         configureAcademicTutorshipReportInformation();
-        loadAcademicProblemsByAcademicTutorshipReport();
         loadStudentsByAcademicTutorshipReport();
+        loadAcademicProblemsByAcademicTutorshipReport();
     }
 
     private void configureAcademicTutorshipReportInformation() {
@@ -122,24 +122,26 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
     }
 
     private void loadAcademicProblemsByAcademicTutorshipReport() {
-        academicProblems = 
-                AcademicProblemDAO.loadAcademicProblemsByAcademicTutorshipReport(
-                        academicTutorshipReport.getIdAcademicTutorshipReport());
+        int idAcademicTutorshipReport = academicTutorshipReport.getIdAcademicTutorshipReport();
+        academicProblems = AcademicProblemDAO.loadAcademicProblemsByAcademicTutorshipReport(idAcademicTutorshipReport);
     }
 
     private void loadStudentsByAcademicTutorshipReport() {
         idAcademicTutorshipReport = academicTutorshipReport.getIdAcademicTutorshipReport();
         ArrayList<Student> studentsResultSet = StudentDAO.getStudentsByAcademicTutorshipReport(idAcademicTutorshipReport);
-        students.addAll(studentsResultSet);
-        configureTableViewCheckBoxes();
-        studentsTableView.setItems(students);
-    }
-
-    private void configureTableViewCheckBoxes() {
-        students.forEach(student -> {
-            student.getAttendedByCheckBox().setSelected(student.isAttendedBy());
-            student.getAtRiskCheckBox().setSelected(student.isAtRisk());
-        });
+        if (!studentsResultSet.isEmpty()) {
+            students.addAll(studentsResultSet);
+            students.forEach(student -> {
+                boolean isDisabled = false;
+                student.getAttendedBy().setDisable(isDisabled);
+                student.getAtRisk().setDisable(isDisabled);
+            });
+            studentsTableView.setItems(students);
+        } else {
+            Utilities.showAlert("No hay conexión con la base de datos.\n\n"
+                    + "Por favor, inténtelo más tarde.\n",
+                    Alert.AlertType.ERROR);
+        }
     }
 
     @FXML
@@ -158,11 +160,10 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
     private int calculateNumberOfStudentsAttending() {
         int numberOfStudentsAttending = 0;
         for (Student student : students) {
-            boolean attendedBy = student.getAttendedByCheckBox().isSelected();
-            if (attendedBy) {
+            boolean isAttendedBy = student.getAttendedBy().isSelected();
+            if (isAttendedBy) {
                 numberOfStudentsAttending++;
             }
-            student.setAttendedBy(attendedBy);
         }
         return numberOfStudentsAttending;
     }
@@ -170,11 +171,10 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
     private int calculateNumberOfStudentsAtRisk() {
         int numberOfStudentsAtRisk = 0;
         for (Student student : students) {
-            boolean atRisk = student.getAtRiskCheckBox().isSelected();
-            if (atRisk) {
+            boolean isAtRisk = student.getAtRisk().isSelected();
+            if (isAtRisk) {
                 numberOfStudentsAtRisk++;
             }
-            student.setAtRisk(atRisk);
         }
         return numberOfStudentsAtRisk;
     }
@@ -187,11 +187,9 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
             Utilities.showAlert("La información se registró correctamente en el sistema.\n",
                     Alert.AlertType.INFORMATION);
         } else {
-            if (responseCode == Constants.NO_DATABASE_CONNECTION_CODE) {
-                Utilities.showAlert("No hay conexión con la base de datos.\n\n"
-                        + "Por favor, inténtelo más tarde.\n",
-                        Alert.AlertType.ERROR);
-            }
+            Utilities.showAlert("No hay conexión con la base de datos.\n\n"
+                    + "Por favor, inténtelo más tarde.\n",
+                    Alert.AlertType.ERROR);
         }
         goToTutorialReportManagementMenu();
     }
@@ -200,8 +198,8 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
         academicProblems.forEach(academicProblem -> {
             if (academicProblem.getIdAcademicOffering() == Constants.PRIMARY_KEY_OF_NON_EXISTENT_RECORD_IN_DATABASE) {
                 AcademicProblemDAO.logAcademicProblemByAcademicTutorshipReport(academicProblem, idAcademicTutorshipReport);
-            }else{
-                AcademicProblemDAO.updatedAcademicProblemByAcademicTutorshipReport(academicProblem);
+            } else {
+                AcademicProblemDAO.updateAcademicProblemByAcademicTutorshipReport(academicProblem);
             }
         });
     }

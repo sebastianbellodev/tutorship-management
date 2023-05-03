@@ -56,7 +56,7 @@ public class AssignStudentToAcademicTutorFXMLController implements Initializable
     private TableColumn nameAssignedTableColumn;
     @FXML
     private TableColumn assignAssignedTableColumn;
-    
+
     private ObservableList<InnerStudent> studentsUnassigned;
     private ObservableList<InnerStudent> studentsAssigned;
     private ObservableList<AcademicPersonnel> academicPersonnels;
@@ -73,24 +73,29 @@ public class AssignStudentToAcademicTutorFXMLController implements Initializable
         academicTutors = FXCollections.observableArrayList();
         academicTutorComboBox.disableProperty().bind(academicPersonnelComboBox.valueProperty().isNull());
         loadStudentsAssigned();
+    }
+
+    public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
+        this.schoolPeriod = schoolPeriod;
+        this.academicPersonnel = academicPersonnel;
         configureStudentsUnassignedTableViewColumns();
         configureStudentsAssignedTableViewColumns();
         loadStudentsUnassigned();
         loadAcademicPersonnel();
     }
-    
+
     private void configureStudentsUnassignedTableViewColumns() {
         registrationNumberUnassignedTableColumn.setCellValueFactory(new PropertyValueFactory("registrationNumber"));
         nameUnassignedTableColumn.setCellValueFactory(new PropertyValueFactory("innerStudent"));
         assingUnassignedTableColumn.setCellValueFactory(new PropertyValueFactory("assignAcademicPersonnelCheckBox"));
     }
-    
+
     private void configureStudentsAssignedTableViewColumns() {
         registrationNumberAssignedTableColumn.setCellValueFactory(new PropertyValueFactory("registrationNumber"));
         nameAssignedTableColumn.setCellValueFactory(new PropertyValueFactory("innerStudent"));
         assignAssignedTableColumn.setCellValueFactory(new PropertyValueFactory("assignAcademicPersonnelCheckBox"));
     }
-    
+
     private void loadStudentsUnassigned() {
         ArrayList<Student> studentsResultSet = StudentDAO.getStudentsUnassigned(SessionInformation.getSessionInformation().getAcademicPersonnel().getUser().getEducationalProgram().getIdEducationalProgram());
         studentsUnassigned.clear();
@@ -100,13 +105,13 @@ public class AssignStudentToAcademicTutorFXMLController implements Initializable
         configureStudentsUnassignedTableViewCheckBoxes();
         studentsUnassignedTableView.setItems(studentsUnassigned);
     }
-    
+
     private void configureStudentsUnassignedTableViewCheckBoxes() {
         studentsUnassigned.forEach(student -> {
-            student.getAssignAcademicPersonnelCheckBox().setSelected(student.isAttendedBy());
+            student.getAssignAcademicPersonnelCheckBox().setSelected(student.getAttendedBy().isSelected());
         });
     }
-    
+
     private void loadAcademicPersonnel() {
         ArrayList<AcademicPersonnel> academicPersonnelResulSet
                 = AcademicPersonnelDAO.getAcademicPersonnelByRole(Constants.ACADEMIC_TUTOR_ID_ROLE,
@@ -130,12 +135,12 @@ public class AssignStudentToAcademicTutorFXMLController implements Initializable
             });
         }
     }
-    
+
     private void loadStudentsAssigned() {
         academicTutorComboBox.valueProperty().addListener((ObservableValue<? extends AcademicPersonnel> observable, AcademicPersonnel oldValue, AcademicPersonnel newValue) -> {
             if (newValue != null) {
                 ArrayList<Student> studentsResultSet = StudentDAO.getStudentsByAcademicPersonnel(newValue.getIdAcademicPersonnel());
-               studentsAssigned.clear();
+                studentsAssigned.clear();
                 for (Student student : studentsResultSet) {
                     studentsAssigned.add(new InnerStudent(student));
                 }
@@ -144,13 +149,13 @@ public class AssignStudentToAcademicTutorFXMLController implements Initializable
             }
         });
     }
-    
+
     private void configureStudentsAssignedTableViewCheckBoxes() {
         studentsAssigned.forEach(student -> {
-            student.getAssignAcademicPersonnelCheckBox().setSelected(student.isAttendedBy());
+            student.getAssignAcademicPersonnelCheckBox().setSelected(student.getAttendedBy().isSelected());
         });
     }
-    
+
     @FXML
     private void cancelButtonClick(ActionEvent event) {
         Node source = (Node) event.getSource();
@@ -160,25 +165,25 @@ public class AssignStudentToAcademicTutorFXMLController implements Initializable
 
     @FXML
     private void acceptButtonClick(ActionEvent event) {
-        if(academicPersonnelComboBox.getValue() != null) {
+        if (academicPersonnelComboBox.getValue() != null) {
             assignStudent();
         }
     }
-    
+
     private void assignStudent() {
-        if(updateStudentsAcademicTutor()) {
+        if (updateStudentsAcademicTutor()) {
             Utilities.showAlert("La información se registró correctamente en el sistema.",
                     Alert.AlertType.WARNING);
             loadStudentsUnassigned();
             loadAcademicPersonnel();
             studentsAssigned.clear();
             academicTutors.clear();
-        } else{
+        } else {
             Utilities.showAlert("Seleccione al o los estudiantes que serán asignados al tutor académico.",
                     Alert.AlertType.ERROR);
         }
     }
-    
+
     private boolean updateStudentsAcademicTutor() {
         boolean selected = false;
 
@@ -200,7 +205,7 @@ public class AssignStudentToAcademicTutorFXMLController implements Initializable
 
         return selected;
     }
-    
+
     public class InnerStudent extends Student {
         
        boolean assignAcademicPersonnel;
@@ -211,18 +216,16 @@ public class AssignStudentToAcademicTutorFXMLController implements Initializable
             this.setPaternalSurname(student.getPaternalSurname());
             this.setMaternalSurname(student.getMaternalSurname());
             this.setRegistrationNumber(student.getRegistrationNumber());
-            this.setAtRisk(student.isAtRisk());
-            this.setAtRiskCheckBox(student.getAtRiskCheckBox());
-            this.setAttendedBy(student.isAttendedBy());
-            this.setAttendedByCheckBox(student.getAttendedByCheckBox());
+            this.setAttendedBy(student.getAttendedBy().isSelected());
+            this.setAtRisk(student.getAtRisk().isSelected());
             assignAcademicPersonnel = false;
             assignAcademicPersonnelCheckBox = new CheckBox();
         }
-        
+
         public String getInnerStudent() {
             return this.getName() + " " + this.getPaternalSurname() + " " + this.getMaternalSurname();
         }
-        
+
         public CheckBox getAssignAcademicPersonnelCheckBox() {
             return assignAcademicPersonnelCheckBox;
         }

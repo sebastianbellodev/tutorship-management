@@ -1,7 +1,7 @@
 package academictutorshipmanagement.model.pojo;
 
 public class SessionInformation {
-    
+    SchoolPeriod currentSchoolPeriod = new SchoolPeriod();
     AcademicPersonnel academicPersonnel = new AcademicPersonnel();
     SchoolPeriod schoolPeriod = new SchoolPeriod();
     User user = new User();
@@ -15,6 +15,7 @@ public class SessionInformation {
     public void setAcademicPersonnel(AcademicPersonnel academicPersonnel) {
         this.academicPersonnel = academicPersonnel;
     }
+
 
     public SchoolPeriod getSchoolPeriod() {
         return schoolPeriod;
@@ -30,6 +31,14 @@ public class SessionInformation {
 
     public void setUser(User user) {
         this.user = user;
+    }
+    
+    public SchoolPeriod getCurrentSchoolPeriod() {
+        return currentSchoolPeriod;
+    }
+
+    public void setCurrentSchoolPeriod(SchoolPeriod currentSchoolPeriod) {
+        this.currentSchoolPeriod = currentSchoolPeriod;
     }
     
     public static SessionInformation getSessionInformation(){

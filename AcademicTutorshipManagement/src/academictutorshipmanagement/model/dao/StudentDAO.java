@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 03, 2023.
- * Date of update: March 05, 2023.
+ * Date of update: April 21, 2023.
  */
 package academictutorshipmanagement.model.dao;
 
@@ -14,6 +14,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class StudentDAO {
 
@@ -169,8 +171,8 @@ public class StudentDAO {
                 + "(attendedBy, atRisk, idAcademicTutorshipReport, registrationNumber)\n"
                 + "VALUES(?, ?, ?, ?)";
         try (Connection connection = databaseConnection.open()) {
-            boolean attendedBy = student.isAttendedBy();
-            boolean atRisk = student.isAtRisk();
+            boolean attendedBy = student.getAttendedBy().isSelected();
+            boolean atRisk = student.getAtRisk().isSelected();
             String registrationNumber = student.getRegistrationNumber();
             PreparedStatement preparedStatement = connection.prepareStatement(sentence);
             preparedStatement.setBoolean(1, attendedBy);
@@ -194,8 +196,8 @@ public class StudentDAO {
                 + "SET attendedBy = ?, atRisk = ?\n"
                 + "WHERE registrationNumber = ?";
         try (Connection connection = databaseConnection.open()) {
-            boolean attendedBy = student.isAttendedBy();
-            boolean atRisk = student.isAtRisk();
+            boolean attendedBy = student.getAttendedBy().isSelected();
+            boolean atRisk = student.getAtRisk().isSelected();
             String registrationNumber = student.getRegistrationNumber();
             PreparedStatement preparedStatement = connection.prepareStatement(sentence);
             preparedStatement.setBoolean(1, attendedBy);
@@ -324,5 +326,35 @@ public class StudentDAO {
         }
         return responseCode;
     }
-
+    
+    public static ObservableList <Student> getAllStudentStundesByAcademicPersonnel(int idEducationalProgram, int idAcademicPersonnel) {
+        ObservableList<Student> students  = FXCollections.observableArrayList(); 
+        DatabaseConnection databaseConnection = new DatabaseConnection();        
+        String query = "SELECT registrationNumber, name, paternalSurname, maternalSurname, emailAddress\n"
+                + "FROM student\n"
+                + "WHERE idEducationalProgram = ? AND idAcademicPersonnel = ?\n"
+                + "ORDER BY paternalSurname ASC";
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idEducationalProgram);
+            preparedStatement.setInt(2, idAcademicPersonnel);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Student student = new Student();
+                student.setRegistrationNumber(resultSet.getString("registrationNumber"));
+                student.setName(resultSet.getString("name"));
+                student.setPaternalSurname(resultSet.getString("paternalSurname"));
+                student.setMaternalSurname(resultSet.getString("maternalSurname"));
+                student.setEmailAddress(resultSet.getString("emailAddress"));
+                students.add(student);
+            }
+           
+        }catch(SQLException exception){
+            students = null;
+        } finally{
+            databaseConnection.close();
+        }
+        return students;
+    }
 }
+

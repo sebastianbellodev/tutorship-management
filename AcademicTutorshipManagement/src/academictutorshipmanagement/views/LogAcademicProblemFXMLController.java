@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 04, 2023.
- * Date of update: March 05, 2023.
+ * Date of update: April 20, 2023.
  */
 package academictutorshipmanagement.views;
 
@@ -50,7 +50,7 @@ public class LogAcademicProblemFXMLController implements Initializable {
     private TextArea descriptionTextArea;
 
     private ObservableList<EducationalExperience> educationalExperiences;
-    private ObservableList<AcademicPersonnel> academicPersonnel;
+    private ObservableList<AcademicPersonnel> academicPersonnels;
     private ObservableList<AcademicOffering> academicOfferings;
 
     private IAcademicProblem academicProblemInterface;
@@ -58,11 +58,12 @@ public class LogAcademicProblemFXMLController implements Initializable {
     private int idEducationalProgram;
     private int idSchoolPeriod;
     private int idEducationalExperience;
+    private int idAcademicPersonnel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         educationalExperiences = FXCollections.observableArrayList();
-        academicPersonnel = FXCollections.observableArrayList();
+        academicPersonnels = FXCollections.observableArrayList();
         academicOfferings = FXCollections.observableArrayList();
     }
 
@@ -71,7 +72,7 @@ public class LogAcademicProblemFXMLController implements Initializable {
         idSchoolPeriod = schoolPeriod.getIdSchoolPeriod();
         idEducationalProgram = educationalProgram.getIdEducationalProgram();
         configureAcademicPersonnelInformation(numberOfStudentsByAcademicPersonnel);
-        loadCurrentEducationalExperiencesByEducationalProgram();
+        loadEducationalExperiencesByEducationalProgram();
     }
 
     private void configureAcademicPersonnelInformation(int numberOfStudentsByAcademicPersonnel) {
@@ -79,42 +80,42 @@ public class LogAcademicProblemFXMLController implements Initializable {
         numberOfStudentsSpinner.setValueFactory(spinnerValueFactory);
     }
 
-    private void loadCurrentEducationalExperiencesByEducationalProgram() {
-        ArrayList<EducationalExperience> educationalExperiencesResultSet = EducationalExperienceDAO.getEducationalExperiencesByEducationalProgram(idSchoolPeriod, idEducationalProgram);
-        if (educationalExperiencesResultSet.isEmpty()) {
-            Utilities.showAlert("No hay conexión con la base de datos.\n\n"
-                    + "Por favor, inténtelo más tarde.\n",
-                    Alert.AlertType.ERROR);
-            closePopUpWindow();
-        } else {
+    private void loadEducationalExperiencesByEducationalProgram() {
+        ArrayList<EducationalExperience> educationalExperiencesResultSet = EducationalExperienceDAO.getEducationalExperiencesByEducationalProgram(idEducationalProgram, idSchoolPeriod);
+        if (!educationalExperiencesResultSet.isEmpty()) {
             educationalExperiences.addAll(educationalExperiencesResultSet);
             educationalExperienceComboBox.setItems(educationalExperiences);
             educationalExperienceComboBox.valueProperty().addListener((ObservableValue<? extends EducationalExperience> observable, EducationalExperience oldValue, EducationalExperience newValue) -> {
                 if (newValue != null) {
-                    academicPersonnel.clear();
+                    academicPersonnels.clear();
                     academicOfferings.clear();
                     idEducationalExperience = newValue.getIdEducationalExperience();
                     loadAcademicPersonnelByEducationalExperience(idEducationalExperience);
                 }
             });
+        } else {
+            Utilities.showAlert("No hay conexión con la base de datos.\n\n"
+                    + "Por favor, inténtelo más tarde.\n",
+                    Alert.AlertType.ERROR);
+            closePopUpWindow();
         }
     }
 
     private void loadAcademicPersonnelByEducationalExperience(int idEducationalExperience) {
-        ArrayList<AcademicPersonnel> academicPersonnelsResultSet = AcademicPersonnelDAO.getAcademicPersonnelByEducationalExperience(idSchoolPeriod, idEducationalExperience);
-        academicPersonnel.addAll(academicPersonnelsResultSet);
-        academicPersonnelComboBox.setItems(academicPersonnel);
+        ArrayList<AcademicPersonnel> academicPersonnelsResultSet = AcademicPersonnelDAO.getAcademicPersonnelByEducationalExperience(idEducationalExperience, idSchoolPeriod);
+        academicPersonnels.addAll(academicPersonnelsResultSet);
+        academicPersonnelComboBox.setItems(academicPersonnels);
         academicPersonnelComboBox.valueProperty().addListener((ObservableValue<? extends AcademicPersonnel> observable, AcademicPersonnel oldValue, AcademicPersonnel newValue) -> {
             if (newValue != null) {
                 academicOfferings.clear();
-                int idAcademicPersonnel = newValue.getIdAcademicPersonnel();
-                loadAcademicOfferingsByAcademicPersonnel(idAcademicPersonnel);
+                idAcademicPersonnel = newValue.getIdAcademicPersonnel();
+                loadAcademicOfferingsByAcademicPersonnel();
             }
         });
     }
 
-    private void loadAcademicOfferingsByAcademicPersonnel(int idAcademicPersonnel) {
-        ArrayList<AcademicOffering> academicOfferingsResultSet = AcademicOfferingDAO.getAcademicOfferings(idEducationalExperience, idAcademicPersonnel, idSchoolPeriod);
+    private void loadAcademicOfferingsByAcademicPersonnel() {
+        ArrayList<AcademicOffering> academicOfferingsResultSet = AcademicOfferingDAO.getAcademicOfferingsByAcademicPersonnel(idEducationalExperience, idSchoolPeriod, idAcademicPersonnel);
         academicOfferings.addAll(academicOfferingsResultSet);
         nrcComboBox.setItems(academicOfferings);
     }
@@ -125,7 +126,10 @@ public class LogAcademicProblemFXMLController implements Initializable {
             String title = titleTextField.getText();
             String description = descriptionTextArea.getText();
             int numberOfStudents = numberOfStudentsSpinner.getValue();
-            AcademicProblem academicProblem = new AcademicProblem(title, description, numberOfStudents);
+            AcademicProblem academicProblem = new AcademicProblem();
+            academicProblem.setTitle(title);
+            academicProblem.setDescription(description);
+            academicProblem.setNumberOfStudents(numberOfStudents);
             academicProblem.setIdAcademicProblem(Constants.PRIMARY_KEY_OF_NON_EXISTENT_RECORD_IN_DATABASE);
             AcademicOffering academicOffering = nrcComboBox.getValue();
             academicProblem.setAcademicOffering(academicOffering);

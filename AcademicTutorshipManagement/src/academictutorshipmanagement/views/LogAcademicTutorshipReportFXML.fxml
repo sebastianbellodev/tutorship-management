@@ -87,12 +87,12 @@
       </Label>
       <TableView fx:id="studentsTableView" layoutX="35.0" layoutY="270.0" prefHeight="245.0" prefWidth="600.0" style="-fx-font: 12px &quot;Arial&quot;;">
         <columns>
-          <TableColumn fx:id="registrationNumberTableColumn" prefWidth="100.0" text="Matrícula" />
-          <TableColumn fx:id="nameTableColumn" prefWidth="145.0" text="Nombre" />
-            <TableColumn fx:id="paternalSurnameTableColumn" prefWidth="115.0" text="Apellido paterno" />
-            <TableColumn fx:id="maternalSurnameTableColumn" prefWidth="115.0" text="Apellido materno" />
-            <TableColumn fx:id="attendedByTableColumn" minWidth="0.0" prefWidth="55.0" style="-fx-alignment: CENTER;" text="Asistió" />
-            <TableColumn fx:id="atRiskTableColumn" prefWidth="70.0" style="-fx-alignment: CENTER;" text="En riesgo" />
+          <TableColumn fx:id="registrationNumberTableColumn" prefWidth="100.0" style="-fx-font: 12px &quot;Arial&quot;;" text="Matrícula" />
+          <TableColumn fx:id="nameTableColumn" prefWidth="145.0" style="-fx-font: 12px &quot;Arial&quot;;" text="Nombre" />
+            <TableColumn fx:id="paternalSurnameTableColumn" prefWidth="115.0" style="-fx-font: 12px &quot;Arial&quot;;" text="Apellido paterno" />
+            <TableColumn fx:id="maternalSurnameTableColumn" prefWidth="115.0" style="-fx-font: 12px &quot;Arial&quot;;" text="Apellido materno" />
+            <TableColumn fx:id="attendedByTableColumn" minWidth="0.0" prefWidth="55.0" style="-fx-font: 12px &quot;Arial&quot;; -fx-alignment: CENTER;" text="Asistió" />
+            <TableColumn fx:id="atRiskTableColumn" prefWidth="70.0" style="-fx-font: 12px &quot;Arial&quot;; -fx-alignment: CENTER;" text="En riesgo" />
         </columns>
       </TableView>
       <TextArea fx:id="generalCommentTextArea" layoutX="665.0" layoutY="271.0" prefHeight="245.0" prefWidth="265.0" wrapText="true">

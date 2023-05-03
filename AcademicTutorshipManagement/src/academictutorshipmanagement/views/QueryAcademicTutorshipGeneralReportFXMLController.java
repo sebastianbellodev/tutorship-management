@@ -5,6 +5,7 @@
  */
 package academictutorshipmanagement.views;
 
+
 import academictutorshipmanagement.model.dao.AcademicProblemDAO;
 import academictutorshipmanagement.model.dao.AcademicTutorshipReportDAO;
 import academictutorshipmanagement.model.dao.AcademicTutorshipSessionDAO;
@@ -12,6 +13,9 @@ import academictutorshipmanagement.model.dao.SchoolPeriodDAO;
 import academictutorshipmanagement.model.pojo.AcademicPersonnel;
 import academictutorshipmanagement.model.pojo.AcademicProblem;
 import academictutorshipmanagement.model.pojo.AcademicTutorshipReport;
+import academictutorshipmanagement.model.pojo.SchoolPeriod;
+import academictutorshipmanagement.utilities.Utilities;
+import java.net.URL;
 import academictutorshipmanagement.model.pojo.AcademicTutorshipSession;
 import academictutorshipmanagement.model.pojo.SchoolPeriod;
 import academictutorshipmanagement.utilities.Utilities;
@@ -77,10 +81,8 @@ public class QueryAcademicTutorshipGeneralReportFXMLController implements Initia
     private ObservableList<Integer> academicTutorshipSessions;
     private ObservableList<AcademicTutorshipReport> academicTutorshipReports;
     private ObservableList<InnerAcademicProblem> academicProblems;
-    
     private SchoolPeriod schoolPeriod;
     private AcademicPersonnel academicPersonnel;
-
     private int idSchoolPeriod;
     private int sessionNumber;
 
@@ -250,7 +252,7 @@ public class QueryAcademicTutorshipGeneralReportFXMLController implements Initia
             System.err.println("The TutorialReportManagementMenuFXML.fxml' file could not be open. Please try again later.");
         }
     }
-    
+
     public class InnerAcademicProblem extends AcademicProblem {
 
         private InnerAcademicProblem(AcademicProblem academicProblem) {

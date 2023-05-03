@@ -40,4 +40,25 @@ public class UserDAO {
         return user;
     }
     
+    public static int logUser(User user) {
+            int responseCode;
+            DatabaseConnection databaseConnection = new DatabaseConnection();
+            String sentence = "INSERT INTO user\n"
+                + "(username, password)\n"
+                + "VALUES(?, ?)";
+            try(Connection connection = databaseConnection.open()) {
+                String username = user.getUsername();
+                String password = user.getPassword();
+                PreparedStatement preparedStatement = connection.prepareStatement(sentence);
+                preparedStatement.setString(1, username);
+                preparedStatement.setString(2, password);            
+                int numberOfRowsAffected = preparedStatement.executeUpdate();
+                responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
+            } catch(SQLException exception) {
+                responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
+            } finally {
+                databaseConnection.close();
+            }
+            return responseCode;
+        }
 }

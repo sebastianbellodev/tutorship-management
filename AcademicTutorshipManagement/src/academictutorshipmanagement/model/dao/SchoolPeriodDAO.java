@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 02, 2023.
- * Date of update: March 05, 2023.
+ * Date of update: April 19, 2023.
  */
 package academictutorshipmanagement.model.dao;
 
@@ -33,6 +33,8 @@ public class SchoolPeriodDAO {
                 schoolPeriod.setStartDate(resultSet.getDate("startDate"));
                 schoolPeriod.setEndDate(resultSet.getDate("endDate"));
                 schoolPeriod.setResponseCode(Constants.CORRECT_OPERATION_CODE);
+            } else {
+                schoolPeriod = null;
             }
         } catch (SQLException exception) {
             schoolPeriod.setResponseCode(Constants.NO_DATABASE_CONNECTION_CODE);
@@ -42,7 +44,7 @@ public class SchoolPeriodDAO {
         return schoolPeriod;
     }
     
-    public static ArrayList<SchoolPeriod> getSchoolPeriods() {
+    public static ArrayList<SchoolPeriod> getSchoolPeriods(){
         ArrayList<SchoolPeriod> schoolPeriods = new ArrayList<>();
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String query = "SELECT *\n"
@@ -83,11 +85,32 @@ public class SchoolPeriodDAO {
                 }
            
         }catch(SQLException exception){
-             
+            schoolPeriod = null;
         } finally{
             databaseConnection.close();
         }
         return schoolPeriod;
     }
+     
+     public static ArrayList<SchoolPeriod> getAllSchoolPeriods() throws SQLException{
+        ArrayList<SchoolPeriod> schoolPeriods = new ArrayList<>();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String query = "SELECT *\n"
+                + "FROM schoolPeriod";
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                SchoolPeriod schoolPeriod = new SchoolPeriod();
+                schoolPeriod.setIdSchoolPeriod(resultSet.getInt("idSchoolPeriod"));
+                schoolPeriod.setStartDate(resultSet.getDate("startDate"));
+                schoolPeriod.setEndDate(resultSet.getDate("endDate"));
+                schoolPeriods.add(schoolPeriod);
+            }
+        }finally {
+            databaseConnection.close();
+        }
+        return schoolPeriods;
+     }
     
 }
