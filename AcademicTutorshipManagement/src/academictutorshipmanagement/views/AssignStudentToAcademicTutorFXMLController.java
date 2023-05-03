@@ -72,6 +72,7 @@ public class AssignStudentToAcademicTutorFXMLController implements Initializable
         academicPersonnels = FXCollections.observableArrayList();
         academicTutors = FXCollections.observableArrayList();
         academicTutorComboBox.disableProperty().bind(academicPersonnelComboBox.valueProperty().isNull());
+        configureStudentsUnassignedTableViewColumns();
         configureStudentsAssignedTableViewColumns();
         loadStudentsUnassigned();
         loadAcademicPersonnel();
@@ -108,8 +109,8 @@ public class AssignStudentToAcademicTutorFXMLController implements Initializable
 
     private void loadAcademicPersonnel() {
         ArrayList<AcademicPersonnel> academicPersonnelResulSet
-                = AcademicPersonnelDAO.getAcademicPersonnelByRole(Constants.ACADEMIC_TUTOR_ID_ROLE,
-                        SessionInformation.getSessionInformation().getAcademicPersonnel().getUser().getEducationalProgram().getIdEducationalProgram());
+                = AcademicPersonnelDAO.getAcademicPersonnelByRole(SessionInformation.getSessionInformation().getAcademicPersonnel().getUser().getEducationalProgram().getIdEducationalProgram(), 
+                        Constants.ACADEMIC_TUTOR_ID_ROLE);
         academicPersonnels.clear();
         if (academicPersonnelResulSet.isEmpty()) {
             Utilities.showAlert("No hay conexión con la base de datos.\n\n"
