@@ -171,9 +171,9 @@ public class EducationalProgramAdministrationMenuFXMLController implements Initi
                     Alert.AlertType.INFORMATION);
         }
     }
-    
-    private void goToLogAcademicPersonnel(){
-        try{ 
+
+    private void goToLogAcademicPersonnel() {
+        try {
             Stage stageMenu = new Stage();
             FXMLLoader loader = new FXMLLoader();
             Parent root = loader.load(getClass().getResource("/academictutorshipmanagement/views/LogAcademicPersonnelFXML.fxml").openStream());
@@ -189,7 +189,7 @@ public class EducationalProgramAdministrationMenuFXMLController implements Initi
     }
 
     @FXML
-    private void queryAcademicPersonnelButtonClick(ActionEvent actionEvent){
+    private void queryAcademicPersonnelButtonClick(ActionEvent actionEvent) {
         if (idRole == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE || idRole == Constants.CAREER_HEAD_ID_ROLE) {
             goToQueryAcademicPersonnel();
         } else {
@@ -198,9 +198,9 @@ public class EducationalProgramAdministrationMenuFXMLController implements Initi
                     Alert.AlertType.INFORMATION);
         }
     }
-    
+
     private void goToQueryAcademicPersonnel() {
-        try{
+        try {
             Stage stageMenu = new Stage();
             FXMLLoader loader = new FXMLLoader();
             Parent root = loader.load(getClass().getResource("/academictutorshipmanagement/views/QueryAcademicPersonnelFXML.fxml").openStream());
@@ -209,10 +209,10 @@ public class EducationalProgramAdministrationMenuFXMLController implements Initi
             Scene scene = new Scene(root);
             stageMenu.setScene(scene);
             stageMenu.setTitle("Consultar Personal academico");
-            stageMenu.alwaysOnTopProperty();        
+            stageMenu.alwaysOnTopProperty();
             stageMenu.initModality(Modality.APPLICATION_MODAL);
             stageMenu.show();
-        }catch (IOException exception) {
+        } catch (IOException exception) {
             System.err.println("The 'QueryAcademicPersonnelFXML.fxml' file could not be open. Please try again later.");
         }
     }
@@ -220,16 +220,16 @@ public class EducationalProgramAdministrationMenuFXMLController implements Initi
     @FXML
     private void modifyAcademicPersonnelButtonClick(ActionEvent actionEvent) {
         if (idRole == Constants.ADMINISTRATOR_ID_ROLE) {
-            goToModifyAcademicPersonnel();           
+            goToModifyAcademicPersonnel();
         } else {
             Utilities.showAlert("No tiene los permisos necesarios para realizar esta acción.\n\n"
                     + "Por favor, vuelva a iniciar sesión e inténtelo nuevamente.\n",
                     Alert.AlertType.INFORMATION);
         }
     }
-    
-    private void goToModifyAcademicPersonnel(){
-        try{
+
+    private void goToModifyAcademicPersonnel() {
+        try {
             Stage stageMenu = new Stage();
             FXMLLoader loader = new FXMLLoader();
             Parent root = loader.load(getClass().getResource("/academictutorshipmanagement/views/ModifyAcademicPersonnelFXML.fxml").openStream());
@@ -238,32 +238,32 @@ public class EducationalProgramAdministrationMenuFXMLController implements Initi
             Scene scene = new Scene(root);
             stageMenu.setScene(scene);
             stageMenu.setTitle("Editar Personal academico");
-            stageMenu.alwaysOnTopProperty();        
+            stageMenu.alwaysOnTopProperty();
             stageMenu.initModality(Modality.APPLICATION_MODAL);
             stageMenu.show();
-        }catch (IOException exception) {
+        } catch (IOException exception) {
             System.err.println("The 'ModifyAcademicPersonnelFXML.fxml' file could not be open. Please try again later.");
         }
     }
 
     @FXML
     private void assignEducationalExperienceToAcademicPersonnelButtonClick(ActionEvent actionEvent) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("RegisterAcademicOfferingFXML.fxml"));
-            try {
-                Parent root = loader.load();
-                Scene registerAcademicOfferingView = new Scene(root);
-                Stage stage = (Stage) backButton.getScene().getWindow();
-                stage.setScene(registerAcademicOfferingView);
-                stage.setTitle("Registrar Oferta Academica");
-                stage.show();
-            } catch (IOException exception) {
-                System.err.println("The 'LogEducationalExperienceFXML.fxml' file could not be open. Please try again later.");
-            }
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("RegisterAcademicOfferingFXML.fxml"));
+        try {
+            Parent root = loader.load();
+            Scene registerAcademicOfferingView = new Scene(root);
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.setScene(registerAcademicOfferingView);
+            stage.setTitle("Registrar Oferta Academica");
+            stage.show();
+        } catch (IOException exception) {
+            System.err.println("The 'LogEducationalExperienceFXML.fxml' file could not be open. Please try again later.");
+        }
     }
 
     @FXML
     private void backButtonClick(ActionEvent actionEvent) {
-         Node source = (Node) actionEvent.getSource();
+        Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
