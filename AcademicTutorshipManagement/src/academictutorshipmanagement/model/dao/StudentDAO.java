@@ -19,18 +19,18 @@ import javafx.collections.ObservableList;
 
 public class StudentDAO {
 
-    public static ArrayList<Student> getStudentsByAcademicPersonnel(int idEducationalProgram, int idAcademicPersonnel) {
+    public static ArrayList<Student> getStudentsByAcademicPersonnel(int idEducationalProgram, int idAcademicPersonnel) throws SQLException{
         ArrayList<Student> students = new ArrayList<>();
         DatabaseConnection databaseConnection = new DatabaseConnection();
-        String query = "SELECT registrationNumber, name, paternalSurname, maternalSurname\n"
+        String query = "SELECT * "
                 + "FROM student\n"
-                + "WHERE idEducationalProgram = ? AND idAcademicPersonnel = ? AND available = ?\n"
+                + "WHERE idEducationalProgram = ? AND idAcademicPersonnel = ? AND available = 1\n"
                 + "ORDER BY paternalSurname ASC";
         try (Connection connection = databaseConnection.open()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, idEducationalProgram);
             preparedStatement.setInt(2, idAcademicPersonnel);
-            preparedStatement.setBoolean(3, Constants.AVAILABLE);
+            //preparedStatement.setBoolean(3, Constants.AVAILABLE);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Student student = new Student();
@@ -40,8 +40,6 @@ public class StudentDAO {
                 student.setMaternalSurname(resultSet.getString("maternalSurname"));
                 students.add(student);
             }
-        } catch (SQLException exception) {
-            students = null;
         } finally {
             databaseConnection.close();
         }
