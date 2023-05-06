@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.zip.DataFormatException;
 import javafx.event.ActionEvent;
@@ -89,6 +90,8 @@ public class SaveSignatureFormatListFXMLController implements Initializable {
             this.closeWindow();
         }catch(IOException ioException){
             MessagesAlerts.showAlert("Ha ocurrido un error al momento de almacenar el archivo", Alert.AlertType.INFORMATION);
+        }catch(SQLException sqlException){
+            MessagesAlerts.showDataBaseLostConnectionAlert();
         }
     }
     
