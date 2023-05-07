@@ -46,7 +46,8 @@ public class MainMenuFXMLController implements Initializable {
                     + "Por favor, inténtelo más tarde.\n",
                     Alert.AlertType.ERROR);
         }
-        SessionInformation.getSessionInformation().setSchoolPeriod(schoolPeriod);
+        SessionInformation sessionInformation = getSessionInformation();
+        sessionInformation.getSessionInformation().setSchoolPeriod(schoolPeriod);
     }
 
     public void configureView(User user) {
@@ -55,6 +56,7 @@ public class MainMenuFXMLController implements Initializable {
         academicPersonnel.setUser(user);
         academicPersonnelLabel.setText(academicPersonnelLabel.getText() + academicPersonnel + ".");
         SessionInformation.getSessionInformation().setAcademicPersonnel(academicPersonnel);
+        SessionInformation.getSessionInformation().setUser(user);
         SessionInformation.getSessionInformation().getAcademicPersonnel().setUser(user);
     }
 
