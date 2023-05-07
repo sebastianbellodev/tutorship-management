@@ -46,4 +46,10 @@ public class MessagesAlerts {
             "Campos en blanco. "+
             "Por favor, verifique que todos los campos contengan información.", Alert.AlertType.WARNING);
     }
+
+    public static void showAccessDenied() {
+        Utilities.showAlert("No tiene los permisos necesarios para realizar esta acción.\n\n"
+                    + "Por favor, vuelva a iniciar sesión e inténtelo nuevamente.\n",
+                    Alert.AlertType.INFORMATION);
+    }
 }
