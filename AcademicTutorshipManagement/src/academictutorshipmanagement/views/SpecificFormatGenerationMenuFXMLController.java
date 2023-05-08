@@ -34,6 +34,8 @@ public class SpecificFormatGenerationMenuFXMLController implements Initializable
     private AcademicPersonnel academicPersonnel;
     @FXML
     private Button buttonSignatureList;
+    @FXML
+    private Button assistanceButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -84,6 +86,31 @@ public class SpecificFormatGenerationMenuFXMLController implements Initializable
             MessagesAlerts.showAccessDenied();
         }
 
+    }
+
+    @FXML
+    private void assistanceButtonClick(ActionEvent event) {
+        SessionInformation sessionInformation = getSessionInformation();
+        if(sessionInformation.getUser().getRole().getIdRole() == Roles.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE ||  sessionInformation.getUser().getRole().getIdRole() == Roles.CAREER_HEAD_ID_ROLE){
+            Stage stageMenuCoordinador = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            Parent root;
+            try {
+                root = loader.load(getClass().getResource("/academictutorshipmanagement/views/SaveAsistanceFormatFXML.fxml").openStream());
+                Scene scene = new Scene(root);
+                stageMenuCoordinador.setScene(scene);
+                stageMenuCoordinador.setTitle("Generar Formato de Asistencia");
+                stageMenuCoordinador.alwaysOnTopProperty();
+                stageMenuCoordinador.initModality(Modality.APPLICATION_MODAL);
+                stageMenuCoordinador.show();
+            } catch (IOException ex) {
+                MessagesAlerts.showFailureLoadWindow();
+            }
+        }else{
+            MessagesAlerts.showAccessDenied();
+        }
+    
+    
     }
     
 }
