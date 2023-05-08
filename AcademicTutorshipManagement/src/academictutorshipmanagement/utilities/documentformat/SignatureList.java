@@ -72,34 +72,32 @@ public class SignatureList {
     private void loadHeaderData(Document signatureDocument){
         signatureDocument.add(
             new Paragraph ("Tutor: "+ this.academicPersonnel.getFullName()+"\tPrograma Educativo: "+ this.academicPersonnel.getUser().getEducationalProgram().getName())).setBold().setTextAlignment(TextAlignment.LEFT);
-        /*signatureDocument.add(
-            new Paragraph ("\tPrograma Educativo: "+ this.academicPersonnel.getUser().getEducationalProgram().getName())).setBold().setTextAlignment(TextAlignment.LEFT);*/
         signatureDocument.add(
-            new Paragraph ("\tPeriodo Escolar: "+ this.schoolPeriod.toString())).setBold().setTextAlignment(TextAlignment.LEFT);
+            new Paragraph ("\tPeriodo Escolar: "+ this.schoolPeriod.getStartDate()+" - "+this.schoolPeriod.getEndDate())).setBold().setTextAlignment(TextAlignment.LEFT);
     }
     
     private void loadStudents(Document signatureDocument){
         signatureDocument.add(
             new Paragraph ("\nLista de Estudiantes:")).setBold().setTextAlignment(TextAlignment.LEFT);
             Table tableSignatureStudents = this.generateFormatTable();
-        this.studentsList.forEach(student->{
-                Cell studentMatricula = new Cell().add(new Paragraph(student.getRegistrationNumber()));
-                Cell studentName = new Cell().add(new Paragraph(student.getFullName()));
-                Cell studentSignatureFirst = new Cell();
-                Cell studentSignatureSecond = new Cell();
-                Cell studentSignatureThird = new Cell();
-                Cell studentEspecial = new Cell();
-                Cell studentNotation = new Cell();
-                Cell studentRisk = new Cell();
-                tableSignatureStudents.addCell(studentMatricula);
-                tableSignatureStudents.addCell(studentName);
-                tableSignatureStudents.addCell(studentSignatureFirst);
-                tableSignatureStudents.addCell(studentSignatureSecond);
-                tableSignatureStudents.addCell(studentSignatureThird);
-                tableSignatureStudents.addCell(studentEspecial);
-                tableSignatureStudents.addCell(studentNotation);
-                tableSignatureStudents.addCell(studentRisk);
-        });
+        for(Student student : studentsList){
+            Cell studentMatricula = new Cell().add(new Paragraph(student.getRegistrationNumber()));
+            Cell studentName = new Cell().add(new Paragraph(student.getFullName()));
+            Cell studentSignatureFirst = new Cell();
+            Cell studentSignatureSecond = new Cell();
+            Cell studentSignatureThird = new Cell();
+            Cell studentEspecial = new Cell();
+            Cell studentNotation = new Cell();
+            Cell studentRisk = new Cell();
+            tableSignatureStudents.addCell(studentMatricula);
+            tableSignatureStudents.addCell(studentName);
+            tableSignatureStudents.addCell(studentSignatureFirst);
+            tableSignatureStudents.addCell(studentSignatureSecond);
+            tableSignatureStudents.addCell(studentSignatureThird);
+            tableSignatureStudents.addCell(studentEspecial);
+            tableSignatureStudents.addCell(studentNotation);
+            tableSignatureStudents.addCell(studentRisk);
+        }
         signatureDocument.add(tableSignatureStudents);   
     }
     

@@ -18,11 +18,15 @@ import academictutorshipmanagement.model.pojo.EducationalProgram;
 import academictutorshipmanagement.model.pojo.SchoolPeriod;
 import academictutorshipmanagement.model.pojo.Student;
 import academictutorshipmanagement.utilities.Constants;
+import academictutorshipmanagement.utilities.MessagesAlerts;
 import academictutorshipmanagement.utilities.Utilities;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -118,17 +122,21 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
     }
 
     private void loadStudentsByAcademicPersonnel() {
-        int idEducationalProgram = educationalProgram.getIdEducationalProgram();
-        idAcademicPersonnel = academicPersonnel.getIdAcademicPersonnel();
-        ArrayList<Student> studentsResultSet = StudentDAO.getStudentsByAcademicPersonnel(idEducationalProgram, idAcademicPersonnel);
-        if (!studentsResultSet.isEmpty()) {
-            students.addAll(studentsResultSet);
-            configureTableViewCheckBoxes();
-            studentsTableView.setItems(students);
-        } else {
-            Utilities.showAlert("No hay conexión con la base de datos.\n\n"
-                    + "Por favor, inténtelo más tarde.\n",
-                    Alert.AlertType.ERROR);
+        try {
+            int idEducationalProgram = educationalProgram.getIdEducationalProgram();
+            idAcademicPersonnel = academicPersonnel.getIdAcademicPersonnel();
+            ArrayList<Student> studentsResultSet = StudentDAO.getStudentsByAcademicPersonnel(idEducationalProgram, idAcademicPersonnel);
+            if (!studentsResultSet.isEmpty()) {
+                students.addAll(studentsResultSet);
+                configureTableViewCheckBoxes();
+                studentsTableView.setItems(students);
+            } else {
+                Utilities.showAlert("No hay conexión con la base de datos.\n\n"
+                        + "Por favor, inténtelo más tarde.\n",
+                        Alert.AlertType.ERROR);
+            }
+        } catch (SQLException sqlException) {
+            MessagesAlerts.showDataBaseLostConnectionAlert();
         }
     }
 

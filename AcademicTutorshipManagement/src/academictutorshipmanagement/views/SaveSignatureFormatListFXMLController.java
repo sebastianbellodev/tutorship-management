@@ -11,20 +11,20 @@ import academictutorshipmanagement.utilities.documentformat.SignatureList;
 import academictutorshipmanagement.utilities.MessagesAlerts;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.zip.DataFormatException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javax.swing.JFileChooser;
-import javax.swing.UIManager;
 
 /**
  * FXML Controller class
@@ -39,6 +39,7 @@ public class SaveSignatureFormatListFXMLController implements Initializable {
     private Button cancelButton;
     @FXML
     private TextField fileNameTextField;
+    
     
 
     /**
@@ -69,9 +70,10 @@ public class SaveSignatureFormatListFXMLController implements Initializable {
     private void cancelButtonClick(ActionEvent event) {
         this.closeWindow();
     }
+    
     private void closeWindow(){
-        Stage stage = (Stage)this.cancelButton.getScene().getWindow();
-        stage.close();
+        Stage stage = (Stage) this.cancelButton.getScene().getWindow();
+        stage.close(); 
     }
     
     
@@ -80,15 +82,17 @@ public class SaveSignatureFormatListFXMLController implements Initializable {
         try{    
             SignatureList signatureList = new SignatureList();
             signatureList.setAcademicPersonnel(sessionInformation.getAcademicPersonnel());
-            signatureList.setSchoolPeriod(sessionInformation.getCurrentSchoolPeriod());
+            signatureList.setSchoolPeriod(sessionInformation.getSchoolPeriod());
             signatureList.setStudentsList(StudentDAO.getStudentsByAcademicPersonnel(
-                    sessionInformation.getAcademicPersonnel().getUser().getEducationalProgram().getIdEducationalProgram(), 
+                    sessionInformation.getUser().getEducationalProgram().getIdEducationalProgram(), 
                     sessionInformation.getAcademicPersonnel().getIdAcademicPersonnel()));
             signatureList.generateDocument(file);
             MessagesAlerts.showAlert("Se ha guardado con exito el formato de firmas", Alert.AlertType.INFORMATION);
             this.closeWindow();
         }catch(IOException ioException){
             MessagesAlerts.showAlert("Ha ocurrido un error al momento de almacenar el archivo", Alert.AlertType.INFORMATION);
+        }catch(SQLException sqlException){
+            MessagesAlerts.showDataBaseLostConnectionAlert();
         }
     }
     

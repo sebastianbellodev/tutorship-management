@@ -112,7 +112,7 @@ public class QueryFollowUpOnAcademicProblemsListFXMLController implements Initia
         ObservableList<InnerAcademicProblem> academicProblemList = FXCollections.observableArrayList();
         ArrayList<AcademicProblem> academicProblemQuery = 
             sessionInformation.getAcademicPersonnel().getUser().getRole().getIdRole() == Roles.ACADEMIC_TUTOR_ID_ROLE? 
-            AcademicProblemDAO.queryAcademicProblemForAcademicPersonnel(sessionInformation.getAcademicPersonnel().getIdAcademicPersonnel()):
+            AcademicProblemDAO.queryAcademicProblemForAcademicPersonnel(sessionInformation.getAcademicPersonnel().getIdAcademicPersonnel(),sessionInformation.getUser().getEducationalProgram().getIdEducationalProgram()):
             AcademicProblemDAO.queryAcademicProblemForEducationalProgram(sessionInformation.getAcademicPersonnel().getUser().getEducationalProgram().getIdEducationalProgram());
         for(AcademicProblem academicProblem : academicProblemQuery){
             academicProblemList.add(new InnerAcademicProblem(academicProblem));           
