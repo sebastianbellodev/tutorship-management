@@ -46,7 +46,36 @@ public class AcademicPersonnelDAO {
         }
         return academicPersonnels;
     }
-
+    
+    public static ArrayList<AcademicPersonnel> getAcademicPersonnelByTutorshipSession(int idSchoolPeriod, int idEducationalProgram) throws SQLException {
+        ArrayList<AcademicPersonnel> academicPersonnels = new ArrayList<>();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String query = "Select distinct academicpersonnel.* from academicpersonnel "
+                + "JOIN academictutorshipreport ON academictutorshipreport.idAcademicPersonnel = academicpersonnel.idAcademicPersonnel "
+                + "JOIN academictutorship ON academictutorship.idAcademicTutorship = academictutorshipreport.idAcademicTutorship "
+                + "JOIN academictutorshipsession ON academictutorship.idAcademicTutorshipSession = academictutorshipsession.idAcademicTutorshipSession "
+                + "where idSchoolPeriod = ? and idEducationalProgram = ?";
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idSchoolPeriod);
+            preparedStatement.setInt(2, idEducationalProgram);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                AcademicPersonnel academicPersonnel = new AcademicPersonnel();
+                academicPersonnel.setIdAcademicPersonnel(resultSet.getInt("idAcademicPersonnel"));
+                academicPersonnel.setName(resultSet.getString("name"));
+                academicPersonnel.setPaternalSurname(resultSet.getString("paternalSurname"));
+                academicPersonnel.setMaternalSurname(resultSet.getString("maternalSurname"));
+                academicPersonnel.setEmailAddress(resultSet.getString("emailAddress"));
+                academicPersonnels.add(academicPersonnel);
+            }
+        } finally {
+            databaseConnection.close();
+        }
+        return academicPersonnels;    
+    }
+    
+    
     public static ArrayList<AcademicPersonnel> getAcademicPersonnelByEducationalExperience(int idEducationalExperience, int idSchoolPeriod) {
         ArrayList<AcademicPersonnel> academicPersonnels = new ArrayList<>();
         DatabaseConnection databaseConnection = new DatabaseConnection();
