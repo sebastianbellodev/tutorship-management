@@ -175,5 +175,30 @@ public class AcademicTutorshipReportDAO {
         }
         return responseCode;
     }
+    
+    public static ArrayList<Integer> getAsistancesOfAcademicTutorShipReport(int idSchoolPeriod, int idAcademicPersonnel) throws SQLException{
+        ArrayList<Integer> asistance = new ArrayList<>();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String query = "Select * from academictutorshipreport "
+                + "JOIN academictutorship ON academictutorshipreport.idAcademicTutorship = academictutorship.idAcademicTutorship "
+                + "JOIN academictutorshipsession ON academictutorship.idAcademicTutorshipSession = academictutorshipsession.idAcademicTutorshipSession "
+                + "where idAcademicPersonnel = ? and idSchoolPeriod = ?;";
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idAcademicPersonnel);
+            preparedStatement.setInt(2, idSchoolPeriod);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            for(int i=0;i<3;i++){
+                if(resultSet.next()){
+                    asistance.add(resultSet.getInt("numberOfStudentsAttending"));                
+                }else{
+                    asistance.add(0);
+                }
+            }
+        } finally {
+            databaseConnection.close();
+        }
+        return asistance;
+    }
 
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="225.0" prefWidth="499.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="academictutorshipmanagement.views.SaveAsistanceFormatFXMLController">
+   <children>
+      <Label layoutX="24.0" layoutY="87.0" prefHeight="42.0" prefWidth="437.0" text="Ingrese el nombre con el que desea guardar la &quot;Lista de Asistencia&quot;" wrapText="true" />
+      <Button fx:id="saveButton" layoutX="283.0" layoutY="180.0" mnemonicParsing="false" onAction="#saveButtonClick" prefHeight="25.0" prefWidth="93.0" text="Guardar" />
+      <Button fx:id="cancelButton" layoutX="382.0" layoutY="180.0" mnemonicParsing="false" onAction="#cancelButtonClick" prefHeight="25.0" prefWidth="93.0" text="Cancelar" />
+      <TextField fx:id="fileNameTextField" layoutX="24.0" layoutY="143.0" prefHeight="25.0" prefWidth="451.0" />
+      <Label layoutX="24.0" layoutY="120.0" text="Nombre: " />
+      <Label layoutX="24.0" layoutY="14.0" prefHeight="42.0" prefWidth="437.0" text="Seleccione el Periodo Escolar del cual desea generar la &quot;Lista de Asistencia&quot;" wrapText="true" />
+      <ComboBox fx:id="schoolPeriodComboBox" layoutX="24.0" layoutY="56.0" prefHeight="25.0" prefWidth="451.0" />
+   </children>
+</AnchorPane>
