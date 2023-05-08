@@ -87,7 +87,7 @@ public class AcademicProblemDAO {
         return academicProblemQuery;
     }
     
-    public static ArrayList<AcademicProblem> queryAcademicProblemForAcademicPersonnel(int idAcademicPersonel) throws SQLException{
+    public static ArrayList<AcademicProblem> queryAcademicProblemForAcademicPersonnel(int idAcademicPersonel, int idEducationalProgram) throws SQLException{
         DatabaseConnection databaseConnection = new DatabaseConnection();
         ArrayList<AcademicProblem> academicProblemsQuery = new ArrayList<>();
         String sentence = 
@@ -96,10 +96,11 @@ public class AcademicProblemDAO {
                 + "join academicpersonnel on academicoffering.idAcademicPersonnel = academicpersonnel.idAcademicPersonnel "
                 + "join educationalexperience on academicoffering.idEducationalExperience = educationalexperience.idEducationalExperience "
                 + "join academictutorship on academictutorshipreport.idAcademicTutorship = academictutorship.idAcademicTutorship "
-                + "join schoolperiod on academicoffering.idSchoolPeriod = schoolperiod.idSchoolPeriod where academictutorshipreport.idAcademicPersonnel = ?";
+                + "join schoolperiod on academicoffering.idSchoolPeriod = schoolperiod.idSchoolPeriod where academictutorshipreport.idAcademicPersonnel = ? and academictutorship.idEducationalProgram = ?";
         try(Connection connection = databaseConnection.open()){
             PreparedStatement preparedStatement = connection.prepareStatement(sentence);
             preparedStatement.setInt(1,idAcademicPersonel);
+            preparedStatement.setInt(2,idEducationalProgram);
             ResultSet result = preparedStatement.executeQuery();
             if(!result.next()){   
             }else{
