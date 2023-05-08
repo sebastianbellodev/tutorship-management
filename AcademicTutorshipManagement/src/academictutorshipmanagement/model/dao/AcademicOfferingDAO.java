@@ -49,11 +49,11 @@ public class AcademicOfferingDAO {
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String query = "SELECT academicOffering.*\n"
                 + "FROM academicOffering\n"
-                + "WHERE idSchoolPeriod = ? AND idEducationalExperience = ?";
+                + "WHERE idEducationalExperience = ? AND idSchoolPeriod = ?";
         try (Connection connection = databaseConnection.open()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, idSchoolPeriod);
-            preparedStatement.setInt(2, idEducationalExperience);
+            preparedStatement.setInt(1, idEducationalExperience);
+            preparedStatement.setInt(2, idSchoolPeriod);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 AcademicOffering academicOffering = new AcademicOffering();
@@ -80,12 +80,12 @@ public class AcademicOfferingDAO {
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String query = "SELECT academicOffering.*\n"
                 + "FROM academicOffering\n"
-                + "WHERE idSchoolPeriod = ? AND idEducationalExperience = ? AND idAcademicPersonnel = ?";
+                + "WHERE idEducationalExperience = ? AND idSchoolPeriod = ? AND idAcademicPersonnel = ?";
         try (Connection connection = databaseConnection.open()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, idEducationalExperience);
-            preparedStatement.setInt(2, idAcademicPersonnel);
-            preparedStatement.setInt(3, idSchoolPeriod);
+            preparedStatement.setInt(2, idSchoolPeriod);
+            preparedStatement.setInt(3, idAcademicPersonnel);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 AcademicOffering academicOffering = new AcademicOffering();
@@ -134,7 +134,7 @@ public class AcademicOfferingDAO {
                 
                 }while(resultSet.next());
             }
-        }finally {
+        } finally {
             databaseConnection.close();
         }
         return academicOfferings;

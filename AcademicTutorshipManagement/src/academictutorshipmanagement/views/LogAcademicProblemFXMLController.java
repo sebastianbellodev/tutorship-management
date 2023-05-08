@@ -90,7 +90,7 @@ public class LogAcademicProblemFXMLController implements Initializable {
                     academicPersonnels.clear();
                     academicOfferings.clear();
                     idEducationalExperience = newValue.getIdEducationalExperience();
-                    loadAcademicPersonnelByEducationalExperience(idEducationalExperience);
+                    loadAcademicPersonnelByEducationalExperience();
                 }
             });
         } else {
@@ -101,7 +101,7 @@ public class LogAcademicProblemFXMLController implements Initializable {
         }
     }
 
-    private void loadAcademicPersonnelByEducationalExperience(int idEducationalExperience) {
+    private void loadAcademicPersonnelByEducationalExperience() {
         ArrayList<AcademicPersonnel> academicPersonnelsResultSet = AcademicPersonnelDAO.getAcademicPersonnelByEducationalExperience(idEducationalExperience, idSchoolPeriod);
         academicPersonnels.addAll(academicPersonnelsResultSet);
         academicPersonnelComboBox.setItems(academicPersonnels);

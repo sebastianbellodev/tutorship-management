@@ -43,11 +43,11 @@ public class AcademicTutorshipDAO {
     public int logAcademicTutorship(int idAcademicTutorshipSession, int idEducationalProgram) {
         int responseCode;
         DatabaseConnection databaseConnection = new DatabaseConnection();
-        String query = "INSERT INTO  academictutorship \n" +
-                       "(idAcademicTutorshipSession, idEducationalProgram) \n" +
-                       "VALUES (?,?)";
+        String query = "INSERT INTO  academictutorship \n"
+                + "(idAcademicTutorshipSession, idEducationalProgram) \n"
+                + "VALUES (?,?)";
         try (Connection connection = databaseConnection.open()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);            
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, idAcademicTutorshipSession);
             preparedStatement.setInt(2, idEducationalProgram);
             int numberOfRowsAffected = preparedStatement.executeUpdate();
@@ -59,5 +59,5 @@ public class AcademicTutorshipDAO {
         }
         return responseCode;
     }
-    
+
 }
