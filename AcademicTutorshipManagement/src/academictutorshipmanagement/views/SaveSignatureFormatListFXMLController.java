@@ -21,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -38,6 +39,7 @@ public class SaveSignatureFormatListFXMLController implements Initializable {
     private Button cancelButton;
     @FXML
     private TextField fileNameTextField;
+    
     
 
     /**
@@ -66,9 +68,9 @@ public class SaveSignatureFormatListFXMLController implements Initializable {
 
     @FXML
     private void cancelButtonClick(ActionEvent event) {
-        
         this.closeWindow();
     }
+    
     private void closeWindow(){
         Stage stage = (Stage) this.cancelButton.getScene().getWindow();
         stage.close(); 
