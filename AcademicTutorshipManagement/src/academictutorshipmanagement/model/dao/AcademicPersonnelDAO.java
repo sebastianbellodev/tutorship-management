@@ -8,7 +8,6 @@ package academictutorshipmanagement.model.dao;
 import academictutorshipmanagement.model.DatabaseConnection;
 import academictutorshipmanagement.model.pojo.AcademicPersonnel;
 import academictutorshipmanagement.model.pojo.ContractType;
-import academictutorshipmanagement.model.pojo.EducationalProgram;
 import academictutorshipmanagement.model.pojo.User;
 import academictutorshipmanagement.utilities.Constants;
 import java.sql.Connection;
@@ -54,11 +53,11 @@ public class AcademicPersonnelDAO {
                 + "FROM academicPersonnel\n"
                 + "INNER JOIN academicOffering\n"
                 + "ON academicPersonnel.idAcademicPersonnel = academicOffering.idAcademicPersonnel\n"
-                + "WHERE academicOffering.idSchoolPeriod = ? AND academicOffering.idEducationalExperience = ?";
+                + "WHERE academicOffering.idEducationalExperience = ? AND academicOffering.idSchoolPeriod = ?";
         try (Connection connection = databaseConnection.open()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, idSchoolPeriod);
-            preparedStatement.setInt(2, idEducationalExperience);
+            preparedStatement.setInt(1, idEducationalExperience);
+            preparedStatement.setInt(2, idSchoolPeriod);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 AcademicPersonnel academicPersonnel = new AcademicPersonnel();
@@ -138,11 +137,6 @@ public class AcademicPersonnelDAO {
         }
         return academicPersonnels;
     }
-                
-                
-                
-                
-
 
     public static AcademicPersonnel getAcademicPersonnelByUser(String username) {
         AcademicPersonnel academicPersonnel = new AcademicPersonnel();
@@ -286,4 +280,5 @@ public class AcademicPersonnelDAO {
         }
         return responseCode;
     }
+    
 }
