@@ -47,7 +47,7 @@ public class AcademicPersonnelDAO {
         return academicPersonnels;
     }
     
-    public static ArrayList<AcademicPersonnel> getAcademicPersonnelByTutorshipSession(int idSchoolPeriod, int idEducationalProgram) throws SQLException {
+    public static ArrayList<AcademicPersonnel> getAcademicPersonnelByTutorship(int idSchoolPeriod, int idEducationalProgram) throws SQLException {
         ArrayList<AcademicPersonnel> academicPersonnels = new ArrayList<>();
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String query = "Select distinct academicpersonnel.* from academicpersonnel "
