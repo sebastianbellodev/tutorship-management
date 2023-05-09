@@ -135,7 +135,7 @@ public class SaveAsistanceFormatFXMLController implements Initializable {
     private ArrayList<AcademicPersonnel> getAcademicPersonnel() throws SQLException{
         SessionInformation sessionInformation = getSessionInformation();        
         ArrayList<AcademicPersonnel> academicPersonnel = 
-                AcademicPersonnelDAO.getAcademicPersonnelByTutorshipSession(
+                AcademicPersonnelDAO.getAcademicPersonnelByTutorship(
                     this.schoolPeriodComboBox.getSelectionModel().getSelectedItem().getIdSchoolPeriod(), 
                     sessionInformation.getUser().getEducationalProgram().getIdEducationalProgram());    
         return academicPersonnel;
