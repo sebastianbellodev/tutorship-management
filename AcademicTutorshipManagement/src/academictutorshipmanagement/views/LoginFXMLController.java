@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 01, 2023.
- * Date of update: March 02, 2023.
+ * Date of update: May 18, 2023.
  */
 package academictutorshipmanagement.views;
 
@@ -10,7 +10,6 @@ import academictutorshipmanagement.interfaces.IRole;
 import academictutorshipmanagement.model.dao.UserDAO;
 import academictutorshipmanagement.model.pojo.EducationalProgram;
 import academictutorshipmanagement.model.pojo.Role;
-import academictutorshipmanagement.model.pojo.SessionInformation;
 import academictutorshipmanagement.model.pojo.User;
 import academictutorshipmanagement.utilities.Constants;
 import academictutorshipmanagement.utilities.Utilities;
@@ -103,6 +102,19 @@ public class LoginFXMLController implements Initializable, IEducationalProgram, 
 
     @FXML
     private void forgottenPasswordOnMouseClicked(MouseEvent mouseEvent) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("RecoverPasswordFXML.fxml"));
+        try {
+            Parent root = loader.load();
+            Scene recoverPasswordView = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(recoverPasswordView);
+            stage.setResizable(false);
+            stage.setTitle("Recuperar contraseña.");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (IOException exception) {
+            System.err.println("The 'RecoverPasswordFXML.fxml' file could not be open. Please try again later.");
+        }
     }
 
     @Override
