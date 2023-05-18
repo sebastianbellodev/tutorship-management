@@ -157,6 +157,7 @@ public class RegisterAcademicOfferingFXMLController implements Initializable {
         FilteredList<EducationalExperience> educationalExperiencesFilteredList = 
                 new FilteredList(this.educationalExperienceList,educationalExperience -> true);
         this.educationalFilterTextField.textProperty().addListener((observable, oldValue, newValue) ->{
+            this.educationalExperienceTextField.clear();
             educationalExperiencesFilteredList.setPredicate(educationalExperience ->{
                 if(newValue.isEmpty() || newValue == null){
                     return true;               
@@ -180,6 +181,7 @@ public class RegisterAcademicOfferingFXMLController implements Initializable {
             FilteredList<AcademicPersonnel> academicPersonnelFilteredList = 
             new FilteredList(this.academicPersonelList,academicPersonnel -> true);
         this.personelFilterTextField.textProperty().addListener((observable, oldValue, newValue) ->{
+            this.academicPersonnelTextField.clear();
             academicPersonnelFilteredList.setPredicate(academicPersonnel ->{
                 if(newValue.isEmpty() || newValue == null){
                     return true;               
