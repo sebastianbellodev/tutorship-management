@@ -23,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
@@ -32,14 +33,8 @@ import javafx.stage.Stage;
  */
 public class QueryAcademicProblemFollowUpFXMLController implements Initializable {
     AcademicProblem queryAcademicProblem = new AcademicProblem();
-    @FXML
-    private Label titleAcademicProblemLabel;
-    @FXML
-    private Label nameEducationalExperienceLabel;
-    @FXML
-    private Label nameAcademicPersonnelLabel;
-    @FXML
-    private Label numberStudentsLabel;
+    
+    
     @FXML
     private Button modifyButton;
     @FXML
@@ -47,9 +42,17 @@ public class QueryAcademicProblemFollowUpFXMLController implements Initializable
     @FXML
     private TextArea descriptionFollowUpTextArea;
     @FXML
-    private Label descriptionAcademicProblemLabel;
-    @FXML
     private Label dateFollowUpLabel;
+    @FXML
+    private TextField titleAcademicProblemTextField;
+    @FXML
+    private TextField nameEducationalExperienceTextField;
+    @FXML
+    private TextField nameAcademicPersonnelTextField;
+    @FXML
+    private TextField numberStudentsTextField;
+    @FXML
+    private TextArea descriptionAcademicProblemTextArea;
 
 
    
@@ -72,11 +75,11 @@ public class QueryAcademicProblemFollowUpFXMLController implements Initializable
         SessionInformation sessionInformation = getSessionInformation();
         try{
             this.queryAcademicProblem = this.queryAcademicProblemWithFollowUp();
-            this.titleAcademicProblemLabel.setText(this.queryAcademicProblem.getTitle());
-            this.descriptionAcademicProblemLabel.setText(this.queryAcademicProblem.getDescription());
-            this.nameAcademicPersonnelLabel.setText(this.queryAcademicProblem.getAcademicOffering().getAcademicPersonnel().toString());
-            this.nameEducationalExperienceLabel.setText(this.queryAcademicProblem.getAcademicOffering().getEducationalExperience().getName());
-            this.numberStudentsLabel.setText(Integer.toString(this.queryAcademicProblem.getNumberOfStudents()));
+            this.titleAcademicProblemTextField.setText(this.queryAcademicProblem.getTitle());
+            this.descriptionAcademicProblemTextArea.setText(this.queryAcademicProblem.getDescription());
+            this.nameAcademicPersonnelTextField.setText(this.queryAcademicProblem.getAcademicOffering().getAcademicPersonnel().toString());
+            this.nameEducationalExperienceTextField.setText(this.queryAcademicProblem.getAcademicOffering().getEducationalExperience().getName());
+            this.numberStudentsTextField.setText(Integer.toString(this.queryAcademicProblem.getNumberOfStudents()));
             if(this.queryAcademicProblem.getAcademicProblemFollowUp().getIdAcademicProblemFollowUp()!=0){
                 this.dateFollowUpLabel.setText(this.queryAcademicProblem.getAcademicProblemFollowUp().getDate().toString()); //Validar Parseador
                 this.descriptionFollowUpTextArea.setText(this.queryAcademicProblem.getAcademicProblemFollowUp().getDescription());
