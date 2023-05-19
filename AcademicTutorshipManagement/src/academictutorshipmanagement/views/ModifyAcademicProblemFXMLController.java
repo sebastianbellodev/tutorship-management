@@ -85,14 +85,49 @@ public class ModifyAcademicProblemFXMLController implements Initializable {
         this.loadAcademicProblemData();
     }
 
-    
     public void loadAcademicProblemData(){
         this.titleTextField.setText(this.academicProblem.getTitle());
         this.descriptionTextArea.setText(this.academicProblem.getDescription());
         this.numberOfStudentsSpinner.getValueFactory().setValue(this.academicProblem.getNumberOfStudents());
-        this.academicPersonnelComboBox.setValue(this.academicProblem.getAcademicOffering().getAcademicPersonnel());
-        this.educationalExperienceComboBox.setValue(this.academicProblem.getAcademicOffering().getEducationalExperience());
-        this.nrcComboBox.setValue(this.academicProblem.getAcademicOffering());
+        this.educationalExperienceComboBox.getSelectionModel().select(this.searchEducationalExperience(this.academicProblem.getAcademicOffering().getEducationalExperience()));
+        this.academicPersonnelComboBox.getSelectionModel().select(this.searchAcademicPersonnel(this.academicProblem.getAcademicOffering().getAcademicPersonnel()));
+        this.nrcComboBox.getSelectionModel().select(this.searcAcademicOffering(this.academicProblem.getAcademicOffering()));
+    }
+    
+    private int searchEducationalExperience(EducationalExperience educationalExperience){
+        int index = 0;
+        int iterator = 0;
+        for(EducationalExperience educational: this.educationalExperiences){
+            if(educational.getIdEducationalExperience() == educationalExperience.getIdEducationalExperience()){
+                index = iterator;
+            }
+            iterator++;        
+        }
+        return index;
+    }
+    
+    private int searcAcademicOffering(AcademicOffering academicOffering){
+        int index = 0;
+        int iterator = 0;
+        for(AcademicOffering academic: this.academicOfferings){
+            if(academic.getIdAcademicOffering() == academicOffering.getIdAcademicOffering()){
+                index = iterator;
+            }
+            iterator++;        
+        }
+        return index;
+    }
+    
+    private int searchAcademicPersonnel(AcademicPersonnel academicPersonnel){
+        int index = 0;
+        int iterator = 0;
+        for(AcademicPersonnel academic: this.academicPersonnel){
+            if(academic.getIdAcademicPersonnel() == academicPersonnel.getIdAcademicPersonnel()){
+                index = iterator;
+            }
+            iterator++;        
+        }
+        return index;
     }
     
     private void configureAcademicPersonnelInformation(int numberOfStudentsByAcademicPersonnel) {
@@ -166,7 +201,7 @@ public class ModifyAcademicProblemFXMLController implements Initializable {
     
     private boolean validateEmptyFields() {
         return titleTextField.getText().isEmpty()
-                || nrcComboBox.getSelectionModel().isEmpty()
+                || nrcComboBox.getValue() == null
                 || descriptionTextArea.getText().isEmpty();
     }
 

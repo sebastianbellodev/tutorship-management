@@ -278,7 +278,17 @@ public class LogAcademicTutorshipReportFXMLController implements Initializable, 
 
     @Override
     public void configureAcademicProblem(AcademicProblem academicProblem) {
-        academicProblems.add(academicProblem);
+        if(academicProblem.getIdAcademicProblem() == Constants.PRIMARY_KEY_OF_NON_EXISTENT_RECORD_IN_DATABASE){
+            academicProblems.add(academicProblem);
+        }else{
+            int index = 0;
+            for(AcademicProblem academic: academicProblems){
+                if(academic.getIdAcademicProblem() == academicProblem.getIdAcademicProblem()){
+                    academicProblems.set(index, academicProblem);
+                    return;
+                }
+            }
+        }
     }
 
 }
