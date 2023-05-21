@@ -310,4 +310,31 @@ public class AcademicPersonnelDAO {
         return responseCode;
     }
     
+    public static int updateAcademicPersonnelInformation(AcademicPersonnel academicPersonnel) {
+        int responseCode;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String sentence = "UPDATE academicpersonnel \n" +
+                          "SET name = ?, paternalSurname = ?, maternalSurname = ?, emailAddress = ?\n" +
+                          "WHERE idAcademicPersonnel = ?";
+        try (Connection connection = databaseConnection.open()) {
+            String name = academicPersonnel.getName();
+            String paternalSurname = academicPersonnel.getPaternalSurname();
+            String maternalSurname = academicPersonnel.getMaternalSurname();
+            String emailAddress = academicPersonnel.getEmailAddress();
+            int idAcademicPersonnel = academicPersonnel.getIdAcademicPersonnel();
+            PreparedStatement preparedStatement = connection.prepareStatement(sentence);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, paternalSurname);
+            preparedStatement.setString(3, maternalSurname);
+            preparedStatement.setString(4, emailAddress);
+            preparedStatement.setInt(5, idAcademicPersonnel);
+            int numberOfRowsAffected = preparedStatement.executeUpdate();
+            responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
+        } catch (SQLException exception) {
+            responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
+        } finally {
+            databaseConnection.close();
+        }
+        return responseCode;
+    }
 }

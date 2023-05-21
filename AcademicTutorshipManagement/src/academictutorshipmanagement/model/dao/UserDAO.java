@@ -32,33 +32,75 @@ public class UserDAO {
             } else {
                 user.setResponseCode(Constants.INVALID_DATA_ENTERED_CODE);
             }
-        } catch(SQLException exception) {
+        } catch (SQLException exception) {
             user.setResponseCode(Constants.NO_DATABASE_CONNECTION_CODE);
         } finally {
             databaseConnection.close();
         }
         return user;
     }
-    
+
     public static int logUser(User user) {
-            int responseCode;
-            DatabaseConnection databaseConnection = new DatabaseConnection();
-            String sentence = "INSERT INTO user\n"
+        int responseCode;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String sentence = "INSERT INTO user\n"
                 + "(username, password)\n"
                 + "VALUES(?, ?)";
-            try(Connection connection = databaseConnection.open()) {
-                String username = user.getUsername();
-                String password = user.getPassword();
-                PreparedStatement preparedStatement = connection.prepareStatement(sentence);
-                preparedStatement.setString(1, username);
-                preparedStatement.setString(2, password);            
-                int numberOfRowsAffected = preparedStatement.executeUpdate();
-                responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
-            } catch(SQLException exception) {
-                responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
-            } finally {
-                databaseConnection.close();
-            }
-            return responseCode;
+        try (Connection connection = databaseConnection.open()) {
+            String username = user.getUsername();
+            String password = user.getPassword();
+            PreparedStatement preparedStatement = connection.prepareStatement(sentence);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            int numberOfRowsAffected = preparedStatement.executeUpdate();
+            responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
+        } catch (SQLException exception) {
+            responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
+        } finally {
+            databaseConnection.close();
         }
+        return responseCode;
+    }
+    
+    public static int checkUser (String username) {
+        int responseCode;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String sentence = "SELECT *\n"
+                + "FROM user\n"
+                + "WHERE username = ?";
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sentence);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            responseCode = (resultSet.next()) ? Constants.MINIUM_NUMBER_OF_ROWS_RETURNED_PER_DATABASE_SELECT : Constants.NO_DATABASE_CONNECTION_CODE;
+        } catch (SQLException exception) {
+            responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
+        } finally {
+            databaseConnection.close();
+        }
+        return responseCode;
+    }
+    
+    public static int updateUser(User user, String oldUsername) {
+        int responseCode;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String sentence = "UPDATE user\n"
+                + "SET username = ?, password = ?\n"
+                + "WHERE username = ?";
+        try (Connection connection = databaseConnection.open()) {
+            String username = user.getUsername();
+            String password = user.getPassword();
+            PreparedStatement preparedStatement = connection.prepareStatement(sentence);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            preparedStatement.setString(3, oldUsername);
+            int numberOfRowsAffected = preparedStatement.executeUpdate();
+            responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
+        } catch (SQLException exception) {
+            responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
+        } finally {
+            databaseConnection.close();
+        }
+        return responseCode;
+    }
 }
