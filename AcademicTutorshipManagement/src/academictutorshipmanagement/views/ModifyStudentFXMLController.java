@@ -151,11 +151,6 @@ public class ModifyStudentFXMLController implements Initializable {
                         Alert.AlertType.WARNING);
                 clearTextField();
                 break;
-            case Constants.INVALID_DATA_ENTERED_CODE:
-                Utilities.showAlert("Los datos ingresados son inválidos.\n\n"
-                        + "Por favor, compruebe la información ingresada e inténtelo nuevamente.\n",
-                        Alert.AlertType.WARNING);
-                break;
             default:
                 Utilities.showAlert("No hay conexión con la base de datos.\n\n"
                         + "Por favor, inténtelo más tarde.\n",

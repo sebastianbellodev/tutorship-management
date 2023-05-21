@@ -59,7 +59,7 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="usernameTextField" editable="false" layoutX="665.0" layoutY="253.0" prefHeight="26.0" prefWidth="258.0">
+      <TextField fx:id="usernameTextField" layoutX="665.0" layoutY="253.0" prefHeight="26.0" prefWidth="258.0">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
@@ -81,7 +81,7 @@
       </Button>
       <PasswordField fx:id="passwordField" layoutX="665.0" layoutY="298.0" prefHeight="26.0" prefWidth="258.0" />
       <PasswordField fx:id="confirmationPasswordField" layoutX="665.0" layoutY="346.0" prefHeight="26.0" prefWidth="258.0" />
-      <Label layoutX="448.0" layoutY="351.0" prefHeight="20.0" prefWidth="217.0" text="Confirmación: *" wrapText="true">
+      <Label layoutX="448.0" layoutY="351.0" prefHeight="20.0" prefWidth="217.0" text="Confirmación de contraseña: *" wrapText="true">
          <font>
             <Font name="Arial" size="14.0" />
          </font>

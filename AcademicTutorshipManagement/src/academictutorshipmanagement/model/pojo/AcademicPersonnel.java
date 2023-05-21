@@ -6,6 +6,7 @@
 package academictutorshipmanagement.model.pojo;
 
 
+import java.util.Objects;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.CheckBox;
@@ -136,7 +137,7 @@ public class AcademicPersonnel {
     public String getFullName(){
         return this.paternalSurname + " " + this.maternalSurname + " " + this.name;
     }
-            
+
     @Override
     public String toString() {
         return getName() + " " + getPaternalSurname() + " " + getMaternalSurname();

@@ -5,6 +5,8 @@
  */
 package academictutorshipmanagement.model.pojo;
 
+import java.util.Objects;
+
 public class User {
     
     private String username;
@@ -64,5 +66,5 @@ public class User {
     public void setResponseCode(int responseCode) {
         this.responseCode = responseCode;
     }
-    
+
 }
