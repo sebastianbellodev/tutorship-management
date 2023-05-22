@@ -24,7 +24,7 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Button>
-      <Label layoutX="44.0" layoutY="244.0" prefHeight="40.0" prefWidth="851.0" text="Seleccione al o los estudiantes asistentes a la sesión de tutoría académica y al o los que están en riesgo. De ser necesario, ingrese un comentario general sobre la sesión de tutoría académica. *" wrapText="true">
+      <Label layoutX="44.0" layoutY="244.0" prefHeight="40.0" prefWidth="851.0" text="Concentrado de estudiantes asistentes a la sesión de tutoría academica y en riesgo:" wrapText="true">
          <font>
             <Font name="Arial" size="14.0" />
          </font>

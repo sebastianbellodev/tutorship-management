@@ -166,11 +166,13 @@ public class ModifyUserFXMLController implements Initializable {
             case Constants.CORRECT_OPERATION_CODE:
                 Utilities.showAlert("La información se actualizó correctamente en el sistema.",
                         Alert.AlertType.WARNING);
+                closeWindow();
                 break;
             default:
                 Utilities.showAlert("No hay conexión con la base de datos.\n\n"
                         + "Por favor, inténtelo más tarde.\n",
                         Alert.AlertType.ERROR);
+                closeWindow();
                 break;
         }
     }
@@ -187,8 +189,11 @@ public class ModifyUserFXMLController implements Initializable {
 
     @FXML
     private void cancelButtonClick(ActionEvent event) {
-        Node source = (Node) event.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();
+        closeWindow();
+    }
+    
+    private void closeWindow() {
+        Stage stage = (Stage) this.passwordField.getScene().getWindow();
         stage.close();
     }
 

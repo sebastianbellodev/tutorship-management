@@ -305,6 +305,32 @@ public class StudentDAO {
         return responseCode;
     }
     
+    public static ArrayList<Integer> checkAssignStudentNumber(AcademicPersonnel academicPersonnel) {
+        ArrayList<Integer> numberStudents = new ArrayList<>();
+        int responseCode;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String sentence = "SELECT COUNT(registrationNumber) AS count\n"
+                + "FROM student\n"
+                + "WHERE idAcademicPersonnel = ?";
+        try (Connection connection = databaseConnection.open()) {
+            int idAcademicPersonnel = academicPersonnel.getIdAcademicPersonnel();
+            PreparedStatement preparedStatement = connection.prepareStatement(sentence);
+            preparedStatement.setInt(1, idAcademicPersonnel);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                numberStudents.add(resultSet.getInt("count"));
+            }
+            responseCode = (resultSet.next()) ? Constants.MINIUM_NUMBER_OF_ROWS_RETURNED_PER_DATABASE_SELECT : Constants.NO_DATABASE_CONNECTION_CODE;
+            numberStudents.add(responseCode);
+            
+        } catch (SQLException exception) {
+            responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
+        } finally {
+            databaseConnection.close();
+        }
+        return numberStudents;
+    }
+    
     public static int deleteStudent(String registrationNumber) {
         int responseCode;
         DatabaseConnection databaseConnection = new DatabaseConnection();
