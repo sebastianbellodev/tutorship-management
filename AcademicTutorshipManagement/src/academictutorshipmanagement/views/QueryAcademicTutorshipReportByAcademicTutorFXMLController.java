@@ -13,6 +13,7 @@ import academictutorshipmanagement.model.dao.StudentDAO;
 import academictutorshipmanagement.model.pojo.AcademicPersonnel;
 import academictutorshipmanagement.model.pojo.AcademicProblem;
 import academictutorshipmanagement.model.pojo.AcademicTutorshipReport;
+import academictutorshipmanagement.model.pojo.AcademicTutorshipSession;
 import academictutorshipmanagement.model.pojo.SchoolPeriod;
 import academictutorshipmanagement.model.pojo.Student;
 import academictutorshipmanagement.utilities.Constants;
@@ -81,12 +82,18 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
     private ObservableList<InnerStudent> students;
 
     private ArrayList<AcademicTutorshipReport> academicTutorshipReports;
-
+    private ArrayList<InnerStudent> studentsList;
+    
     private SchoolPeriod schoolPeriod;
     private AcademicPersonnel academicPersonnel;
+    private AcademicTutorshipSession academicTutorshipSession;
 
     private int idSchoolPeriod;
     private int idAcademicPersonnel;
+    private int sessionNumber;
+    private String generalComment;
+    private String numberOfStudentsAttending;
+    private String numberOfStudentsAtRisk;
 
     /**
      * Initializes the controller class.
@@ -98,6 +105,7 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
         academicTutorshipSessions = FXCollections.observableArrayList();
         students = FXCollections.observableArrayList();
         academicTutorshipReports = new ArrayList<>();
+        studentsList = new ArrayList<>();
         academicPersonnelComboBox.disableProperty().bind(schoolPeriodComboBox.valueProperty().isNull());
         academicTutorshipSessionComboBox.disableProperty().bind(academicPersonnelComboBox.valueProperty().isNull());
     }
@@ -131,6 +139,7 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
                     academicTutorshipSessions.clear();
                     academicTutorshipReports.clear();
                     students.clear();
+                    studentsList.clear();
                     clearTextField();
                     idSchoolPeriod = newValue.getIdSchoolPeriod();
                     loadAcademicPersonnel(idSchoolPeriod);
@@ -155,6 +164,7 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
                     academicTutorshipSessions.clear();
                     academicTutorshipReports.clear();
                     students.clear();
+                    studentsList.clear();
                     idAcademicPersonnel = newValue.getIdAcademicPersonnel();
                     clearTextField();
                     loadAcademicTutorshipReports(idAcademicPersonnel, idSchoolPeriod);
@@ -179,6 +189,7 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
             academicTutorshipSessionComboBox.valueProperty().addListener((ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) -> {
                 if (newValue != null) {
                     clearTextField();
+                    sessionNumber = newValue;
                     configureAcademicTutorshipReportInformation(academicTutorshipReports.get(newValue - 1));
                 }
             });
@@ -187,10 +198,18 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
 
     private void configureAcademicTutorshipReportInformation(AcademicTutorshipReport academicTutorshipReport) {
         numberOfStudentsAttendingTextField.setText(String.valueOf(academicTutorshipReport.getNumberOfStudentsAttending()));
+        numberOfStudentsAttending = numberOfStudentsAttendingTextField.getText();
         numberOfStudentsAtRiskTextField.setText(String.valueOf(academicTutorshipReport.getNumberOfStudentsAtRisk()));
+        numberOfStudentsAtRisk = numberOfStudentsAtRiskTextField.getText();
         educationalProgramTextField.setText(academicPersonnel.getUser().getEducationalProgram().toString());
-        academicTutorshipSessionDateTextField.setText(String.valueOf(academicTutorshipReport.getAcademicTutorship().getAcademicTutorshipSession()));
+        for (AcademicTutorshipReport report : academicTutorshipReports) {
+            if (report.getAcademicTutorship().getAcademicTutorshipSession().getIdAcademicTutorshipSession() == sessionNumber) {
+                this.academicTutorshipSession = report.getAcademicTutorship().getAcademicTutorshipSession();
+                academicTutorshipSessionDateTextField.setText(academicTutorshipSession.toString());
+            }
+        }
         generalCommentTextArea.setText(academicTutorshipReport.getGeneralComment());
+        generalComment = generalCommentTextArea.getText();
         loadStudentsByAcademicTutorshipReport(academicTutorshipReport);
     }
 
@@ -199,6 +218,7 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
         students.clear();
         for (Student student : studentsResultSet) {
             students.add(new InnerStudent(student));
+            studentsList.add(new InnerStudent(student));
         }
         configureTableViewCheckBoxes();
         studentsTableView.setItems(students);
@@ -242,6 +262,27 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
 
     @FXML
     private void downloadButtonClick(ActionEvent event) {
+        if (!generalCommentTextArea.getText().isEmpty()) {
+            SaveAcademicTutorshipReportFXMLController.setAcademicTutorshipSession(academicTutorshipSession);
+            SaveAcademicTutorshipReportFXMLController.setGeneralComment(generalComment);
+            SaveAcademicTutorshipReportFXMLController.setNumberOfStudentsAtRisk(numberOfStudentsAtRisk);
+            SaveAcademicTutorshipReportFXMLController.setNumberOfStudentsAttending(numberOfStudentsAttending);
+            SaveAcademicTutorshipReportFXMLController.setStudents(studentsList);
+            Stage stageMenuCoordinador = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            Parent root;
+            try {
+                root = loader.load(getClass().getResource("/academictutorshipmanagement/views/SaveAcademicTutorshipReportFXML.fxml").openStream());
+                Scene scene = new Scene(root);
+                stageMenuCoordinador.setScene(scene);
+                stageMenuCoordinador.setTitle("Generar Formato de Reporte de Tutorías Académicas");
+                stageMenuCoordinador.alwaysOnTopProperty();
+                stageMenuCoordinador.initModality(Modality.APPLICATION_MODAL);
+                stageMenuCoordinador.show();
+            } catch (IOException ex) {
+                MessagesAlerts.showFailureLoadWindow();
+            }
+        }
     }
 
     @FXML
