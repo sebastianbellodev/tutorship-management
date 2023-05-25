@@ -15,6 +15,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -65,10 +66,22 @@ public class QueryAcademicProblemFollowUpFXMLController implements Initializable
     }    
     
     
-    public void configureView(AcademicProblem academicProblem) {
+    public void configureView(AcademicProblem academicProblem, Boolean pop) {
+        
         this.queryAcademicProblem = academicProblem;
         this.loadGUI();
         this.checkButtons();
+        if(pop){
+         this.backButton.setOnAction(new EventHandler<ActionEvent>(){
+                 @Override
+                 public void handle(ActionEvent event){
+                        Stage stage = (Stage) backButton.getScene().getWindow();
+                        stage.close();
+                 
+                 }       
+             });
+         
+        }
     }
     
     private void loadGUI(){
@@ -88,6 +101,7 @@ public class QueryAcademicProblemFollowUpFXMLController implements Initializable
                     this.callWindowRegisterAcademicProblemFollowUp();
                 }
             }
+            
             this.checkButtons();
         }catch(SQLException sqlException){
             MessagesAlerts.showDataBaseLostConnectionAlert();
