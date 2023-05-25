@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="270.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="academictutorshipmanagement.views.QueryAttendanceGroupingByAcademicTutorFXMLController">
+   <children>
+      <Label layoutX="89.0" layoutY="41.0" text="Seleccione el periodo escolar y personal academico">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cbb_schoolPeriod" layoutX="39.0" layoutY="80.0" prefWidth="150.0" promptText="Periodo escolar" />
+      <ComboBox fx:id="cbb_academicPersonnel" layoutX="311.0" layoutY="80.0" prefWidth="150.0" promptText="Personal academico" />
+      <Label layoutX="38.0" layoutY="127.0" text="Ingrese el nombre con el que desea guardar la &quot;Lista de Asistencia&quot;">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="40.0" layoutY="150.0" text="Nombre:">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="fileNameTextField" layoutX="38.0" layoutY="182.0" prefHeight="25.0" prefWidth="424.0" />
+      <Button fx:id="cancelButton" layoutX="368.0" layoutY="224.0" mnemonicParsing="false" onAction="#cancelButtonClick" prefHeight="25.0" prefWidth="93.0" text="Cancelar" />
+      <Button layoutX="265.0" layoutY="224.0" mnemonicParsing="false" onAction="#saveButtonClick" prefHeight="25.0" prefWidth="93.0" text="Guardar" />
+   </children>
+</AnchorPane>

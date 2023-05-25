@@ -10,8 +10,10 @@ import academictutorshipmanagement.model.pojo.SchoolPeriod;
 import academictutorshipmanagement.model.pojo.SessionInformation;
 import static academictutorshipmanagement.model.pojo.SessionInformation.getSessionInformation;
 import academictutorshipmanagement.model.pojo.User;
+import academictutorshipmanagement.utilities.Constants;
 import academictutorshipmanagement.utilities.MessagesAlerts;
 import academictutorshipmanagement.utilities.Roles;
+import academictutorshipmanagement.utilities.Utilities;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,6 +23,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -37,6 +40,7 @@ public class SpecificFormatGenerationMenuFXMLController implements Initializable
     @FXML
     private Button assistanceButton;
 
+    private int idRole;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
     }
@@ -44,6 +48,7 @@ public class SpecificFormatGenerationMenuFXMLController implements Initializable
     public void configureView(SchoolPeriod schoolPeriod, AcademicPersonnel academicPersonnel) {
         this.schoolPeriod = schoolPeriod;
         this.academicPersonnel = academicPersonnel;
+        idRole = academicPersonnel.getUser().getRole().getIdRole();
     }
 
     @FXML
@@ -112,5 +117,33 @@ public class SpecificFormatGenerationMenuFXMLController implements Initializable
     
     
     }
+
+    @FXML
+    private void assistanceByTutorButtonClick(ActionEvent event) {
+        if (idRole == Constants.ACADEMIC_TUTORSHIP_COORDINATOR_ID_ROLE || idRole == Constants.CAREER_HEAD_ID_ROLE) {
+            gotToQueryAttendanceGroupingByAcademicTutor();
+        } else {
+            Utilities.showAlert("No tiene los permisos necesarios para realizar esta acción.\n\n"
+                    + "Por favor, vuelva a iniciar sesión e inténtelo nuevamente.\n",
+                    Alert.AlertType.INFORMATION);
+        }
+    }
     
+    private void gotToQueryAttendanceGroupingByAcademicTutor(){
+        try{
+            Stage stageMenu = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            Parent root = loader.load(getClass().getResource("/academictutorshipmanagement/views/QueryAttendanceGroupingByAcademicTutorFXML.fxml").openStream());           
+            QueryAttendanceGroupingByAcademicTutorFXMLController queryAttendanceGroupingByAcademicTutorFXMLController = loader.getController();
+            queryAttendanceGroupingByAcademicTutorFXMLController.configureView(academicPersonnel);
+            Scene scene = new Scene(root);
+            stageMenu.setScene(scene);
+            stageMenu.setTitle("Guardar concentrado de asistencia por tutor academico");
+            stageMenu.alwaysOnTopProperty();        
+            stageMenu.initModality(Modality.APPLICATION_MODAL);
+            stageMenu.show();
+        }catch (IOException exception) {
+            System.err.println("The 'QueryAttendanceGroupingByAcademicTutorFXML.fxml' file could not be open. Please try again later.");
+        }
+    }
 }
