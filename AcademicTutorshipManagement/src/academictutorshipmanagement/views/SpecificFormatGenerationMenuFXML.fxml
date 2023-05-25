@@ -15,7 +15,8 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="buttonSignatureList" layoutX="55.0" layoutY="59.0" mnemonicParsing="false" onAction="#buttonSignatureListClick" prefHeight="150.0" prefWidth="343.0" text="Generar Formato Lista de Firmas" />
-      <Button fx:id="assistanceButton" layoutX="59.0" layoutY="237.0" mnemonicParsing="false" onAction="#assistanceButtonClick" prefHeight="118.0" prefWidth="343.0" text="Generar Lista de Asistencia" />
+      <Button fx:id="buttonSignatureList" layoutX="55.0" layoutY="32.0" mnemonicParsing="false" onAction="#buttonSignatureListClick" prefHeight="125.0" prefWidth="895.0" text="Generar Formato Lista de Firmas" />
+      <Button fx:id="assistanceButton" layoutX="55.0" layoutY="203.0" mnemonicParsing="false" onAction="#assistanceButtonClick" prefHeight="125.0" prefWidth="895.0" text="Generar Lista de Asistencia" />
+      <Button layoutX="55.0" layoutY="368.0" mnemonicParsing="false" onAction="#assistanceByTutorButtonClick" prefHeight="125.0" prefWidth="895.0" text="Generar lista de asistencia por tutor academico" />
    </children>
 </AnchorPane>
