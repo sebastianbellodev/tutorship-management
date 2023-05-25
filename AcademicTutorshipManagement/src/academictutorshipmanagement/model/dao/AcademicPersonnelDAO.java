@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 02, 2023.
- * Date of update: April 20, 2023.
+ * Date of update: May 18, 2023.
  */
 package academictutorshipmanagement.model.dao;
 
@@ -45,7 +45,33 @@ public class AcademicPersonnelDAO {
         }
         return academicPersonnels;
     }
-    
+
+    public static AcademicPersonnel getAcademicPersonnel(String emailAddress) {
+        AcademicPersonnel academicPersonnel = null;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String query = "SELECT *\n"
+                + "FROM academicPersonnel\n"
+                + "WHERE emailAddress = ?";
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, emailAddress);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                academicPersonnel = new AcademicPersonnel();
+                academicPersonnel.setIdAcademicPersonnel(resultSet.getInt("idAcademicPersonnel"));
+                academicPersonnel.setName(resultSet.getString("name"));
+                academicPersonnel.setPaternalSurname(resultSet.getString("paternalSurname"));
+                academicPersonnel.setMaternalSurname(resultSet.getString("maternalSurname"));
+                academicPersonnel.setEmailAddress(resultSet.getString("emailAddress"));
+            }
+        } catch (SQLException exception) {
+            academicPersonnel = null;
+        } finally {
+            databaseConnection.close();
+        }
+        return academicPersonnel;
+    }
+
     public static ArrayList<AcademicPersonnel> getAcademicPersonnelByTutorship(int idSchoolPeriod, int idEducationalProgram) throws SQLException {
         ArrayList<AcademicPersonnel> academicPersonnels = new ArrayList<>();
         DatabaseConnection databaseConnection = new DatabaseConnection();
@@ -71,10 +97,9 @@ public class AcademicPersonnelDAO {
         } finally {
             databaseConnection.close();
         }
-        return academicPersonnels;    
+        return academicPersonnels;
     }
-    
-    
+
     public static ArrayList<AcademicPersonnel> getAcademicPersonnelByEducationalExperience(int idEducationalExperience, int idSchoolPeriod) {
         ArrayList<AcademicPersonnel> academicPersonnels = new ArrayList<>();
         DatabaseConnection databaseConnection = new DatabaseConnection();
@@ -142,9 +167,7 @@ public class AcademicPersonnelDAO {
         return academicPersonnels;
     }
 
-    
-    
-        public static ArrayList<AcademicPersonnel> getAllAcademicPersonnel() throws SQLException {
+    public static ArrayList<AcademicPersonnel> getAllAcademicPersonnel() throws SQLException {
         ArrayList<AcademicPersonnel> academicPersonnels = new ArrayList<>();
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String query = "SELECT academicpersonnel.idAcademicPersonnel, academicpersonnel.name, "
@@ -161,7 +184,7 @@ public class AcademicPersonnelDAO {
                 academicPersonnel.setMaternalSurname(resultSet.getString("maternalSurname"));
                 academicPersonnels.add(academicPersonnel);
             }
-        }finally {
+        } finally {
             databaseConnection.close();
         }
         return academicPersonnels;
@@ -191,8 +214,8 @@ public class AcademicPersonnelDAO {
             databaseConnection.close();
         }
         return academicPersonnel;
-    }  
-    
+    }
+
     public static int checkAcademicPersonnel(String username) {
         int responseCode;
         DatabaseConnection databaseConnection = new DatabaseConnection();
@@ -210,7 +233,7 @@ public class AcademicPersonnelDAO {
         }
         return responseCode;
     }
-    
+
     public static int logAcademicPersonnel(AcademicPersonnel academicPersonnel, User user) {
         int responseCode;
         DatabaseConnection databaseConnection = new DatabaseConnection();
@@ -240,58 +263,58 @@ public class AcademicPersonnelDAO {
         }
         return responseCode;
     }
-    
-    public ObservableList <AcademicPersonnel> getAllAcademicPersonnelsByRole(AcademicPersonnel usableAcademicPersonnel) {
-        ObservableList<AcademicPersonnel> academicPersonnels  = FXCollections.observableArrayList(); 
-        DatabaseConnection databaseConnection = new DatabaseConnection();        
-        try(Connection connection = databaseConnection.open()){
-            String query = "SELECT academicpersonnel.idAcademicPersonnel, academicpersonnel.name, paternalSurname, maternalSurname, emailAddress, contracttype.name, academicpersonnel.username\n" +
-                            "FROM academicpersonnel \n" +
-                            "INNER JOIN contracttype ON academicpersonnel.idContractType = contracttype.idContractType\n" +
-                            "INNER JOIN educationalprogramrole ON academicpersonnel.username = educationalprogramrole.username\n" +
-                            "WHERE educationalprogramrole.idRole = 3 AND educationalprogramrole.idEducationalProgram = ?";
+
+    public ObservableList<AcademicPersonnel> getAllAcademicPersonnelsByRole(AcademicPersonnel usableAcademicPersonnel) {
+        ObservableList<AcademicPersonnel> academicPersonnels = FXCollections.observableArrayList();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        try (Connection connection = databaseConnection.open()) {
+            String query = "SELECT academicpersonnel.idAcademicPersonnel, academicpersonnel.name, paternalSurname, maternalSurname, emailAddress, contracttype.name, academicpersonnel.username\n"
+                    + "FROM academicpersonnel \n"
+                    + "INNER JOIN contracttype ON academicpersonnel.idContractType = contracttype.idContractType\n"
+                    + "INNER JOIN educationalprogramrole ON academicpersonnel.username = educationalprogramrole.username\n"
+                    + "WHERE educationalprogramrole.idRole = 3 AND educationalprogramrole.idEducationalProgram = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, usableAcademicPersonnel.getUser().getEducationalProgram().getIdEducationalProgram());
-            ResultSet resultSet = preparedStatement.executeQuery();     
-            
-                while(resultSet.next()){
-                    int idAcademicPersonnel = resultSet.getInt("academicpersonnel.idAcademicPersonnel");
-                    String name = resultSet.getString("academicpersonnel.name");
-                    String paternalSurname = resultSet.getString("paternalSurname");
-                    String maternalSurname = resultSet.getString("maternalSurname");
-                    String emailAddress = resultSet.getString("emailAddress");
-                    String username = resultSet.getString("academicpersonnel.username");
-                    String contractType = resultSet.getString("contracttype.name");
-                    
-                    ContractType newContractType = new ContractType(contractType);
-                    User user = new User(username);
-                    
-                    AcademicPersonnel academicPersonnel = new AcademicPersonnel(idAcademicPersonnel, name, paternalSurname, maternalSurname, emailAddress);
-                    academicPersonnel.setContractType(newContractType);
-                    academicPersonnel.setUser(user);
-                    academicPersonnels.add(academicPersonnel);                   
-                }
-           
-        }catch(SQLException exception){
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int idAcademicPersonnel = resultSet.getInt("academicpersonnel.idAcademicPersonnel");
+                String name = resultSet.getString("academicpersonnel.name");
+                String paternalSurname = resultSet.getString("paternalSurname");
+                String maternalSurname = resultSet.getString("maternalSurname");
+                String emailAddress = resultSet.getString("emailAddress");
+                String username = resultSet.getString("academicpersonnel.username");
+                String contractType = resultSet.getString("contracttype.name");
+
+                ContractType newContractType = new ContractType(contractType);
+                User user = new User(username);
+
+                AcademicPersonnel academicPersonnel = new AcademicPersonnel(idAcademicPersonnel, name, paternalSurname, maternalSurname, emailAddress);
+                academicPersonnel.setContractType(newContractType);
+                academicPersonnel.setUser(user);
+                academicPersonnels.add(academicPersonnel);
+            }
+
+        } catch (SQLException exception) {
             academicPersonnels = null;
-        } finally{
+        } finally {
             databaseConnection.close();
         }
         return academicPersonnels;
     }
-    
+
     public static int updateAcademicPersonnel(AcademicPersonnel academicPersonnel) {
         int responseCode;
         DatabaseConnection databaseConnection = new DatabaseConnection();
-        String sentence = "UPDATE academicpersonnel \n" +
-                          "SET name = ?, paternalSurname = ?, maternalSurname = ?, emailAddress = ?, idContractType = ?\n" +
-                          "WHERE idAcademicPersonnel = ?";
+        String sentence = "UPDATE academicpersonnel \n"
+                + "SET name = ?, paternalSurname = ?, maternalSurname = ?, emailAddress = ?, idContractType = ?\n"
+                + "WHERE idAcademicPersonnel = ?";
         try (Connection connection = databaseConnection.open()) {
             String name = academicPersonnel.getName();
             String paternalSurname = academicPersonnel.getPaternalSurname();
             String maternalSurname = academicPersonnel.getMaternalSurname();
             String emailAddress = academicPersonnel.getEmailAddress();
-            int idContractType = academicPersonnel.getContractType().getIdContractType();   
+            int idContractType = academicPersonnel.getContractType().getIdContractType();
             int idAcademicPersonnel = academicPersonnel.getIdAcademicPersonnel();
             PreparedStatement preparedStatement = connection.prepareStatement(sentence);
             preparedStatement.setString(1, name);
@@ -309,6 +332,9 @@ public class AcademicPersonnelDAO {
         }
         return responseCode;
     }
+<<<<<<< HEAD
+
+=======
     
     public static int updateAcademicPersonnelInformation(AcademicPersonnel academicPersonnel) {
         int responseCode;
@@ -337,4 +363,5 @@ public class AcademicPersonnelDAO {
         }
         return responseCode;
     }
+>>>>>>> main
 }

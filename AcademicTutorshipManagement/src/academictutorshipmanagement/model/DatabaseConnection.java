@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): María José Torres Igartua.
  * Date of creation: March 01, 2023.
- * Date of update: March 01, 2023.
+ * Date of update: May 18, 2023.
  */
 package academictutorshipmanagement.model;
 
@@ -29,13 +29,13 @@ public class DatabaseConnection {
 
     private void connectToDatabase() throws SQLException, IOException {
         try {
-            Properties attributes = new Properties();
-            try (FileInputStream databaseConfigurationFile = new FileInputStream(new File("src\\academictutorshipmanagement\\model\\DatabaseConfiguration.txt"))) {
-                attributes.load(databaseConfigurationFile);
+            Properties properties = new Properties();
+            try (FileInputStream databaseConfiguration = new FileInputStream(new File("src\\academictutorshipmanagement\\model\\DatabaseConfiguration.txt"))) {
+                properties.load(databaseConfiguration);
             }
-            String url = attributes.getProperty("URL");
-            String username = attributes.getProperty("USERNAME");
-            String password = attributes.getProperty("PASSWORD");
+            String url = properties.getProperty("URL");
+            String username = properties.getProperty("USERNAME");
+            String password = properties.getProperty("PASSWORD");
             try {
                 databaseConnection = DriverManager.getConnection(url, username, password);
             } catch (SQLException ex) {
