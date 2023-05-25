@@ -14,7 +14,9 @@ import academictutorshipmanagement.model.pojo.AcademicPersonnel;
 import academictutorshipmanagement.model.pojo.EducationalExperience;
 import academictutorshipmanagement.model.pojo.EducationalProgram;
 import academictutorshipmanagement.model.pojo.SchoolPeriod;
+import academictutorshipmanagement.model.pojo.User;
 import academictutorshipmanagement.utilities.MessagesAlerts;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -30,7 +32,10 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -40,6 +45,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -157,6 +163,7 @@ public class RegisterAcademicOfferingFXMLController implements Initializable {
         FilteredList<EducationalExperience> educationalExperiencesFilteredList = 
                 new FilteredList(this.educationalExperienceList,educationalExperience -> true);
         this.educationalFilterTextField.textProperty().addListener((observable, oldValue, newValue) ->{
+            this.educationalExperienceTextField.clear();
             educationalExperiencesFilteredList.setPredicate(educationalExperience ->{
                 if(newValue.isEmpty() || newValue == null){
                     return true;               
@@ -180,6 +187,7 @@ public class RegisterAcademicOfferingFXMLController implements Initializable {
             FilteredList<AcademicPersonnel> academicPersonnelFilteredList = 
             new FilteredList(this.academicPersonelList,academicPersonnel -> true);
         this.personelFilterTextField.textProperty().addListener((observable, oldValue, newValue) ->{
+            this.academicPersonnelTextField.clear();
             academicPersonnelFilteredList.setPredicate(academicPersonnel ->{
                 if(newValue.isEmpty() || newValue == null){
                     return true;               
@@ -286,6 +294,18 @@ public class RegisterAcademicOfferingFXMLController implements Initializable {
 
     @FXML
     private void backButtonClick(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("EducationalProgramAdministrationMenuFXML.fxml"));
+        try {
+            Parent root = loader.load();
+            EducationalProgramAdministrationMenuFXMLController educationalProgramAdministrationMenuFXMLController  = loader.getController();
+            Scene mainMenuView = new Scene(root);
+            Stage stage = (Stage) this.NRCTextField.getScene().getWindow();
+            stage.setScene(mainMenuView);
+            stage.setTitle("Administración del programa educativo.");
+            stage.show();
+        } catch (IOException exception) {
+            System.err.println("The EducationalProgramAdministrationMenuFXML.fxml' file could not be open. Please try again later.");
+        }
     }
 
     

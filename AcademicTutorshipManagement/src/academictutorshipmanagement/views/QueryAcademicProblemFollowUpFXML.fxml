@@ -14,11 +14,6 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="titleAcademicProblemLabel" layoutX="87.0" layoutY="43.0" prefHeight="27.0" prefWidth="826.0" style="-fx-background-color: #F4F4F4;" wrapText="true">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
       <Label layoutX="35.0" layoutY="97.0" text="Experiencia Educativa">
          <font>
             <Font size="14.0" />
@@ -34,29 +29,9 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="nameEducationalExperienceLabel" layoutX="35.0" layoutY="135.0" prefHeight="17.0" prefWidth="290.0" style="-fx-background-color: #F4F4F4;" wrapText="true">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="nameAcademicPersonnelLabel" layoutX="337.0" layoutY="135.0" prefHeight="17.0" prefWidth="290.0" style="-fx-background-color: #F4F4F4;" wrapText="true">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="numberStudentsLabel" layoutX="659.0" layoutY="135.0" prefHeight="20.0" prefWidth="252.0" style="-fx-background-color: #F4F4F4;" wrapText="true">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
       <Label layoutX="34.0" layoutY="168.0" text="Descripción">
          <font>
             <Font size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="descriptionAcademicProblemLabel" alignment="TOP_LEFT" layoutX="35.0" layoutY="195.0" prefHeight="122.0" prefWidth="877.0" style="-fx-background-color: #F4F4F4;" wrapText="true">
-         <font>
-            <Font size="14.0" />
          </font>
       </Label>
       <TextArea fx:id="descriptionFollowUpTextArea" editable="false" layoutX="35.0" layoutY="353.0" prefHeight="189.0" prefWidth="877.0" promptText="Aun no se tiene registro de seguimiento" wrapText="true" />
@@ -68,5 +43,10 @@
       <Button fx:id="modifyButton" layoutX="671.0" layoutY="550.0" mnemonicParsing="false" onAction="#modifyButtonClick" prefHeight="25.0" prefWidth="133.0" text="Modificar" />
       <Button fx:id="backButton" layoutX="818.0" layoutY="550.0" mnemonicParsing="false" onAction="#backButtonClick" prefHeight="25.0" prefWidth="93.0" text="Regresar" />
       <Label fx:id="dateFollowUpLabel" alignment="CENTER_RIGHT" layoutX="746.0" layoutY="325.0" prefHeight="17.0" prefWidth="165.0" text="XX/XX/XX" />
+      <TextField fx:id="titleAcademicProblemTextField" editable="false" layoutX="94.0" layoutY="44.0" prefHeight="25.0" prefWidth="818.0" />
+      <TextField fx:id="nameEducationalExperienceTextField" editable="false" layoutX="35.0" layoutY="133.0" prefHeight="25.0" prefWidth="290.0" />
+      <TextField fx:id="nameAcademicPersonnelTextField" editable="false" layoutX="337.0" layoutY="133.0" prefHeight="25.0" prefWidth="303.0" />
+      <TextField fx:id="numberStudentsTextField" editable="false" layoutX="663.0" layoutY="133.0" />
+      <TextArea fx:id="descriptionAcademicProblemTextArea" editable="false" layoutX="34.0" layoutY="195.0" prefHeight="121.0" prefWidth="877.0" wrapText="true" />
    </children>
 </AnchorPane>

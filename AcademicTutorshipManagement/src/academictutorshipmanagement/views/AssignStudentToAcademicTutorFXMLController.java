@@ -61,7 +61,9 @@ public class AssignStudentToAcademicTutorFXMLController implements Initializable
     private ObservableList<InnerStudent> studentsAssigned;
     private ObservableList<AcademicPersonnel> academicPersonnels;
     private ObservableList<AcademicPersonnel> academicTutors;
-    
+
+    Integer count = 0;
+
     /**
      * Initializes the controller class.
      */
@@ -109,7 +111,7 @@ public class AssignStudentToAcademicTutorFXMLController implements Initializable
 
     private void loadAcademicPersonnel() {
         ArrayList<AcademicPersonnel> academicPersonnelResulSet
-                = AcademicPersonnelDAO.getAcademicPersonnelByRole(SessionInformation.getSessionInformation().getAcademicPersonnel().getUser().getEducationalProgram().getIdEducationalProgram(), 
+                = AcademicPersonnelDAO.getAcademicPersonnelByRole(SessionInformation.getSessionInformation().getAcademicPersonnel().getUser().getEducationalProgram().getIdEducationalProgram(),
                         Constants.ACADEMIC_TUTOR_ID_ROLE);
         academicPersonnels.clear();
         if (academicPersonnelResulSet.isEmpty()) {
@@ -153,8 +155,11 @@ public class AssignStudentToAcademicTutorFXMLController implements Initializable
 
     @FXML
     private void cancelButtonClick(ActionEvent event) {
-        Node source = (Node) event.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();
+        closeWindow();
+    }
+
+    private void closeWindow() {
+        Stage stage = (Stage) this.academicPersonnelComboBox.getScene().getWindow();
         stage.close();
     }
 
@@ -166,33 +171,72 @@ public class AssignStudentToAcademicTutorFXMLController implements Initializable
     }
 
     private void assignStudent() {
-        if (updateStudentsAcademicTutor()) {
-            Utilities.showAlert("La información se registró correctamente en el sistema.",
-                    Alert.AlertType.WARNING);
-            loadStudentsUnassigned();
-            loadAcademicPersonnel();
-            studentsAssigned.clear();
-            academicTutors.clear();
+        if (checkAssignStudentNumber() && count <= 30) {
+            if (updateStudentsAcademicTutor()) {
+                Utilities.showAlert("La información se registró correctamente en el sistema.",
+                        Alert.AlertType.WARNING);
+                loadStudentsUnassigned();
+                loadAcademicPersonnel();
+                studentsAssigned.clear();
+                academicTutors.clear();
+            } else {
+                Utilities.showAlert("Seleccione al o los estudiantes que serán asignados al tutor académico.",
+                        Alert.AlertType.ERROR);
+            }
         } else {
-            Utilities.showAlert("Seleccione al o los estudiantes que serán asignados al tutor académico.",
-                    Alert.AlertType.ERROR);
+            Utilities.showAlert("Número de estudiantes asignados excedido.",
+                    Alert.AlertType.WARNING);
         }
     }
 
-    private boolean updateStudentsAcademicTutor() {
-        boolean selected = false;
+    private boolean checkAssignStudentNumber() {
+        boolean flag = false;
+        AcademicPersonnel academicPersonnel = academicPersonnelComboBox.getValue();
+
+        if (academicPersonnel != null) {
+            flag = checkStudentNumber(academicPersonnel);
+        }
 
         for (InnerStudent student : studentsUnassigned) {
             if (student.assignAcademicPersonnelCheckBox.isSelected()) {
-                StudentDAO.updateStudentAcademicPersonnel(student, academicPersonnelComboBox.getValue());
-                selected = true;
+                count++;
             }
         }
 
         if (!studentsAssigned.isEmpty()) {
             for (InnerStudent student : studentsAssigned) {
                 if (student.assignAcademicPersonnelCheckBox.isSelected()) {
-                    StudentDAO.updateStudentAcademicPersonnel(student, academicPersonnelComboBox.getValue());
+                    count++;
+                }
+            }
+        }
+
+        return flag;
+    }
+
+    private boolean checkStudentNumber(AcademicPersonnel academicPersonnel) {
+        count = StudentDAO.checkAssignStudentNumber(academicPersonnel).get(0);
+        if (count == null) {
+            Utilities.showAlert("No hay conexión con la base de datos.\n\n"
+                    + "Por favor, inténtelo más tarde.\n",
+                    Alert.AlertType.ERROR);
+            closeWindow();
+        }
+        return true;
+    }
+
+    private boolean updateStudentsAcademicTutor() {
+        boolean selected = false;
+
+        for (InnerStudent student : studentsUnassigned) {
+            if (student.assignAcademicPersonnelCheckBox.isSelected() && updateStudentAcademicPersonnel(student)) {
+                selected = true;
+            }
+        }
+
+        if (!studentsAssigned.isEmpty()) {
+            for (InnerStudent student : studentsAssigned) {
+                if (student.assignAcademicPersonnelCheckBox.isSelected() && updateStudentAcademicPersonnel(student)) {
                     selected = true;
                 }
             }
@@ -201,11 +245,28 @@ public class AssignStudentToAcademicTutorFXMLController implements Initializable
         return selected;
     }
 
+    private boolean updateStudentAcademicPersonnel(Student student) {
+        boolean error = true;
+        int responseCode = StudentDAO.updateStudentAcademicPersonnel(student, academicPersonnelComboBox.getValue());
+        switch (responseCode) {
+            case Constants.NO_DATABASE_CONNECTION_CODE:
+                Utilities.showAlert("No hay conexión con la base de datos.\n\n"
+                        + "Por favor, inténtelo más tarde.\n",
+                        Alert.AlertType.ERROR);
+                closeWindow();
+                error = false;
+                return error;
+            default:
+                error = true;
+                return error;
+        }
+    }
+
     public class InnerStudent extends Student {
-        
-       boolean assignAcademicPersonnel;
-       CheckBox assignAcademicPersonnelCheckBox;
-        
+
+        boolean assignAcademicPersonnel;
+        CheckBox assignAcademicPersonnelCheckBox;
+
         InnerStudent(Student student) {
             this.setName(student.getName());
             this.setPaternalSurname(student.getPaternalSurname());

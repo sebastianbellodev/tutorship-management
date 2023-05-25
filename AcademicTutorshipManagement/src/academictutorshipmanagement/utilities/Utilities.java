@@ -36,6 +36,10 @@ public class Utilities {
     public static boolean compareGeneralFieldLength(Integer fieldLength) {
         return fieldLength.compareTo(Constants.GENERAL_FIELD_LENGTH) <= 0;
     }
+    
+    public static boolean comparePasswordFieldLength(Integer fieldLength) {
+        return fieldLength.compareTo(Constants.PASSWORD_FIELD_LENGTH) <= 0;
+    }
 
     public static boolean compareRegistrationNumberLength(Integer registrationNumberLenght) {
         return registrationNumberLenght == Constants.REGISTRATION_NUMBER_LENGTH;
