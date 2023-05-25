@@ -187,12 +187,12 @@ public class StudentDAO {
         return responseCode;
     }
 
-    public static int updateStudentByAcademicTutorshipReport(Student student) {
+    public static int updateStudentByAcademicTutorshipReport(Student student, int idAcademicTutorshipReport) {
         int responseCode;
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String sentence = "UPDATE academicTutorshipReportStudent\n"
                 + "SET attendedBy = ?, atRisk = ?\n"
-                + "WHERE registrationNumber = ?";
+                + "WHERE idAcademicTutorshipReport = ? AND registrationNumber = ?";
         try (Connection connection = databaseConnection.open()) {
             boolean attendedBy = student.getAttendedBy().isSelected();
             boolean atRisk = student.getAtRisk().isSelected();
@@ -200,7 +200,8 @@ public class StudentDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(sentence);
             preparedStatement.setBoolean(1, attendedBy);
             preparedStatement.setBoolean(2, atRisk);
-            preparedStatement.setString(3, registrationNumber);
+            preparedStatement.setInt(3, idAcademicTutorshipReport);
+            preparedStatement.setString(4, registrationNumber);
             int numberOfRowsAffected = preparedStatement.executeUpdate();
             responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
         } catch (SQLException exception) {

@@ -1,7 +1,7 @@
 /**
  * Name(s) of the programmer(s): Armando Omar Obando Muñóz and María José Torres Igartua.
  * Date of creation: March 05, 2023.
- * Date of update: April 21, 2023.
+ * Date of update: May 25, 2023.
  */
 package academictutorshipmanagement.views;
 
@@ -206,7 +206,7 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
 
     private void updateStudentsByAcademicTutorshipReport() {
         students.forEach(student -> {
-            StudentDAO.updateStudentByAcademicTutorshipReport(student);
+            StudentDAO.updateStudentByAcademicTutorshipReport(student, idAcademicTutorshipReport);
         });
     }
 
@@ -271,16 +271,17 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
 
     @Override
     public void configureAcademicProblem(AcademicProblem academicProblem) {
-        if(academicProblem.getIdAcademicProblem() == Constants.PRIMARY_KEY_OF_NON_EXISTENT_RECORD_IN_DATABASE){
+        if (academicProblem.getIdAcademicProblem() == Constants.PRIMARY_KEY_OF_NON_EXISTENT_RECORD_IN_DATABASE) {
             academicProblems.add(academicProblem);
-        }else{
+        } else {
             int index = 0;
-            for(AcademicProblem academic: academicProblems){
-                if(academic.getIdAcademicProblem() == academicProblem.getIdAcademicProblem()){
+            while (index < academicProblems.size()) {
+                if (academicProblem.getIdAcademicProblem() == academicProblem.getIdAcademicProblem()) {
                     academicProblems.set(index, academicProblem);
-                    return;
                 }
+                index++;
             }
         }
     }
+
 }
