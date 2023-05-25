@@ -332,9 +332,6 @@ public class AcademicPersonnelDAO {
         }
         return responseCode;
     }
-<<<<<<< HEAD
-
-=======
     
     public static int updateAcademicPersonnelInformation(AcademicPersonnel academicPersonnel) {
         int responseCode;
@@ -363,5 +360,5 @@ public class AcademicPersonnelDAO {
         }
         return responseCode;
     }
->>>>>>> main
+
 }
