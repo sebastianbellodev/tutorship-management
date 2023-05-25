@@ -105,6 +105,7 @@ public class AssistanceFormat {
                     index++;
                 }else{
                     asistance.add(false);
+                    index++;
                 }
             }            
         }               
@@ -115,6 +116,7 @@ public class AssistanceFormat {
         if (index == 0) {
             asistance.add(false);
             asistance.add(false);  
+            asistance.add(false);
         } else if (index == 1) {
             asistance.add(false);
             asistance.add(false);
@@ -146,17 +148,7 @@ public class AssistanceFormat {
 
     private void loadAsistanceByStudent(Table tableStudents, InnerAsistance student){
         ArrayList<Boolean> asistence = student.getAsistenceBySession();
-        
-        /*for(Boolean asistenceValue : asistence){
-            if (asistenceValue) {
-                Cell asistance = new Cell().add(new Paragraph("Asistio"));
-                tableStudents.addCell(asistance);
-            } else if(!asistenceValue || asistenceValue == null) {
-                Cell asistance = new Cell().add(new Paragraph("No asistio"));
-                tableStudents.addCell(asistance);
-            }
-        }*/
-        
+
         for(int i = 0; i<3; i++){
             if (asistence.get(i)) {
                 Cell asistance = new Cell().add(new Paragraph("Asistio"));
