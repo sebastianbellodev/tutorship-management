@@ -18,7 +18,6 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -156,7 +155,7 @@ public class ModifyUserFXMLController implements Initializable {
     }
 
     private void updateUserAcademicPersonnel(User user, AcademicPersonnel academicPersonnel) {
-        Integer firstResponseCode = UserDAO.updateUser(user, this.username);
+        Integer firstResponseCode = UserDAO.updateUsername(user.getUsername(), this.username);
         Integer secondResponseCode = AcademicPersonnelDAO.updateAcademicPersonnelInformation(academicPersonnel);
         int responseCode = (firstResponseCode.equals(Constants.CORRECT_OPERATION_CODE )
                 && secondResponseCode.equals(Constants.CORRECT_OPERATION_CODE )) 

@@ -107,11 +107,11 @@ public class UserDAO {
         return responseCode;
     }
 
-    public static int updateUser(User user, String oldUsername) {
+    public static int updateUser(User user) {
         int responseCode;
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String sentence = "UPDATE user\n"
-                + "SET username = ?, password = ?\n"
+                + "SET password = ?\n"
                 + "WHERE username = ?";
         try (Connection connection = databaseConnection.open()) {
             String username = user.getUsername();
@@ -119,7 +119,26 @@ public class UserDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(sentence);
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
-            preparedStatement.setString(3, oldUsername);
+            int numberOfRowsAffected = preparedStatement.executeUpdate();
+            responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
+        } catch (SQLException exception) {
+            responseCode = Constants.NO_DATABASE_CONNECTION_CODE;
+        } finally {
+            databaseConnection.close();
+        }
+        return responseCode;
+    }
+
+    public static int updateUsername(String newUsername, String oldUsername) {
+        int responseCode;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        String sentence = "UPDATE user\n"
+                + "SET username = ?\n"
+                + "WHERE username = ?";
+        try (Connection connection = databaseConnection.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sentence);
+            preparedStatement.setString(1, newUsername);
+            preparedStatement.setString(2, oldUsername);
             int numberOfRowsAffected = preparedStatement.executeUpdate();
             responseCode = (numberOfRowsAffected >= Constants.MINIUM_NUMBER_OF_ROWS_AFFECTED_PER_DATABASE_UPDATE) ? Constants.CORRECT_OPERATION_CODE : Constants.NO_DATABASE_CONNECTION_CODE;
         } catch (SQLException exception) {
