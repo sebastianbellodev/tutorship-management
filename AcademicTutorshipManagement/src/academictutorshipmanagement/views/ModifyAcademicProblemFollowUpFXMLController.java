@@ -107,7 +107,7 @@ public class ModifyAcademicProblemFollowUpFXMLController implements Initializabl
             Scene queryFollowUpOnAcademicProblemsList = new Scene(root);
             Stage stage = (Stage) this.backButton.getScene().getWindow();
             stage.setScene(queryFollowUpOnAcademicProblemsList);
-            controller.configureView(this.academicProblem);
+            controller.configureView(this.academicProblem, false);
             stage.show();
             stage.setTitle("Consulta Seguimiento a Problemática Académica");
         }catch(IOException ioException){
