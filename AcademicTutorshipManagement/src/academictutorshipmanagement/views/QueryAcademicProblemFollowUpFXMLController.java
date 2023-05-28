@@ -67,7 +67,6 @@ public class QueryAcademicProblemFollowUpFXMLController implements Initializable
     
     
     public void configureView(AcademicProblem academicProblem, Boolean pop) {
-        
         this.queryAcademicProblem = academicProblem;
         this.loadGUI();
         this.checkButtons();

@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -306,7 +307,7 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(queryFollowUpOnAcademicProblemsList);
-            controller.configureView(academicsProblems);
+            controller.configureView(academicsProblems,true);
             stage.setTitle("Lista de Problemáticas Académicas");
             stage.show();
         } catch (IOException ioException) {
@@ -334,5 +335,4 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
             return this.getName() + " " + this.getPaternalSurname() + " " + this.getMaternalSurname();
         }
     }
-
 }

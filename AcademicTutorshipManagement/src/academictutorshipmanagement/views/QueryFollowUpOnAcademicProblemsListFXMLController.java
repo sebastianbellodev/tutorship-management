@@ -60,7 +60,8 @@ public class QueryFollowUpOnAcademicProblemsListFXMLController implements Initia
     private Button consultButton;
     @FXML
     private Button backButton;
-
+    
+    private Boolean pop = false;
     private ObservableList<InnerAcademicProblem> academicProblemList = FXCollections.observableArrayList();
     /**
      * Initializes the controller class.
@@ -87,10 +88,11 @@ public class QueryFollowUpOnAcademicProblemsListFXMLController implements Initia
       }
     }
     
-    public void configureView(ArrayList<AcademicProblem> academicProblems){
+    public void configureView(ArrayList<AcademicProblem> academicProblems,Boolean pop){
         this.academicProblemList = this.getAcademicProblemList(academicProblems);
         this.academicProblemTableView.setItems(this.academicProblemList);
         this.backButton.setOnAction(event -> this.closeWindow());
+        this.pop = pop;
         this.initializeFilter();
     }
     
@@ -182,7 +184,7 @@ public class QueryFollowUpOnAcademicProblemsListFXMLController implements Initia
             Scene queryAcademicProblemFollowUpView = new Scene(root);
             Stage stage = (Stage) this.backButton.getScene().getWindow();
             stage.setScene(queryAcademicProblemFollowUpView);
-            controller.configureView(academicProblemSelected, true);
+            controller.configureView(academicProblemSelected, false);
             stage.setTitle("Consulta Seguimiento a Problemática Académica");
             stage.show();
         }catch(IOException ioException){
