@@ -306,7 +306,7 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(queryFollowUpOnAcademicProblemsList);
-            controller.configureView(academicsProblems);
+            controller.configureView(academicsProblems,true);
             stage.setTitle("Lista de Problemáticas Académicas");
             stage.show();
         } catch (IOException ioException) {
