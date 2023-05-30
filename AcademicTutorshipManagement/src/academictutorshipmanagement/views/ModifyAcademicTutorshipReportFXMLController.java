@@ -184,7 +184,7 @@ public class ModifyAcademicTutorshipReportFXMLController implements Initializabl
         if (responseCode == Constants.CORRECT_OPERATION_CODE) {
             logAcademicProblemsByAcademicTutorshipReport();
             updateStudentsByAcademicTutorshipReport();
-            Utilities.showAlert("La información se registró correctamente en el sistema.\n",
+            Utilities.showAlert("La información se modificó correctamente en el sistema.\n",
                     Alert.AlertType.INFORMATION);
         } else {
             Utilities.showAlert("No hay conexión con la base de datos.\n\n"
