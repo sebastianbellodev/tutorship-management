@@ -24,7 +24,7 @@ public class AcademicTutorshipSessionDAO {
         DatabaseConnection databaseConnection = new DatabaseConnection();
         String query = "SELECT *\n"
                 + "FROM academicTutorshipSession\n"
-                + "WHERE NOW() BETWEEN startDate AND endDate";
+                + "WHERE NOW() BETWEEN startDate AND closingDateReportSubmission";
         try (Connection connection = databaseConnection.open()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();

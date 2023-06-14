@@ -19,7 +19,6 @@ import academictutorshipmanagement.utilities.Utilities;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -63,10 +62,10 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
             int responseCode = academicTutorshipSession.getResponseCode();
             switch (responseCode) {
                 case Constants.CORRECT_OPERATION_CODE:
-                    validateClosingDateReportSubmission();
+                    loadAcademicTutorship();
                     break;
                 case Constants.INVALID_CURRENT_DATE_CODE:
-                    Utilities.showAlert("La sesión de tutoría académica ha finalizado.\n\n"
+                    Utilities.showAlert("La fecha de entrega para el Reporte de Tutorías Académicas ha finalizado.\n\n"
                             + "Por favor, inténtelo más tarde.\n",
                             Alert.AlertType.INFORMATION);
                     break;
@@ -79,19 +78,6 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
         } else {
             Utilities.showAlert("No tiene los permisos necesarios para realizar esta acción.\n\n"
                     + "Por favor, vuelva a iniciar sesión e inténtelo nuevamente.\n",
-                    Alert.AlertType.INFORMATION);
-        }
-    }
-
-    private void validateClosingDateReportSubmission() {
-        Date currentDate = new Date();
-        Date closingDateReportSubmission = academicTutorshipSession.getClosingDateReportSubmission();
-        boolean isValid = currentDate.compareTo(closingDateReportSubmission) <= Constants.MINIUM_NUMBER_OF_DAYS_FOR_ACADEMIC_TUTORSHIP_REPORT_SUBMISSION;
-        if (isValid) {
-            loadAcademicTutorship();
-        } else {
-            Utilities.showAlert("La fecha de entrega para el Reporte de Tutorías Académicas ha finalizado.\n\n"
-                    + "Por favor, inténtelo más tarde.\n",
                     Alert.AlertType.INFORMATION);
         }
     }
@@ -178,7 +164,7 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
                     Alert.AlertType.INFORMATION);
         }
     }
-    
+
     private void goToQueryAcademicTutorshipReportByAcademicTutor() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("QueryAcademicTutorshipReportByAcademicTutorFXML.fxml"));
         try {
@@ -205,7 +191,7 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
                     Alert.AlertType.INFORMATION);
         }
     }
-    
+
     private void goToQueryAcademicTutorshipGeneralReport() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("QueryAcademicTutorshipGeneralReportFXML.fxml"));
         try {
@@ -221,5 +207,5 @@ public class TutorialReportManagementMenuFXMLController implements Initializable
             System.err.println("The 'QueryAcademicTutorshipGeneralReportFXML.fxml' file could not be open. Please try again later.");
         }
     }
-    
+
 }
