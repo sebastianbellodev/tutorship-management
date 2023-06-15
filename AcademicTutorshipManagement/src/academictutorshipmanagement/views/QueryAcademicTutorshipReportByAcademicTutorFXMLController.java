@@ -182,16 +182,15 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
                     Alert.AlertType.ERROR);
         } else {
             academicTutorshipReports.addAll(academicTutorshipReportsResultSet);
-            int index = 0;
             for (AcademicTutorshipReport academicTutorshipReport : academicTutorshipReportsResultSet) {
-                academicTutorshipSessions.add(++index);
+                academicTutorshipSessions.add(academicTutorshipReport.getAcademicTutorship().getAcademicTutorshipSession().getSessionNumber());
             }
             academicTutorshipSessionComboBox.setItems(academicTutorshipSessions);
             academicTutorshipSessionComboBox.valueProperty().addListener((ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) -> {
                 if (newValue != null) {
                     clearTextField();
                     sessionNumber = newValue;
-                    configureAcademicTutorshipReportInformation(academicTutorshipReports.get(newValue - 1));
+                    configureAcademicTutorshipReportInformation(academicTutorshipReports.get(academicTutorshipSessionComboBox.getSelectionModel().getSelectedIndex()));
                 }
             });
         }
@@ -211,11 +210,11 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
         }
         generalCommentTextArea.setText(academicTutorshipReport.getGeneralComment());
         generalComment = generalCommentTextArea.getText();
-        loadStudentsByAcademicTutorshipReport(academicTutorshipReport);
+        loadStudentsByAcademicTutorshipReport(academicTutorshipReport.getIdAcademicTutorshipReport());
     }
 
-    private void loadStudentsByAcademicTutorshipReport(AcademicTutorshipReport academicTutorshipReport) {
-        ArrayList<Student> studentsResultSet = StudentDAO.getStudentsByAcademicTutorshipReport(academicTutorshipReport.getIdAcademicTutorshipReport());
+    private void loadStudentsByAcademicTutorshipReport(Integer idAcademicTutorshipReport) {
+        ArrayList<Student> studentsResultSet = StudentDAO.getStudentsByAcademicTutorshipReport(idAcademicTutorshipReport);
         students.clear();
         for (Student student : studentsResultSet) {
             students.add(new InnerStudent(student));
@@ -291,9 +290,8 @@ public class QueryAcademicTutorshipReportByAcademicTutorFXMLController implement
         if (this.academicTutorshipSessionComboBox.getSelectionModel().getSelectedItem() != null) {
             this.callWindowAcademicProblemList(
                     AcademicProblemDAO.loadAcademicProblemsByAcademicTutorshipReport(
-                            this.academicTutorshipReports.get(
-                                    this.academicTutorshipSessionComboBox.getValue() - 1).getIdAcademicTutorshipReport())
-            );
+                            academicTutorshipReports.get(academicTutorshipSessionComboBox.getSelectionModel().getSelectedIndex()).getIdAcademicTutorshipReport()
+            ));
         }
     }
 
