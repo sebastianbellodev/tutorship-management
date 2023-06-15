@@ -71,6 +71,7 @@ public class AcademicTutorshipReportDAO {
                 academicTutorshipSession.setIdAcademicTutorshipSession(resultSet.getInt("IdAcademicTutorshipSession"));
                 academicTutorshipSession.setStartDate(resultSet.getDate("startDate"));
                 academicTutorshipSession.setEndDate(resultSet.getDate("endDate"));
+                academicTutorshipSession.setSessionNumber(resultSet.getInt("sessionNumber"));
                 academicTutorshipSession.setClosingDateReportSubmission(resultSet.getDate("closingDateReportSubmission"));
                 academicTutorship.setAcademicTutorshipSession(academicTutorshipSession);
                 academicTutorshipReport.setAcademicTutorship(academicTutorship);
